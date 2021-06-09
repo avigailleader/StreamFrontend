@@ -9,9 +9,7 @@ const initialState = {
 }
 
 const generalData = {
-    setCountParticipantInConversion(state, action) {
-        state.countParticipantInConversion = action.payload;
-    },
+
 }
 
 export default produce((state, action) => createReducer(state, action, generalData), initialState);
