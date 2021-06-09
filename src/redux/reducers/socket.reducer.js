@@ -7,6 +7,8 @@ const initialState = {
     socket: io.connect('https://stream.vlogger.codes/', {
         transports: ['websocket']
     }),
+    localStream: "",
+
 
 }
 const socketData = {
