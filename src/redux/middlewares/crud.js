@@ -3,14 +3,16 @@
 
 import { actions } from '../actions/action';
 const addLocalStream = ({ dispatch, getState }) => next => action => {
-    if (action.type === 'ADD_LOCAL_STREAM') {
-        dispatch(actions.setLocalStream(action.payload));
-        let localVideo = getState().socketReducer.localVideo;
-        localVideo.srcObject = action.payload;
-        dispatch(actions.setLocalVideo(localVideo));
+    debugger
+    // if (action.type === 'ADD_LOCAL_STREAM') {
+    debugger
+    dispatch(actions.setLocalStream(action.payload));
+    let localStream = getState().socketReducer.localStream;
+    localStream.srcObject = action.payload;
+    dispatch(actions.setLocalVideo(localStream));
 
-    }
-    return next(action);
+    // }
+    // return next(action);
 }
 const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
     debugger
@@ -24,6 +26,7 @@ const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
 
             })
             .then(function (stream) {
+                debugger
                 dispatch({ type: 'ADD_LOCAL_STREAM', payload: stream });
                 dispatch(actions.setIsCaller(true));
                 // crud.addNewConversation();

@@ -8,6 +8,8 @@ import generalReducer from './reducers/general.reducer'
 
 import {
     createdEventFromSocket,
+    addLocalStream,
+
 } from './middlewares/crud';
 
 const reducer = combineReducers({
@@ -21,6 +23,8 @@ const store = createStore(
     reducer,
     applyMiddleware(
         createdEventFromSocket,
+        addLocalStream,
+
     ));
 
 window.store = store;

@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+
+import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { actions } from '../redux/actions/action';
 const StartVideo = () => {
@@ -7,9 +8,14 @@ const StartVideo = () => {
     const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
     const roomId = useSelector(state => state.convarsetionReducer.roomId)
     const countParticipantInConversion = useSelector(state => state.generalReducer.countParticipantInConversion)
-
+    const localStream = useSelector(state => state.socketReducer.localStream)
     debugger
+    const localStreamRef = useRef()
+    console.log(localStreamRef);
+    // const videoel=document.getElementById("localVideo")
     useEffect(() => {
+        // videoel.srcObject = localStream
+
         let room = Math.random(10).toString(36).substring(7);
         dispatch(actions.setRoomId(room))
         socket.emit('create', { room });
@@ -18,6 +24,7 @@ const StartVideo = () => {
 
         //הגדרת הארועים מהשרת
         socket.on('created', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
+        localStreamRef.srcObject = localStream
         // socket.on('joined', event => { dispatch({ type: 'JOINED_EVENT_FROM_SOCKET', payload: event }) });
         // socket.on('candidate', event => socketService.candidateEventFromSocket(event));
         // socket.on('ready', event => { dispatch({ type: 'READY_EVENT_FROM_SOCKET', payload: event }) });
@@ -32,8 +39,7 @@ const StartVideo = () => {
     }, []);
     return (
         <div>
-            {/* <video id="localVideo" muted autoPlay ref={locallVideoRef}>
-            </video> */}
+            <video id="localVideo" autoPlay ref={localStreamRef} ></video>
         </div>
     )
 }
