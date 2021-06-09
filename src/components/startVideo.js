@@ -32,8 +32,7 @@ const StartVideo = () => {
     }, []);
     return (
         <div>
-            {/* <video id="localVideo" muted autoPlay ref={locallVideoRef}>
-            </video> */}
+            <video id="localVideo" autoPlay ></video>
         </div>
     )
 }
