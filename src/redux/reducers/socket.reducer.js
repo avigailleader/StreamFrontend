@@ -10,7 +10,9 @@ const initialState = {
 
 }
 const socketData = {
-
+    setLocalStream(state, action) {
+        state.localStream = action.payload;
+    },
 }
 
 
