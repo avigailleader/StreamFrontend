@@ -10,8 +10,6 @@ const StartVideo = () => {
 
     debugger
     useEffect(() => {
-        //כשמצטרף לשיחה
-        //כשיוצר שיחה חדשה
         let room = Math.random(10).toString(36).substring(7);
         dispatch(actions.setRoomId(room))
         socket.emit('create', { room });
