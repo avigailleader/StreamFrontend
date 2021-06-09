@@ -7,10 +7,14 @@ const initialState = {
     socket: io.connect('https://stream.vlogger.codes/', {
         transports: ['websocket']
     }),
+    localStream: "",
+
 
 }
 const socketData = {
-
+    setLocalStream(state, action) {
+        state.localStream = action.payload;
+    },
 }
 
 

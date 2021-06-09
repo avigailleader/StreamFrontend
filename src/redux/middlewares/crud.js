@@ -2,7 +2,16 @@ import axios from 'axios';
 // import moment from 'moment'
 
 import { actions } from '../actions/action';
+const addLocalStream = ({ dispatch, getState }) => next => action => {
+    if (action.type === 'ADD_LOCAL_STREAM') {
+        dispatch(actions.setLocalStream(action.payload));
+        let localVideo = getState().socketReducer.localVideo;
+        localVideo.srcObject = action.payload;
+        dispatch(actions.setLocalVideo(localVideo));
 
+    }
+    return next(action);
+}
 const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
     debugger
     if (action.type === 'CREATED_EVENT_FROM_SOCKET') {
@@ -42,5 +51,7 @@ const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
 }
 
 export {
-    createdEventFromSocket
+    createdEventFromSocket,
+    addLocalStream,
+
 }
