@@ -1,8 +1,19 @@
-import axios from 'axios';
+// import axios from 'axios';
 // import moment from 'moment'
 
 import { actions } from '../actions/action';
+const addLocalStream = ({ dispatch, getState }) => next => action => {
+    debugger
+    // if (action.type === 'ADD_LOCAL_STREAM') {
+    debugger
+    dispatch(actions.setLocalStream(action.payload));
+    let localStream = getState().socketReducer.localStream;
+    localStream.srcObject = action.payload;
+    dispatch(actions.setLocalVideo(localStream));
 
+    // }
+    // return next(action);
+}
 const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
     debugger
     if (action.type === 'CREATED_EVENT_FROM_SOCKET') {
@@ -15,6 +26,7 @@ const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
 
             })
             .then(function (stream) {
+                debugger
                 dispatch({ type: 'ADD_LOCAL_STREAM', payload: stream });
                 dispatch(actions.setIsCaller(true));
                 // crud.addNewConversation();
@@ -42,5 +54,7 @@ const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
 }
 
 export {
-    createdEventFromSocket
+    createdEventFromSocket,
+    addLocalStream,
+
 }

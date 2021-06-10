@@ -16,6 +16,9 @@ const convarsetionData = {
     setConnectionUserModal(state, action) {
         state.connectionUserModel = action.payload;
     },
+    setIsCaller(state, action) {
+        state.isCaller = action.payload;
+    },
 
 }
 

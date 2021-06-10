@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useRef } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { actions } from '../redux/actions/action';
 const StartVideo = () => {
@@ -15,6 +15,7 @@ const StartVideo = () => {
         socket.emit('create', { room });
         socket.emit('join', { room })
 
+        const localStreamRef = useRef()
 
         //הגדרת הארועים מהשרת
         socket.on('created', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
@@ -32,7 +33,8 @@ const StartVideo = () => {
     }, []);
     return (
         <div>
-            <video id="localVideo" autoPlay ></video>
+            <video id="localVideo" muted autoPlay ref={localStreamRef}>
+            </video>
         </div>
     )
 }
