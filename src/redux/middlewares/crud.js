@@ -4,15 +4,17 @@
 import { actions } from '../actions/action';
 const addLocalStream = ({ dispatch, getState }) => next => action => {
     debugger
-    // if (action.type === 'ADD_LOCAL_STREAM') {
-    debugger
-    dispatch(actions.setLocalStream(action.payload));
-    let localStream = getState().socketReducer.localStream;
-    localStream.srcObject = action.payload;
-    dispatch(actions.setLocalVideo(localStream));
+    if (action.type === 'ADD_LOCAL_STREAM') {
+        debugger
+        dispatch(actions.setLocalStream(action.payload));
+        let localStream = getState().socketReducer.localStream;
+        debugger
+        localStream.srcObject = action.payload;
+        debugger
+        dispatch(actions.setLocalVideo(localStream));
 
-    // }
-    // return next(action);
+    }
+    return next(action);
 }
 const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
     debugger
@@ -22,7 +24,7 @@ const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
             .getUserMedia({
 
                 audio: true,
-                video: { width: 1280, height: 720 }
+                video: true
 
             })
             .then(function (stream) {
