@@ -1,0 +1,59 @@
+.chatCard {
+    color: #FFFFFF;
+    direction: rtl;
+    bottom: 0;
+    top: 716px;
+    left: 1537px;
+    width: 347.25px;
+    height: 328.63px;
+    /* background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+    background: #FFFFFF 0% 0% no-repeat padding-box; */
+    border-radius: 12px;
+    border-color: none;
+    opacity: 1;
+
+}
+.chatHeader{
+        font:size 20px alignment left transform Titlecase Roboto medium;
+        top: 732px;
+        left: 1565px;
+        width: 72px;
+        height: 24px;
+}
+.linear {
+    height: 1.2px;
+
+    background-image: linear-gradient(82deg, #5F5F5F  , #FFFFFF00 50%)
+}
+
+.myChat{
+    height: 567.39;
+    width: 347.25px;
+    border-radius:20px black solid 3px;
+    /* margin: 3px;
+    margin-bottom: 10px; */
+    
+}
+
+.profil-img{
+     float: left;
+}
+.profil-img:hover{
+    color: blue;
+}
+
+.chatMessage{
+    border-radius: 20px;
+    background-color:#0A102E57;
+    opacity: 30%;
+    width: 100%;
+
+}
+.chat:hover{
+    background-color:#E8EAEC
+}
+.messagersText{
+    font:"18px light roboto";
+    /* font-alignment:left; */
+    text-align: center;
+}

@@ -1,0 +1,24 @@
+
+.cardTitle{
+    margin-top:3% !important;
+    margin-left:3% !important;
+    font-size: large;
+
+}
+.num{
+    text-align:left;
+    margin-top:2% !important;
+    font-size: small;
+    color: darkgray;
+    padding: 0px;
+    /* padding-top: 5%; */
+}
+.num1{
+    text-align:right;
+    font-size: xx-small; 
+    color: darkgray;
+}
+.img {
+    width: 25% !important;
+    padding: 0px;
+}
