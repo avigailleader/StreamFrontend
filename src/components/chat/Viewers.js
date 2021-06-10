@@ -2,7 +2,7 @@ import React from 'react'
 // import { Card } from "react-bootstrap";
 import { Card, Button } from 'react-bootstrap';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import './viewers.css'
 import user from '../../assets/user.png'
 import chevronLeft from '../../assets/chevron-left.svg'

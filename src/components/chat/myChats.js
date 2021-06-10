@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { Card } from 'react-bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import './chat.css'
 // import Image from 'react-bootstrap/Image'
 import profil from '../../assets/user.png'
@@ -14,7 +14,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 let members = ['Aviv', 'Shay', 'Oded']
 let messages = ['Thanks,', 'What a nice lecture!', 'hoooo']
 
-const myChats = () => { 
+const myChats = () => {
 
     return (
         <div className="chatBox">
@@ -40,7 +40,7 @@ const myChats = () => {
                     </Card.Body>
                     <div className="mb-2">
                         <input className="form-control" type="text" placeholder="message" className="chatMessage"></input>
-                   {/* <img src={chevronLeft}></img> */}
+                        {/* <img src={chevronLeft}></img> */}
                     </div>
 
                 </div>
