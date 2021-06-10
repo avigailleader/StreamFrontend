@@ -6,6 +6,7 @@ import StartVideo from './components/startVideo'
 function App() {
   return (
     <Provider store={store}>
+     
       <StartVideo></StartVideo>
     </Provider>
 
