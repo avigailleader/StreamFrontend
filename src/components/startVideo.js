@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { actions } from '../redux/actions/action';
@@ -12,6 +11,7 @@ const StartVideo = () => {
     debugger
     const localStreamRef = useRef()
     console.log(localStreamRef);
+
     // const videoel=document.getElementById("localVideo")
     useEffect(() => {
         // videoel.srcObject = localStream
@@ -24,7 +24,9 @@ const StartVideo = () => {
 
         //הגדרת הארועים מהשרת
         socket.on('created', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
-        localStreamRef.srcObject = localStream
+        console.log(localStream);
+        // setLocallVideoRef(localStream.curr)
+        localStreamRef.current.src = URL.createObjectURL(localStream)
         // socket.on('joined', event => { dispatch({ type: 'JOINED_EVENT_FROM_SOCKET', payload: event }) });
         // socket.on('candidate', event => socketService.candidateEventFromSocket(event));
         // socket.on('ready', event => { dispatch({ type: 'READY_EVENT_FROM_SOCKET', payload: event }) });

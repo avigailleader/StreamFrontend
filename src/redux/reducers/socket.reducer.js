@@ -13,6 +13,7 @@ const initialState = {
 }
 const socketData = {
     setLocalStream(state, action) {
+        debugger
         state.localStream = action.payload;
     },
 }
