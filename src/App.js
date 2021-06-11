@@ -2,11 +2,12 @@ import logo from './logo.svg';
 import './App.css';
 import { Provider } from 'react-redux';
 import store from './redux/store'
-import StartVideo from './components/startVideo'
+import Routes from './components/route'
 function App() {
   return (
     <Provider store={store}>
-      <StartVideo></StartVideo>
+      {/* <StartVideo></StartVideo> */}
+      <Routes></Routes>
     </Provider>
 
   );

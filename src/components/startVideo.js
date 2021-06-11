@@ -15,12 +15,26 @@ const StartVideo = () => {
 
     // const videoel=document.getElementById("localVideo")
     useEffect(() => {
-        // videoel.srcObject = localStream
-        if (!window.location.href.includes('roomId')) {
-            let room = Math.random(10).toString(36).substring(7);
+
+        let room
+        if (window.location.pathname === '/') {
+            room = Math.random(10).toString(36).substring(7);
+            console.log(room);
             dispatch(actions.setRoomId(room))
             socket.emit('create', { room });
             socket.emit('join', { room })
+            dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
+
+        }
+        else {
+            debugger
+            dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
+            dispatch(actions.setConnectionUserModal(true))
+            let room = window.location.href.slice(window.location.href.lastIndexOf('/') + 1);
+            console.log(room);
+            dispatch(actions.setRoomId(room))
+            socket.emit('join', { roomId });
+
         }
 
 
@@ -29,7 +43,7 @@ const StartVideo = () => {
         socket.on('created', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
         console.log(localStream);
         // setLocallVideoRef(localStream.curr)
-        // socket.on('joined', event => { dispatch({ type: 'JOINED_EVENT_FROM_SOCKET', payload: event }) });
+        socket.on('joined', event => { dispatch({ type: 'JOINED_EVENT_FROM_SOCKET', payload: event }) });
         // socket.on('candidate', event => socketService.candidateEventFromSocket(event));
         // socket.on('ready', event => { dispatch({ type: 'READY_EVENT_FROM_SOCKET', payload: event }) });
         // socket.on('offer', event => dispatch({ type: 'OFFER_EVENT_FROM_SOCKET', payload: event }));
@@ -49,7 +63,9 @@ const StartVideo = () => {
     }, [localStream])
     return (
         <div>
-            <video id="localVideo" autoPlay ref={localStreamRef} ></video>
+            {/* id="localVideo" */}
+            {/* <button onClick={ }></button> */}
+            <video id="localVideo" height="100%" width="100%" autoPlay ref={localStreamRef} ></video>
         </div>
     )
 }
