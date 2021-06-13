@@ -65,23 +65,9 @@ const StartVideo = () => {
             console.log(room);
             dispatch(actions.setRoomId(room))
             socket.emit('create', { room });
-            // socket.emit('join', { room })
             dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
 
         }
-        else {
-            debugger
-            dispatch(actions.setStreamConstraints({ "video": false, "audio": false }))
-            dispatch(actions.setConnectionUserModal(true))
-            debugger
-            let room = window.location.href.slice(window.location.href.lastIndexOf('/') + 1);
-            console.log(room);
-            dispatch(actions.setRoomId(room))
-            socket.emit('join', { room });
-
-        }
-
-
 
         //הגדרת הארועים מהשרת
         socket.on('created', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
