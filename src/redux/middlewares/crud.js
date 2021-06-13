@@ -51,7 +51,9 @@ const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
 }
 //TODO save cuurent user that join to the conversation.
 const joinedEventFromSocket = ({ dispatch, getState }) => next => action => {
+    debugger
     if (action.type === 'JOINED_EVENT_FROM_SOCKET') {
+        debugger
         navigator.mediaDevices
             .getUserMedia(getState().socketReducer.streamConstraints)
             .then(function (stream) {
