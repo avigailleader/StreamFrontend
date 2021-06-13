@@ -8,7 +8,7 @@ const initialState = {
         transports: ['websocket']
     }),
     localStream: "",
-
+    streamConstraints: { "video": true, "audio": true },
 
 }
 const socketData = {
@@ -16,6 +16,10 @@ const socketData = {
         debugger
         state.localStream = action.payload;
     },
+    setStreamConstraints(state, action) {
+        debugger
+        state.streamConstraints = action.payload;
+    }
 }
 
 

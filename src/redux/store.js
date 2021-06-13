@@ -7,8 +7,10 @@ import generalReducer from './reducers/general.reducer'
 
 
 import {
+    joinedEventFromSocket,
     createdEventFromSocket,
     addLocalStream,
+
 
 } from './middlewares/crud';
 
@@ -24,6 +26,8 @@ const store = createStore(
     applyMiddleware(
         createdEventFromSocket,
         addLocalStream,
+        joinedEventFromSocket
+
 
     ));
 
