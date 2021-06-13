@@ -67,22 +67,13 @@ const StartVideo = () => {
             socket.emit('create', { room });
             dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
 
+
         }
 
         //הגדרת הארועים מהשרת
         socket.on('created', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
         console.log(localStream);
-        // setLocallVideoRef(localStream.curr)
         socket.on('joined', event => { dispatch({ type: 'JOINED_EVENT_FROM_SOCKET', payload: event }) });
-        // socket.on('candidate', event => socketService.candidateEventFromSocket(event));
-        // socket.on('ready', event => { dispatch({ type: 'READY_EVENT_FROM_SOCKET', payload: event }) });
-        // socket.on('offer', event => dispatch({ type: 'OFFER_EVENT_FROM_SOCKET', payload: event }));
-        // socket.on('answer', event => socketService.answerEventFromSocket(event));
-        // socket.on('initReceive', socketId => dispatch({ type: 'INITRECEIVE_EVENT_FROM_SOCKET', payload: socketId }));
-        // socket.on('initSend', socketId => dispatch({ type: 'INITSEND_EVENT_FROM_SOCKET', payload: socketId }));
-        // socket.on('toggleAudio', event => socketService.toggleAudioEventFromSocket(event));
-        // socket.on('toggleVideo', event => dispatch({ type: 'TOGGLE_VIDEO_EVENT_FROM_SOCKET', payload: event }));
-        // socket.on('userJoind', event => showVideo(event));
 
     }
     useEffect(() => {

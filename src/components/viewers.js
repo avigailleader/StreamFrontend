@@ -19,7 +19,7 @@ const Viewers = () => {
 
         if (window.location.href.includes(`${room}`)) {
             debugger
-            dispatch(actions.setStreamConstraints({ "video": true, "audio": false }))
+            dispatch(actions.setStreamConstraints({ "video": false, "audio": false }))
             dispatch(actions.setConnectionUserModal(true))
             debugger
             console.log(room);

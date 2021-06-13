@@ -10,6 +10,7 @@ const addLocalStream = ({ dispatch, getState }) => next => action => {
         let localStream = getState().socketReducer.localStream;
         debugger
         localStream.srcObject = action.payload;
+        console.log("stream", localStream);
         debugger
         dispatch(actions.setLocalVideo(localStream));
 
@@ -59,7 +60,6 @@ const joinedEventFromSocket = ({ dispatch, getState }) => next => action => {
             .then(function (stream) {
                 dispatch({ type: 'ADD_LOCAL_STREAM', payload: stream });
                 dispatch(actions.setVisibleOptionsModal(true));
-                getState().socketReducer.socket.emit('ready', getState().conversationReducer.roomId);
 
             })
             .catch(function (err) {
