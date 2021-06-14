@@ -38,7 +38,7 @@ const Stream = () => {
             console.log(room);
             dispatch(actions.setRoomId(room))
             dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
-            await socket.emit('create', { room });
+            socket.emit('create', { room });
             console.log(localStream);
 
         }
@@ -51,10 +51,12 @@ const Stream = () => {
         localStreamRef.current.srcObject = localStream.srcObject
         console.log(localStreamRef);
     }, [localStream])
+    const isMuted = () => {
+    }
     return (
         <div>
             {window.location.pathname === '/' ?
-                <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!<video id="localVideo" height="100%" width="100%" autoPlay ref={localStreamRef} ></video>
+                <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!<video id="localVideo" height="100%" width="100%" muted autoPlay ref={localStreamRef} ></video>
                 </button> :
                 <video id="localVideo" height="100%" width="100%" autoPlay ref={localStreamRef} ></video>
             }
