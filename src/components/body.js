@@ -1,9 +1,10 @@
 import React from 'react'
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import './body.css'
-import Viewers from "./Viewers";
-import MyChats from "./myChats";
-import img from '../../assets/img.png'
+import Viewers from "./viewers/Viewers";
+import MyChats from "./chat/myChats";
+import { Button, Modal } from 'react-bootstrap';
+import OptionsModal from '../components/conversation/modals/OptionsModal'
+
 const body = () => {
     return (
         <div className="container-fluid">
@@ -16,13 +17,15 @@ const body = () => {
                         <div className="mt-auto mb-0 mr-0 p-2">
                             <Viewers></Viewers>
                         </div>
+                        <div>
+                           <OptionsModal visibleOptionsModal={true}></OptionsModal>
+
+                        </div>
 
                     </div>
 
-                    {/* <img style={{ width: '100%', height: '' }} src={img}></img> */}
+
                 </div>
-
-
             </div>
         </div>
     )

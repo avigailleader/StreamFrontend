@@ -1,0 +1,418 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+‏ .upBorderColor {
+    border-top: #CBFA15 solid 8px;
+    border-radius: 20px;
+}
+
+.inputEnterName {
+    margin: 11px;
+    padding-left: 10px;
+    padding-right: 50px;
+    padding: 17px;
+    background-color: #8080801a;
+    border-radius: 5px;
+    border: 0;
+    box-shadow: none;
+    width: 254px;
+    height: 36px;
+}
+
+.endConversationModal {
+    top: 90px;
+    left: 300px;
+    width: 650px !important;
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                              supported by Chrome, Edge, Opera and Firefox */
+}
+
+.modalDiv {
+    text-align: center;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.modalBody {
+    margin-top: 0px !important;
+    padding-top: 10px !important;
+    text-align: center;
+}
+
+.optionsModal {
+    width: 450px !important;
+    margin-left: 32%;
+}
+
+.leftMeetingTitle {
+    font-size: 19px;
+    font-weight: 500;
+    /* margin-left: 49px; */
+    margin-top: 0px !important;
+}
+
+a, .x {
+    cursor: pointer;
+}
+
+.xCloseOptionsModal {
+    color: gray;
+}
+
+.buttonBackGround {
+    margin-top: 10px;
+    width: 110px;
+    background: transparent linear-gradient(90deg, #86FF00 0%, #C6F713 50%, #FCF816 100%) 0% 0% no-repeat padding-box;
+    opacity: 1;
+    color: #696969 !important;
+    border: none !important;
+    padding-top: 4px !important;
+    outline: none;
+    transition: none !important;
+}
+
+.buttonBackGround:hover {
+    background: #FFFFFF !important;
+    border: #CBFA15 solid 3px !important;
+    color: #696969;
+    padding-top: 1px !important;
+    padding-bottom: 3.5px !important;
+    outline: none;
+}
+
+.buttonBackGround:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.btnEndConversationModal {
+    border-radius: 5px !important;
+    height: 10px;
+    opacity: 1;
+    color: #696969 !important;
+    width: 88px !important;
+    box-shadow: none !important;
+    transition: none !important;
+}
+
+.btnEndCon1 {
+    background: #FFFFFF !important;
+    border: #CBFA15 solid 3px !important;
+    padding-top: 1.3px !important;
+    padding-bottom: 24px !important;
+}
+
+.btnEndCon2 {
+    background: transparent linear-gradient(90deg, #86FF00 0%, #C6F713 50%, #FCF816 100%) 0% 0% no-repeat padding-box;
+    border: none;
+    margin-left: 10px;
+    padding-top: 4px !important;
+    padding-bottom: 27px !important;
+}
+
+.btnEndCon1:hover {
+    background: transparent linear-gradient(90deg, #86FF00 0%, #C6F713 50%, #FCF816 100%) 0% 0% no-repeat padding-box !important;
+    border: none !important;
+    padding-top: 4px !important;
+    padding-bottom: 27px !important;
+}
+
+.btnEndCon2:hover {
+    border: none !important;
+    padding-top: 4px !important;
+    padding-bottom: 27px !important;
+}
+
+.btnOptionsModal {
+    margin-top: 25px;
+    margin-bottom: 5px;
+    width: 88px !important;
+    padding-bottom: 6px !important;
+    border-radius: 5px !important;
+    font-size: 13px;
+    font-weight: 470 !important;
+    outline: none !important;
+}
+
+.btnOptionsModal:hover .btnOptionsModal:focus {
+    box-shadow: none !important;
+    outline: none !important;
+    text-decoration: none;
+}
+
+/* .btnEndConversationModal1:hover .btnEndConversationModal2:hover {
+    background: transparent linear-gradient(90deg, #86FF00 0%, #C6F713 50%, #FCF816 100%) 0% 0% no-repeat;
+    border: transparent linear-gradient(90deg, #86FF00 0%, #C6F713 50%, #FCF816 100%) 0% 0% no-repeat padding-box;
+    color: #696969;
+    font-weight: bold;
+} */
+
+.linkBackGround {
+    color: black !important;
+    font-size: 15px;
+    /* text-decoration: underline; */
+    /* margin-top: 20px; */
+    /* left: 12px; */
+}
+
+.uploadLinksDiv {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    display: flex;
+    /* flex-wrap: wrap; */
+    justify-content: space-around;
+}
+
+.uploadLinksDiv {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    display: flex;
+    /* flex-wrap: wrap; */
+    justify-content: space-around;
+}
+
+.linkBackGround:first-of-type {
+    text-decoration: underline;
+}
+
+/* .linkBackGround:first {
+    text-decoration: underline;
+} */
+
+.modal-body {
+    margin-left: -22px;
+}
+
+#imgBlor {
+    opacity: 0.2;
+}
+
+#imgNone {
+    opacity: 1;
+}
+
+.linkBackGround:hover {
+    font-weight: 550;
+}
+
+.c {
+    margin-top: auto;
+}
+
+.iputUpload {
+    display: none;
+}
+
+#imgg {
+    width: 50px !important;
+    height: 45px !important;
+}
+
+.imgBackGround {
+    border-radius: 3px;
+    opacity: 1;
+    padding: 5px;
+}
+
+.bgPictureModalBody {
+    padding-top: 0px !important;
+}
+
+.backGroundsScrollDiv {
+    /* overflow-x:auto;  */
+    /* overflow-y:hidden;    */
+    /* white-space: nowrap; */
+    /* height: 200px !important; */
+    /* width: auto !important; */
+    height: 140px !important;
+    overflow-x: auto !important;
+    /* width:400px;
+    height:150px;
+    overflow-x: scroll;
+    white-space: nowrap; */
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-top: 0px !important;
+    /* height: 200px !important; */
+    /* width: 400px !important; */
+}
+
+.imgToUpload {
+    width: 86%;
+    height: 20%;
+}
+
+.shareScreenAlert {
+    margin-top: 530px;
+    /* margin-left: 500px;
+    margin-right: 500px; */
+    /* background-color: rgba(10, 10, 10, 0.8); */
+    background-color: rgb(26, 20, 20) !important;
+    color: gray;
+    z-index: 500;
+    /* position: absolute; */
+    padding-bottom: 0;
+    height: 40px;
+    border: none;
+    border-radius: 8px !important;
+    padding-top: 6px;
+    /* padding-left: 10px; */
+    padding-right: 15px;
+}
+
+.hideP, .stopP {
+    cursor: pointer;
+    margin-top: 5px;
+    font-size: 13px;
+}
+
+.shareMassage {
+    /* font-size: 17px; */
+}
+
+.bgOptionsDiv {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+}
+
+.cardModall {
+    margin-right: 2%;
+    display: flex;
+    flex-direction: column;
+    width: 75px;
+    height: 72px;
+    /* margin: 7px; */
+    /* background: transparent url(img/Group 21448.png) 0% 0% no-repeat padding-box; */
+    /* opacity: 1; */
+    border: 1px solid #696969;
+    background-color: white;
+    border-radius: 3px;
+}
+
+.uploadIconDiv {
+    flex-grow: 10;
+}
+
+.greyDiv {
+    flex-grow: 1;
+    /* border-radius: 3px; */
+    /* height: 22px; */
+    background-color: #696969;
+    /* margin-top: 25px; */
+    /* width: 75px; */
+    /* margin-left: -1px; */
+    color: white;
+    text-align: center !important;
+    font-size: small;
+    width: 100%;
+    /* border-radius: 0px 0px 3px 3px; */
+    /* border-radius: 0px 0px 3px 3px; */
+}
+
+.lastCardModall {
+    margin-right: 0px !important;
+}
+
+.imgCard {
+    margin-bottom: -21px;
+    margin-left: 27px;
+    width: 22px;
+}
+
+.imgCardBlur {
+    width: 20px;
+    height: 30px;
+    margin: auto !important;
+}
+
+.greyDivBlur {
+    border-radius: 3px;
+    height: 24px;
+    background-color: #696969;
+    margin-top: 27px;
+    width: 92px;
+    margin-left: -16px;
+    color: white;
+    text-align: center !important;
+    font-size: small;
+}
+
+.cardModall:hover {
+    border: 2px solid #696969 !important;
+}
+
+.wordCardBlur {
+    /* margin-left: 26px; */
+}
+
+.wordCard {
+    /* text-align: center; */
+    margin-left: 19px;
+}
+
+.cardModall:hover .greyDiv {
+    /* width: 74px !important;
+    margin-left: -2px;
+    margin-top: 24px; */
+}
+
+.cardModall:hover .greyDivBlur {
+    width: 91px !important;
+    margin-left: -17px;
+    /* .microfoneCheckbox:checked:checked.custom-control-label::before{
+       background-color: red;*/
+}
+
+.grayMicrophoneIcon {
+    width: 15px;
+}
+
+.grayVideoCameraIcon {
+    width: 18px;
+}
+
+.form-check {
+    padding-left: 55px;
+    /* text-align: center; */
+    /* filter: hue-rotate(650deg); */
+    filter: grayscale(1);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.form-check-input {
+    margin-top: 8px !important;
+}
+
+.form-check-label {
+    cursor: pointer;
+    font-size: 15.6px;
+    font-family: 'Roboto', sans-serif;
+    color: rgb(119, 116, 116);
+}
+
+hr {
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-top: 11px !important;
+    margin-bottom: 7px !important;
+}
