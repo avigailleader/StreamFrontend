@@ -10,7 +10,7 @@ export const actions = new Proxy(
         get: function (target, prop) {
             if (target[prop] === undefined)
                 return function (args) {
-                    // debugger
+                    //  
 
                     return {
                         type: convertActionNameToType(prop),
@@ -18,7 +18,7 @@ export const actions = new Proxy(
                     };
                 };
             else {
-                // debugger
+                //  
                 return target[prop];
             }
         }

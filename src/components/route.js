@@ -6,8 +6,8 @@ function Routes(props) {
     return (
         <div>
             <Router>
-                <Route path="/:roomId" component={Stream} />
-                <Route exact path component={Stream} />
+                <Route path="/:userName" component={Stream} />
+                <Route exact path="admin/:userName" component={Stream} />
             </Router>
         </div>
     );
