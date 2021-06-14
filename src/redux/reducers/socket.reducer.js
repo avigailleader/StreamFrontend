@@ -13,11 +13,11 @@ const initialState = {
 }
 const socketData = {
     setLocalStream(state, action) {
-        debugger
+
         state.localStream = action.payload;
     },
     setStreamConstraints(state, action) {
-        debugger
+
         state.streamConstraints = action.payload;
     }
 }

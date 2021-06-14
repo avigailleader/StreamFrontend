@@ -10,7 +10,7 @@ const initialState = {
 const convarsetionData = {
 
     setRoomId(state, action) {
-        debugger
+
         state.roomId = action.payload;
     },
     setConnectionUserModal(state, action) {
