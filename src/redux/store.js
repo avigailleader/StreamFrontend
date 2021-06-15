@@ -4,6 +4,7 @@ import recordReducer from './reducers/record.reducer';
 import socketReducer from './reducers/socket.reducer'
 import convarsetionReducer from './reducers/convarsetion.reducer'
 import generalReducer from './reducers/general.reducer'
+import userReducer from './reducers/user.reducer'
 
 
 import {
@@ -18,7 +19,8 @@ const reducer = combineReducers({
     recordReducer,
     socketReducer,
     convarsetionReducer,
-    generalReducer
+    generalReducer,
+    userReducer
 });
 
 const store = createStore(

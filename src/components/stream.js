@@ -6,25 +6,25 @@ const Stream = () => {
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
     const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
-    const roomId = useSelector(state => state.convarsetionReducer.roomId)
+    const userName = useSelector(state => state.userReducer.userName)
     const countParticipantInConversion = useSelector(state => state.generalReducer.countParticipantInConversion)
     const localStream = useSelector(state => state.socketReducer.localStream)
 
     const localStreamRef = useRef()
-    console.log(localStreamRef);
     let room
     useEffect(() => {
-
-        let room = window.location.href.slice(window.location.href.lastIndexOf('/') + 1);
-
+        let userName = ""
+        if (window.location.href.includes("admin"))
+            userName = window.location.pathname.split("/")[2];
+        else
+            userName = window.location.pathname.split("/")[1];
+        console.log("username!! " + userName)
+        dispatch(actions.setUserName(userName))
         if (!window.location.href.includes("admin")) {
-
             dispatch(actions.setStreamConstraints({ "video": false, "audio": false }))
             dispatch(actions.setConnectionUserModal(true))
-
-            console.log(roomId);
-            dispatch(actions.setRoomId(roomId))
-            socket.emit('join', { roomId });
+            room = userName
+            socket.emit('join', { room });
 
         }
 
@@ -34,15 +34,9 @@ const Stream = () => {
 
 
         if (window.location.href.includes("admin")) {
-            room = Math.random(10).toString(36).substring(7);
-            console.log(room);
-            dispatch(actions.setRoomId(room))
+            room = userName
             dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
             socket.emit('create', { room });
-            console.log(localStream);
-            socket.emit('setStream', { localStream });
-
-
         }
         socket.on('created', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
 
@@ -51,7 +45,6 @@ const Stream = () => {
     useEffect(() => {
 
         localStreamRef.current.srcObject = localStream.srcObject
-        console.log(localStreamRef);
     }, [localStream])
     const isMuted = () => {
         debugger
