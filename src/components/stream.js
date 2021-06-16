@@ -12,19 +12,19 @@ const Stream = () => {
 
     const localStreamRef = useRef()
     console.log(localStreamRef);
-    let room
+    let userName
     useEffect(() => {
 
-        let room = window.location.href.slice(window.location.href.lastIndexOf('/') + 1);
+        let userName = window.location.href.slice(window.location.href.lastIndexOf('/') + 1);
 
         if (!window.location.href.includes("admin")) {
 
             dispatch(actions.setStreamConstraints({ "video": false, "audio": false }))
             dispatch(actions.setConnectionUserModal(true))
 
-            console.log(roomId);
-            dispatch(actions.setRoomId(roomId))
-            socket.emit('join', { roomId });
+            console.log(userName);
+            dispatch(actions.setRoomId(userName))
+            socket.emit('join', { userName });
 
         }
 
@@ -34,11 +34,13 @@ const Stream = () => {
 
 
         if (window.location.href.includes("admin")) {
-            room = Math.random(10).toString(36).substring(7);
-            console.log(room);
-            dispatch(actions.setRoomId(room))
+            debugger
+            userName = window.location.href.slice(window.location.href.lastIndexOf('/') + 1);
+            debugger
+            console.log(userName);
+            dispatch(actions.setRoomId(userName))
             dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
-            socket.emit('create', { room });
+            socket.emit('create', { userName });
             console.log(localStream);
             socket.emit('setStream', { localStream });
 

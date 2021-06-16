@@ -4,7 +4,7 @@ import io from "socket.io-client";
 import createReducer from './reducerUtils';
 
 const initialState = {
-    socket: io.connect('https://stream.vlogger.codes/', {
+    socket: io.connect('https://stream.vlogger.codes', {
         transports: ['websocket']
     }),
     localStream: "",
