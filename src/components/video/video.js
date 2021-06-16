@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { actions } from '../redux/actions/action';
+import { actions } from '../../redux/actions/action';
 import './video.css'
-const Stream = () => {
+const Video = (props) => {
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
     const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
@@ -11,6 +11,7 @@ const Stream = () => {
     const localStream = useSelector(state => state.socketReducer.localStream)
 
     const localStreamRef = useRef()
+    const { history } = props;
     let room
     useEffect(() => {
         let userName = ""
@@ -25,7 +26,9 @@ const Stream = () => {
             dispatch(actions.setConnectionUserModal(true))
             room = userName
             socket.emit('join', { room });
-
+            // socket.on('joined', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
+            socket.on('not exist room', () => { history.push('/notExist') });
+            socket.on('joined', () => { alert("joined successfully to " + room) });
         }
 
     }, [])
@@ -65,4 +68,4 @@ const Stream = () => {
     )
 }
 
-export default Stream
+export default Video
