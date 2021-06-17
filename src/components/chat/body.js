@@ -4,10 +4,15 @@ import './body.css'
 import Viewers from "./Viewers";
 import MyChats from "./myChats";
 import img from '../../assets/img.png'
-const body = () => {
+import Routes from '../routes/route'
+
+const Body = () => {
     return (
         <div className="container-fluid">
             <div className="row">
+                {/* <div className="col-9">
+                <Routes></Routes>
+                </div> */}
                 <div className="col-12">
                     <div className="d-flex align-items-end flex-column" style={{ height: "200px" }}>
                         <div className="mb-auto mr-0 mt-0 p-2">
@@ -28,4 +33,4 @@ const body = () => {
     )
 }
 
-export default body;
+export default Body;

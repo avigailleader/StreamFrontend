@@ -1,20 +1,22 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef,useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { actions } from '../../redux/actions/action';
 import './video.css'
 
 const Video = (props) => {
+    const [displayVideo,setDisplayVideo]= useState(false);
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
     const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
     const userName = useSelector(state => state.userReducer.userName)
     const countParticipantInConversion = useSelector(state => state.generalReducer.countParticipantInConversion)
     const localStream = useSelector(state => state.socketReducer.localStream)
-
     const localStreamRef = useRef()
     const { history } = props;
     let room
     useEffect(() => {
+        setDisplayVideo(true)
+
         let userName = ""
         if (window.location.href.includes("admin"))
             userName = window.location.pathname.split("/")[2];
@@ -43,11 +45,10 @@ const Video = (props) => {
             socket.emit('create', { room });
         }
         socket.on('created', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
-
+        
 
     }
     useEffect(() => {
-
         localStreamRef.current.srcObject = localStream.srcObject
     }, [localStream])
     const isMuted = () => {
@@ -136,10 +137,10 @@ const Video = (props) => {
         }
         return (
             <div>
-                {window.location.href.includes("admin") ? <div>
-                    <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!
-                        <video id="localVideo" height="100px" width="100px" muted={isMuted()} autoPlay ref={localStreamRef} >
-                        </video></button>
+                {window.location.href.includes("admin") ? <div style={{backgroundColor:'red',position:"relative"}}>
+                    <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!</button>
+                       <video id="localVideo" height="100px" width="100px" muted={isMuted()} autoPlay ref={localStreamRef} >
+                        </video> 
                     <video id="gum" playsInline autoPlay muted ref={gumVideo}></video>
 
                     <label>errorMsgElement</label> <span id="errorMsgElement" ref={errorMsgElementRef}></span>
@@ -149,17 +150,9 @@ const Video = (props) => {
                     <p>start record:<input type="checkbox" id="echoCancellation" ref={checkStart}></input></p>
                 </div>
                     :
-                    <video id="localVideo" muted={isMuted()} height="100%" width="100%" autoPlay ref={localStreamRef} ></video>
+                    <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
                 }
-                {/* <video id="gum" playsinline autoplay muted ref={gumVideo}></video>
-
-                    <label>codecPreferences</label> <span id="codecPreferences" ref={codecPreferences}></span>
-                    <label>errorMsgElement</label> <span id="errorMsgElement" ref={errorMsgElementRef}></span>
-                    <button onClick={clickRecord} ref={startBtnRef}>Start Recording</button>
-                    <button id="play" disabled ref={playButton} >Play</button>
-                    <button id="download" disabled ref={downloadButton}>Download</button>
-                    <p>start record:<input type="checkbox" id="echoCancellation" ref={checkStart}></input></p> */}
-
+               
 
             </div>
         )
