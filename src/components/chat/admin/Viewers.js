@@ -4,9 +4,9 @@ import { Card, Button } from 'react-bootstrap';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './viewers.css'
-import user from '../../assets/chats&viewers/user.png'
-import chevronLeft from '../../assets/chats&viewers/chevron-left.svg'
-import chevronRight from '../../assets/chats&viewers/chevron-right.svg'
+import user from '../../../assets/chats&viewers/user.png'
+import chevronLeft from '../../../assets/chats&viewers/chevron-left.svg'
+import chevronRight from '../../../assets/chats&viewers/chevron-right.svg'
 
 const Viewers = () => {
     let numViewers = 9846

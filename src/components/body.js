@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
+import { useSelector, useDispatch,connect } from 'react-redux'
 import './body.css'
-import Viewers from "./viewers/Viewers";
-import MyChats from "./chat/myChats";
+import Viewers from "./chat/admin/Viewers";
+import MyChats from "./chat/admin/myChats";
 import { Button, Modal } from 'react-bootstrap';
-import OptionsModal from '../components/conversation/modals/OptionsModal'
 
-const body = () => {
+
+const Body = () => {
+  
     return (
         <div className="container-fluid">
             <div className="row">
@@ -17,11 +19,7 @@ const body = () => {
                         <div className="mt-auto mb-0 mr-0 p-2">
                             <Viewers></Viewers>
                         </div>
-                        <div>
-                           <OptionsModal visibleOptionsModal={true}></OptionsModal>
-
-                        </div>
-
+                       
                     </div>
 
 
@@ -31,4 +29,4 @@ const body = () => {
     )
 }
 
-export default body;
+export default Body;

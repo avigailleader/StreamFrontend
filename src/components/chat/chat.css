@@ -37,6 +37,8 @@
 
 .profil-img{
      float: left;
+     /* border-image: round; */
+     border-radius: 50%;
 }
 .profil-img:hover{
     color: blue;
