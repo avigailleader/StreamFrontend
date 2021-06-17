@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { actions } from '../../redux/actions/action';
 import './video.css'
 
-const Video = () => {
+const Video = (props) => {
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
     const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
@@ -140,7 +140,7 @@ const Video = () => {
                     <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!
                         <video id="localVideo" height="100px" width="100px" muted={isMuted()} autoPlay ref={localStreamRef} >
                         </video></button>
-                    <video id="gum" playsinline autoplay muted ref={gumVideo}></video>
+                    <video id="gum" playsInline autoPlay muted ref={gumVideo}></video>
 
                     <label>errorMsgElement</label> <span id="errorMsgElement" ref={errorMsgElementRef}></span>
                     <button onClick={clickRecord} ref={startBtnRef}>Start Recording</button>
