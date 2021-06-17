@@ -59,12 +59,9 @@ const Stream = () => {
     let mediaRecorder;
     let recordedBlobs;
 
-
     let startBtnRef = useRef()
     let checkStart = useRef()
-    let codecPreferences = useRef()
     let errorMsgElementRef = useRef()
-    let playButton = useRef()
     let downloadButton = useRef()
     let gumVideo = useRef()
     function clickRecord() {
@@ -74,61 +71,24 @@ const Stream = () => {
         } else {
             stopRecording();
             startBtnRef.current.textContent = 'Start Recording';
-            playButton.current.disabled = false;
             downloadButton.current.disabled = false;
-            codecPreferences.current.disabled = false;
         }
     }
     function stopRecording() {
         mediaRecorder.stop();
     }
-    // קוד עשוי
-    function startRecording() {
-        debugger
-        startBtnRef.current.disabled = true;
-        const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
-        const constraints = {
-            audio: {
-                echoCancellation: { exact: hasEchoCancellation }
-            },
-            video: {
-                width: 1280, height: 720
-            }
-        }
-        console.log('Using media constraints:', constraints);
-        init(constraints);
-    }
-    // קוד עשוי
-    function init(constraints) {
-        try {
-            navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-                handleSuccess(stream);
-            });
-
-        } catch (e) {
-            console.error('navigator.getUserMedia error:', e);
-            errorMsgElementRef.current.html = `navigator.getUserMedia error:${e.toString()}`;
-        }
-    }
-
-
     function startRecording() {
         recordedBlobs = [];
-        // const mimeType = codecPreferences.options[codecPreferences.selectedIndex].value;
-        // const options = { mimeType };
-        let options = { mimeType: 'video/webm;codecs=vp9', bitsPerSecond: 100000 };
         try {
-            mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, options);//window.stream, options);
+            mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream,{mimeType: "video/webm;codecs=vp9,opus"});//window.stream, options);
         } catch (e0) {
-            console.log('Unable to create MediaRecorder with options Object: ', options, e0);
+            console.log('Unable to create MediaRecorder with options Object: ', {mimeType: "video/webm;codecs=vp9,opus"}, e0);
             try {
-                options = { mimeType: 'video/webm;codecs=vp8', bitsPerSecond: 100000 };
-                mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, options);
+                mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: 'video/webm;codecs=vp8'});
             } catch (e1) {
-                console.log('Unable to create MediaRecorder with options Object: ', options, e1);
+                console.log('Unable to create MediaRecorder with options Object: ',{ mimeType: 'video/webm;codecs=vp8'} , e1);
                 try {
-                    options = 'video/mp4';
-                    mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, options);
+                    mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, 'video/mp4');
                 } catch (e2) {
                     alert('MediaRecorder is not supported by this browser.');
                     console.error('Exception while creating MediaRecorder:', e2);
@@ -137,11 +97,8 @@ const Stream = () => {
             }
 
         }
-    
-
-            console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
+            console.log('Created MediaRecorder', mediaRecorder, 'with options', { mimeType: "video/webm;codecs=vp9,opus"});
             startBtnRef.current.textContent = 'Stop Recording';
-            playButton.current.disabled = true;
             downloadButton.current.disabled = true;
             mediaRecorder.onstop = (event) => {
                 console.log('Recorder stopped: ', event);
@@ -158,48 +115,34 @@ const Stream = () => {
                 recordedBlobs.push(event.data);
             }
         }
-
-        // קוד עשוי
-        function getSupportedMimeTypes() {
-            const possibleTypes = [
-                'video/webm;codecs=vp9,opus',
-                'video/webm;codecs=vp8,opus',
-                'video/webm;codecs=h264,opus',
-                'video/mp4;codecs=h264,aac',
-            ];
-            return possibleTypes.filter(mimeType => {
-                return MediaRecorder.isTypeSupported(mimeType);
-            });
+        // להורדה
+        function clickDownload(){
+            debugger
+            const blob = new Blob(recordedBlobs, {type: 'video/webm'});
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'test.webm';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+              document.body.removeChild(a);
+              window.URL.revokeObjectURL(url);
+            }, 100);
         }
-        function handleSuccess(stream) {
-            startBtnRef.current.disabled = false;
-            console.log('getUserMedia() got stream:', stream);
-            window.stream = stream;
-
-            gumVideo.current.srcObject = stream;
-
-            getSupportedMimeTypes().forEach(mimeType => {
-                const option = document.createElement('option');
-                option.value = mimeType;
-                option.innerText = option.value;
-                codecPreferences.current.appendChild(option);
-            });
-            codecPreferences.current.disabled = false;
-        }
-
         return (
             <div>
                 {window.location.href.includes("admin") ? <div>
                     <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!
-                        <video id="localVideo" height="100%" width="100%" muted={isMuted()} autoPlay ref={localStreamRef} >
+                        <video id="localVideo" height="100px" width="100px" muted={isMuted()} autoPlay ref={localStreamRef} >
                         </video></button>
                     <video id="gum" playsinline autoplay muted ref={gumVideo}></video>
 
-                    {/* <label>codecPreferences</label> <span id="codecPreferences" ref={codecPreferences}></span> */}
                     <label>errorMsgElement</label> <span id="errorMsgElement" ref={errorMsgElementRef}></span>
                     <button onClick={clickRecord} ref={startBtnRef}>Start Recording</button>
-                    <button id="play" disabled ref={playButton} >Play</button>
-                    <button id="download" disabled ref={downloadButton}>Download</button>
+                    <button id="download" onClick={clickDownload}  ref={downloadButton}>Download</button>
+
                     <p>start record:<input type="checkbox" id="echoCancellation" ref={checkStart}></input></p>
                 </div>
                     :
