@@ -6,6 +6,7 @@ const ChatUser = () => {
     const socket = useSelector(state => state.socketReducer.socket)
     const [input_value, setInput_value] = useState(' ');
     const [message, setMessage] = useState(' ')
+
     const messageRef = useRef()
     const handleInput = e => {
         setInput_value(e.target.value)
