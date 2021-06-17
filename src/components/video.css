@@ -2,7 +2,7 @@
     background-attachment: fixed;
     top: 0;
     right: 0px;
-    left: 0px;
-    bottom: 0px;
+    /* left: 0px;
+    bottom: 0px; */
     position: fixed;
 }

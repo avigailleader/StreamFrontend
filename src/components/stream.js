@@ -40,7 +40,9 @@ const Stream = () => {
             console.log(userName);
             dispatch(actions.setRoomId(userName))
             dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
+            debugger
             socket.emit('create', { userName });
+            debugger
             console.log(localStream);
             socket.emit('setStream', { localStream });
 
@@ -65,7 +67,7 @@ const Stream = () => {
         <div>
             {window.location.href.includes("admin") ?
                 <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!
-                    <video id="localVideo" height="100%" width="100%" muted={isMuted()} autoPlay ref={localStreamRef} >
+                    <video id="localVideo" height="50%" width="50%" muted={isMuted()} autoPlay ref={localStreamRef} >
                     </video>
                 </button> :
                 <video id="localVideo" muted={isMuted()} height="100%" width="100%" autoPlay ref={localStreamRef} ></video>

@@ -8,7 +8,7 @@ import Body from './components/chat/body'
 import { Button } from 'react-bootstrap'
 // import Button from 'react-bootstrap/Button'
 import StartVideo from './components/stream'
-import Chat from './components/chat/chat'
+import Chat from './components/chat/chatUser'
 const App = () => {
   return (
 
@@ -19,7 +19,7 @@ const App = () => {
           <Body />
           {/* <StartVideo style={{position: "absolute", right: "0px"}}></StartVideo> */}
         </header>
-        {/* <Routes></Routes> */}
+        <Routes></Routes>
         <Chat></Chat>
       </div>
     </Provider>
