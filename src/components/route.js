@@ -1,15 +1,15 @@
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+// import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import Stream from './stream'
-function Routes(props) {
-    return (
-        <div>
-            <Router>
-                <Route path="/:userName" component={Stream} />
-                <Route exact path="admin/:userName" component={Stream} />
-            </Router>
-        </div>
-    );
-}
+// import Stream from './stream'
+// function Routes(props) {
+//     return (
+//         <div>
+//             <Router>
+//                 <Route path="/:userName" component={Stream} />
+//                 <Route exact path="admin/:userName" component={Stream} />
+//             </Router>
+//         </div>
+//     );
+// }
 
-export default Routes;
+// export default Routes;

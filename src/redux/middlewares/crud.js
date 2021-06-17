@@ -26,7 +26,7 @@ const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
 
                 dispatch({ type: 'ADD_LOCAL_STREAM', payload: stream });
                 dispatch(actions.setIsCaller(true));
-                dispatch({ type: 'ADD_NEW_CONVERSATION' });
+                // dispatch({ type: 'ADD_NEW_CONVERSATION' });
 
             })
             .catch(function (err) {
@@ -79,7 +79,7 @@ const joinedEventFromSocket = ({ dispatch, getState }) => next => action => {
     }
     return next(action)
 }
-//הוספת שיחה חדשה
+//הוספת שיחה חדשה DB
 const addNewConversation = store => next => action => {
     if (action.type === 'ADD_NEW_CONVERSATION') {
         const state = store.getState();
