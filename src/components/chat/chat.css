@@ -25,3 +25,14 @@
 
     background-image: linear-gradient(82deg, #5F5F5F  , #FFFFFF00 50%)
 }
+.chat{
+    padding-top:2%;
+    padding-right: 3%;
+    padding-left: 0px;
+}
+.myChat{
+    height:70%
+}
+.viewers{
+    margin-top:10%
+}

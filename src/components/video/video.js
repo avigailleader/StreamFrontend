@@ -139,7 +139,7 @@ const Video = (props) => {
             <div>
                 {window.location.href.includes("admin") ? <div style={{backgroundColor:'red',position:"relative"}}>
                     <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!</button>
-                       <video id="localVideo" height="100px" width="100px" muted={isMuted()} autoPlay ref={localStreamRef} >
+                       <video id="localVideo" height="200px" width="200px" muted={isMuted()} autoPlay ref={localStreamRef} >
                         </video> 
                     <video id="gum" playsInline autoPlay muted ref={gumVideo}></video>
 
@@ -152,8 +152,6 @@ const Video = (props) => {
                     :
                     <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
                 }
-               
-
             </div>
         )
     }
