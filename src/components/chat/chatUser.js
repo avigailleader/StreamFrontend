@@ -1,6 +1,10 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Card } from 'react-bootstrap'
+import './chat.css'
+import profil from '../../assets/user.png'
+import ListGroup from 'react-bootstrap/ListGroup';
 const ChatUser = () => {
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
@@ -39,10 +43,38 @@ const ChatUser = () => {
                     <h1>{message}</h1>
                     : null
             }
-            <input type="text" onChange={handleInput} ></input>
-            <input type="text" name="name" />
-            <button onClick={send}>Send!!!!!!!!!</button>
 
+            <div className="chatBox">
+                <Card border="light" style={{ width: '19rem', minheight: '19rem' }}>
+
+
+                    <Card.Title className="cardTitle row" style={{ color: '#D10010' }}>
+                        <div className="col-12"> My Chats</div>
+                    </Card.Title>
+                    <div className="linear" > </div>
+                    <div className="container-fluid">
+                        <Card.Body>
+                            {/* {members.map((member, index) => (
+                                <div className='row d-flex flex-row'>
+                                    <img src={profil} className=' col-4 profil-img' rounded ></img>
+                                    <div className='col-8'>
+                                        <div><b>{member}</b></div>
+                                        <div>  {messages[index]}</div>
+
+                                    </div>
+                                </div>
+                            ))} */}
+                            { }
+                        </Card.Body>
+                        <div className="mb-2">
+                            <input type="text" onChange={handleInput} ></input>
+                            <button onClick={send}>Send!!!!!!!!!</button>
+
+                        </div>
+
+                    </div>
+                </Card >
+            </div>
         </>
     )
 }

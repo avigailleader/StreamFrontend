@@ -3,7 +3,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import recordReducer from './reducers/record.reducer';
 import socketReducer from './reducers/socket.reducer'
 import convarsetionReducer from './reducers/convarsetion.reducer'
-import generalReducer from './reducers/general.reducer'
+import generalReducer from '../components/video/general.reducer'
 import userReducer from './reducers/user.reducer'
 
 
