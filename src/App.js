@@ -19,14 +19,12 @@ const App = () => {
         <Button className="btn-primary">ghjg</Button>
         <header className="App-header">
           <Body />
-          {/* <StartVideo style={{position: "absolute", right: "0px"}}></StartVideo> */}
         </header>
         <Routes></Routes>
         {
           window.location.href.includes("admin") ?
             <ChatAdmin></ChatAdmin> :
             <Chat></Chat>
-
         }
 
       </div>
