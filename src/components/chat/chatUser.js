@@ -10,6 +10,7 @@ const ChatUser = () => {
     const socket = useSelector(state => state.socketReducer.socket)
     const [input_value, setInput_value] = useState(' ');
     const [message, setMessage] = useState(' ')
+    let flag = true
 
     const userName = useSelector(state => state.userReducer.userName)
     useEffect(() => {
@@ -31,8 +32,9 @@ const ChatUser = () => {
     const send = () => {
         setInput_value(input_value)
         if (input_value && input_value != '') {
+            flag = true
             handleSendMessage(input_value);
-            setInput_value('')
+            // setInput_value('')
         }
     }
 
@@ -51,8 +53,8 @@ const ChatUser = () => {
                         <Card.Body>
 
                             {
-                                message !== ' ' ?
-                                    <h1>{message}</h1>
+                                flag === true ?
+                                    <h1>{input_value}</h1>
                                     : null
                             }
 

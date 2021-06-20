@@ -9,11 +9,14 @@ const ChatAdmin = () => {
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
     const [message, setMessage] = useState('')
+    const [messages, setMessages] = useState(["hbhbjnj", "jijoik"])
+
     useEffect(() => {
         socket.on('message-to-admin', message => {
             debugger
             // console.log(message);
-            setMessage(message);
+            // setMessage(message);
+            messages.push(message)
         });
         socket.on('send-message-to-all', message => {
             console.log("xdxcdcfcfcfzzs");
@@ -39,8 +42,29 @@ const ChatAdmin = () => {
                     <div className="linear" > </div>
                     <div className="container-fluid">
                         <Card.Body>
-                            <h3>{message}</h3>
-                            <button onClick={(e) => shar()} >shar</button>
+                            {
+
+                                messages.map((message, index) => {
+
+                                    <div className='row d-flex flex-row'>
+                                        <h1>{index}</h1>
+
+                                        <img onMouseOver={shar()} src={profil} className=' col-4 profil-img' rounded ></img>
+                                        <div className='col-8'>
+                                            <div>  {messages[index]}</div>
+                                            <div>{message}</div>
+                                        </div>
+
+                                    </div>
+                                    {/* <div key={key}>
+                                        <p>
+                                            {message}
+                                        </p>
+                                        <button onClick={(e) => shar()} >shar</button>
+                                    </div> */}
+                                })
+                            }
+
 
 
                         </Card.Body>
