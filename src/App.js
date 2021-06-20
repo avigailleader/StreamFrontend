@@ -2,7 +2,6 @@ import './App.css';
 import React from 'react'
 import { Provider } from 'react-redux';
 import store from './redux/store'
-import Body from './components/chat/body'
 import { Button } from 'react-bootstrap'
 // import Button from 'react-bootstrap/Button'
 import StartVideo from './components/stream'
@@ -16,7 +15,7 @@ const App = () => {
 
     <Provider store={store}>
       <div className="App" style={{ backgroundColor: "gray", height: "700px" }}>
-        <Button className="btn-primary">ghjg</Button>
+
         <header className="App-header">
           <Body />
         </header>
@@ -27,6 +26,7 @@ const App = () => {
             <Chat></Chat>
         }
 
+        <Routes></Routes>
       </div>
     </Provider>
 
