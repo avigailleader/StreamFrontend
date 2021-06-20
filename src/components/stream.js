@@ -65,11 +65,11 @@ const Stream = () => {
     }
     return (
         <div>
-            {window.location.href.includes("admin") ?
-                <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!
+            {window.location.href.includes("admin") ?<>
+                <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!</button>
                     <video id="localVideo" height="50%" width="50%" muted={isMuted()} autoPlay ref={localStreamRef} >
-                    </video>
-                </button> :
+                    </video></>
+                 :
                 <video id="localVideo" muted={isMuted()} height="100%" width="100%" autoPlay ref={localStreamRef} ></video>
             }
         </div>

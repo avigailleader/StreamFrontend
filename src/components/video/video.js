@@ -65,10 +65,10 @@ const Video = (props) => {
 
     let startBtnRef = useRef()
     let checkStart = useRef()
-    let errorMsgElementRef = useRef()
     let downloadButton = useRef()
     let gumVideo = useRef()
     function clickRecord() {
+        StartVideo()
         debugger
         if (startBtnRef.current.textContent === 'Start Recording') {
             startRecording();
@@ -137,21 +137,20 @@ const Video = (props) => {
         }
         return (
             <div>
-                {window.location.href.includes("admin") ? <div style={{backgroundColor:'red',position:"relative"}}>
-                    <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!</button>
-                       <video id="localVideo" height="200px" width="200px" muted={isMuted()} autoPlay ref={localStreamRef} >
-                        </video> 
-                    <video id="gum" playsInline autoPlay muted ref={gumVideo}></video>
+                {window.location.href.includes("admin") ? <div className="diVideo">
+                    <button className="btnVideo" onClick={e => { StartVideo() }}>open camera & started
+                       <video id="localVideo" height="100%" width="100%" muted={isMuted()} autoPlay ref={localStreamRef} >
+                        </video> </button>
+                    {/* <video id="gum" playsInline autoPlay muted ref={gumVideo}></video> */}
 
-                    <label>errorMsgElement</label> <span id="errorMsgElement" ref={errorMsgElementRef}></span>
-                    <button onClick={clickRecord} ref={startBtnRef}>Start Recording</button>
-                    <button id="download" onClick={clickDownload}  ref={downloadButton}>Download</button>
+                   
 
-                    <p>start record:<input type="checkbox" id="echoCancellation" ref={checkStart}></input></p>
                 </div>
                     :
                     <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
                 }
+                 <button  onClick={clickRecord} ref={startBtnRef}>Start Recording</button>
+                    <button id="download" onClick={clickDownload}  ref={downloadButton}>Download</button>
             </div>
         )
     }

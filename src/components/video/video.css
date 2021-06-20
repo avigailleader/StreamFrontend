@@ -1,6 +1,6 @@
 #localVideo{
 
-    position: relative;
+    position: absolute;
 
     /* background-attachment: fixed; */
     top: 0;
@@ -9,4 +9,19 @@
     bottom: 0px;
     /* position: fixed; */
     
+}
+.diVideo{
+    position: absolute;
+    height: 94vh;
+    width: 70vw;
+    background-color: black;
+    margin-top: 1.4vh;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+
+}
+.btnVideo{
+margin-top: 89vh;
+border-radius: 25px 25px 25px 25px
+/* position: absolute; */
 }
