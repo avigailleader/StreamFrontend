@@ -38,11 +38,6 @@ const ChatUser = () => {
 
     return (
         <>
-            {
-                message !== ' ' ?
-                    <h1>{message}</h1>
-                    : null
-            }
 
             <div className="chatBox">
                 <Card border="light" style={{ width: '19rem', minheight: '19rem' }}>
@@ -54,17 +49,13 @@ const ChatUser = () => {
                     <div className="linear" > </div>
                     <div className="container-fluid">
                         <Card.Body>
-                            {/* {members.map((member, index) => (
-                                <div className='row d-flex flex-row'>
-                                    <img src={profil} className=' col-4 profil-img' rounded ></img>
-                                    <div className='col-8'>
-                                        <div><b>{member}</b></div>
-                                        <div>  {messages[index]}</div>
 
-                                    </div>
-                                </div>
-                            ))} */}
-                            { }
+                            {
+                                message !== ' ' ?
+                                    <h1>{message}</h1>
+                                    : null
+                            }
+
                         </Card.Body>
                         <div className="mb-2">
                             <input type="text" onChange={handleInput} ></input>

@@ -39,10 +39,10 @@ const ChatAdmin = () => {
                     <div className="linear" > </div>
                     <div className="container-fluid">
                         <Card.Body>
-                            <h1>{message}</h1>
+                            <h3>{message}</h3>
                             <button onClick={(e) => shar()} >shar</button>
 
-                            { }
+
                         </Card.Body>
                         <div className="mb-2">
 
