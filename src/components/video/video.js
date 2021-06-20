@@ -135,12 +135,28 @@ const Video = (props) => {
             window.URL.revokeObjectURL(url);
         }, 100);
     }
+    // להורדה
+    function clickDownload() {
+        debugger
+        const blob = new Blob(recordedBlobs, { type: 'video/webm' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'test.webm';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 100);
+    }
     return (
         <div>
-            {window.location.href.includes("admin") ? <div>
-                <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!
-                    <video id="localVideo" height="100px" width="100px" muted={isMuted()} autoPlay ref={localStreamRef} >
-                    </video></button>
+            {window.location.href.includes("admin") ? <div style={{ backgroundColor: 'red', position: "relative" }}>
+                <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!</button>
+                <video id="localVideo" height="200px" width="200px" muted={isMuted()} autoPlay ref={localStreamRef} >
+                </video>
                 <video id="gum" playsInline autoPlay muted ref={gumVideo}></video>
 
                 <label>errorMsgElement</label> <span id="errorMsgElement" ref={errorMsgElementRef}></span>
@@ -150,9 +166,8 @@ const Video = (props) => {
                 <p>start record:<input type="checkbox" id="echoCancellation" ref={checkStart}></input></p>
             </div>
                 :
-                <video id="localVideo" muted={isMuted()} height="100%" width="100%" autoPlay ref={localStreamRef} ></video>
+                <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
             }
-
         </div>
     )
 }
