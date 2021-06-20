@@ -1,10 +1,10 @@
-import React, { useEffect, useRef,useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { actions } from '../../redux/actions/action';
 import './video.css'
 
 const Video = (props) => {
-    const [displayVideo,setDisplayVideo]= useState(false);
+    const [displayVideo, setDisplayVideo] = useState(false);
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
     const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
@@ -45,7 +45,7 @@ const Video = (props) => {
             socket.emit('create', { room });
         }
         socket.on('created', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
-        
+
 
     }
     useEffect(() => {
@@ -152,58 +152,9 @@ const Video = (props) => {
                 :
                 <video id="localVideo" muted={isMuted()} height="100%" width="100%" autoPlay ref={localStreamRef} ></video>
             }
-<<<<<<< HEAD
-            {/* <video id="gum" playsinline autoplay muted ref={gumVideo}></video>
-
-                    <label>codecPreferences</label> <span id="codecPreferences" ref={codecPreferences}></span>
-                    <label>errorMsgElement</label> <span id="errorMsgElement" ref={errorMsgElementRef}></span>
-                    <button onClick={clickRecord} ref={startBtnRef}>Start Recording</button>
-                    <button id="play" disabled ref={playButton} >Play</button>
-                    <button id="download" disabled ref={downloadButton}>Download</button>
-                    <p>start record:<input type="checkbox" id="echoCancellation" ref={checkStart}></input></p> */}
-
 
         </div>
     )
 }
-=======
-        }
-        // להורדה
-        function clickDownload(){
-            debugger
-            const blob = new Blob(recordedBlobs, {type: 'video/webm'});
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = 'test.webm';
-            document.body.appendChild(a);
-            a.click();
-            setTimeout(() => {
-              document.body.removeChild(a);
-              window.URL.revokeObjectURL(url);
-            }, 100);
-        }
-        return (
-            <div>
-                {window.location.href.includes("admin") ? <div style={{backgroundColor:'red',position:"relative"}}>
-                    <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!</button>
-                       <video id="localVideo" height="200px" width="200px" muted={isMuted()} autoPlay ref={localStreamRef} >
-                        </video> 
-                    <video id="gum" playsInline autoPlay muted ref={gumVideo}></video>
-
-                    <label>errorMsgElement</label> <span id="errorMsgElement" ref={errorMsgElementRef}></span>
-                    <button onClick={clickRecord} ref={startBtnRef}>Start Recording</button>
-                    <button id="download" onClick={clickDownload}  ref={downloadButton}>Download</button>
-
-                    <p>start record:<input type="checkbox" id="echoCancellation" ref={checkStart}></input></p>
-                </div>
-                    :
-                    <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
-                }
-            </div>
-        )
-    }
->>>>>>> 0f4a1b5e363df6f3f573b3569adb5f270a47a522
 
 export default Video

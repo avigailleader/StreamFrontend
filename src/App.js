@@ -17,14 +17,13 @@ const App = () => {
       <div className="App" style={{ backgroundColor: "gray", height: "700px" }}>
 
         <header className="App-header">
-          <Body />
         </header>
-        <Routes></Routes>
+        {/* <Routes></Routes>
         {
           window.location.href.includes("admin") ?
             <ChatAdmin></ChatAdmin> :
             <Chat></Chat>
-        }
+        } */}
 
         <Routes></Routes>
       </div>
