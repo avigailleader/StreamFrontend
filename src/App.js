@@ -7,6 +7,8 @@ import { Button } from 'react-bootstrap'
 // import Button from 'react-bootstrap/Button'
 import StartVideo from './components/stream'
 import Chat from './components/chat/chatUser'
+import ChatAdmin from './components/chat/chatAdmin'
+
 import Routes from './components/routes/route'
 
 const App = () => {
@@ -20,7 +22,13 @@ const App = () => {
           {/* <StartVideo style={{position: "absolute", right: "0px"}}></StartVideo> */}
         </header>
         <Routes></Routes>
-        <Chat></Chat>
+        {
+          window.location.href.includes("admin") ?
+            <ChatAdmin></ChatAdmin> :
+            <Chat></Chat>
+
+        }
+
       </div>
     </Provider>
 

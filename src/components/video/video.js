@@ -35,7 +35,7 @@ const Video = (props) => {
     }, [])
 
     const StartVideo = async () => {
-        debugger
+
 
         if (window.location.href.includes("admin")) {
             room = userName
@@ -51,7 +51,7 @@ const Video = (props) => {
         localStreamRef.current.srcObject = localStream.srcObject
     }, [localStream])
     const isMuted = () => {
-        debugger
+
         if (window.location.href.includes("admin"))
             return true;
         return false
@@ -68,7 +68,7 @@ const Video = (props) => {
     let downloadButton = useRef()
     let gumVideo = useRef()
     function clickRecord() {
-        debugger
+
         if (startBtnRef.current.textContent === 'Start Recording') {
             startRecording();
         } else {
@@ -83,13 +83,13 @@ const Video = (props) => {
     function startRecording() {
         recordedBlobs = [];
         try {
-            mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream,{mimeType: "video/webm;codecs=vp9,opus"});//window.stream, options);
+            mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: "video/webm;codecs=vp9,opus" });//window.stream, options);
         } catch (e0) {
-            console.log('Unable to create MediaRecorder with options Object: ', {mimeType: "video/webm;codecs=vp9,opus"}, e0);
+            console.log('Unable to create MediaRecorder with options Object: ', { mimeType: "video/webm;codecs=vp9,opus" }, e0);
             try {
-                mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: 'video/webm;codecs=vp8'});
+                mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: 'video/webm;codecs=vp8' });
             } catch (e1) {
-                console.log('Unable to create MediaRecorder with options Object: ',{ mimeType: 'video/webm;codecs=vp8'} , e1);
+                console.log('Unable to create MediaRecorder with options Object: ', { mimeType: 'video/webm;codecs=vp8' }, e1);
                 try {
                     mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, 'video/mp4');
                 } catch (e2) {
@@ -100,58 +100,58 @@ const Video = (props) => {
             }
 
         }
-            console.log('Created MediaRecorder', mediaRecorder, 'with options', { mimeType: "video/webm;codecs=vp9,opus"});
-            startBtnRef.current.textContent = 'Stop Recording';
-            downloadButton.current.disabled = true;
-            mediaRecorder.onstop = (event) => {
-                console.log('Recorder stopped: ', event);
-                console.log('Recorded Blobs: ', recordedBlobs);
-            };
-            mediaRecorder.ondataavailable = handleDataAvailable;
-            mediaRecorder.start();
-            console.log('MediaRecorder started', mediaRecorder);
+        console.log('Created MediaRecorder', mediaRecorder, 'with options', { mimeType: "video/webm;codecs=vp9,opus" });
+        startBtnRef.current.textContent = 'Stop Recording';
+        downloadButton.current.disabled = true;
+        mediaRecorder.onstop = (event) => {
+            console.log('Recorder stopped: ', event);
+            console.log('Recorded Blobs: ', recordedBlobs);
+        };
+        mediaRecorder.ondataavailable = handleDataAvailable;
+        mediaRecorder.start();
+        console.log('MediaRecorder started', mediaRecorder);
+    }
+    // דוחף למערך סטרימים
+    function handleDataAvailable(event) {
+        console.log('handleDataAvailable', event);
+        if (event.data && event.data.size > 0) {
+            recordedBlobs.push(event.data);
         }
-        // דוחף למערך סטרימים
-        function handleDataAvailable(event) {
-            console.log('handleDataAvailable', event);
-            if (event.data && event.data.size > 0) {
-                recordedBlobs.push(event.data);
+    }
+    // להורדה
+    function clickDownload() {
+
+        const blob = new Blob(recordedBlobs, { type: 'video/webm' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'test.webm';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 100);
+    }
+    return (
+        <div>
+            {window.location.href.includes("admin") ? <div>
+                <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!
+                    <video id="localVideo" height="100px" width="100px" muted={isMuted()} autoPlay ref={localStreamRef} >
+                    </video></button>
+                <video id="gum" playsInline autoPlay muted ref={gumVideo}></video>
+
+                <label>errorMsgElement</label> <span id="errorMsgElement" ref={errorMsgElementRef}></span>
+                <button onClick={clickRecord} ref={startBtnRef}>Start Recording</button>
+                <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
+
+                <p>start record:<input type="checkbox" id="echoCancellation" ref={checkStart}></input></p>
+            </div>
+                :
+                <video id="localVideo" muted={isMuted()} height="100%" width="100%" autoPlay ref={localStreamRef} ></video>
             }
-        }
-        // להורדה
-        function clickDownload(){
-            debugger
-            const blob = new Blob(recordedBlobs, {type: 'video/webm'});
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = 'test.webm';
-            document.body.appendChild(a);
-            a.click();
-            setTimeout(() => {
-              document.body.removeChild(a);
-              window.URL.revokeObjectURL(url);
-            }, 100);
-        }
-        return (
-            <div>
-                {window.location.href.includes("admin") ? <div>
-                    <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!
-                        <video id="localVideo" height="100px" width="100px" muted={isMuted()} autoPlay ref={localStreamRef} >
-                        </video></button>
-                    <video id="gum" playsInline autoPlay muted ref={gumVideo}></video>
-
-                    <label>errorMsgElement</label> <span id="errorMsgElement" ref={errorMsgElementRef}></span>
-                    <button onClick={clickRecord} ref={startBtnRef}>Start Recording</button>
-                    <button id="download" onClick={clickDownload}  ref={downloadButton}>Download</button>
-
-                    <p>start record:<input type="checkbox" id="echoCancellation" ref={checkStart}></input></p>
-                </div>
-                    :
-                    <video id="localVideo" muted={isMuted()} height="100%" width="100%" autoPlay ref={localStreamRef} ></video>
-                }
-                {/* <video id="gum" playsinline autoplay muted ref={gumVideo}></video>
+            {/* <video id="gum" playsinline autoplay muted ref={gumVideo}></video>
 
                     <label>codecPreferences</label> <span id="codecPreferences" ref={codecPreferences}></span>
                     <label>errorMsgElement</label> <span id="errorMsgElement" ref={errorMsgElementRef}></span>
@@ -161,8 +161,8 @@ const Video = (props) => {
                     <p>start record:<input type="checkbox" id="echoCancellation" ref={checkStart}></input></p> */}
 
 
-            </div>
-        )
-    }
+        </div>
+    )
+}
 
 export default Video

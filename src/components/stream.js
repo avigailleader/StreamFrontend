@@ -34,15 +34,15 @@ const Stream = () => {
 
 
         if (window.location.href.includes("admin")) {
-            debugger
+
             userName = window.location.href.slice(window.location.href.lastIndexOf('/') + 1);
-            debugger
+
             console.log(userName);
             dispatch(actions.setRoomId(userName))
             dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
-            debugger
+
             socket.emit('create', { userName });
-            debugger
+
             console.log(localStream);
             socket.emit('setStream', { localStream });
 
@@ -58,7 +58,7 @@ const Stream = () => {
         console.log(localStreamRef);
     }, [localStream])
     const isMuted = () => {
-        debugger
+
         if (window.location.href.includes("admin"))
             return true;
         return false
