@@ -1,18 +1,115 @@
 
-import React, { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Card } from 'react-bootstrap'
+// import React, { useEffect, useRef, useState } from 'react'
+// import { useDispatch, useSelector } from 'react-redux'
+// import { Card } from 'react-bootstrap'
+// import './chat.css'
+// import profil from '../../assets/user.png'
+// import ListGroup from 'react-bootstrap/ListGroup';
+// const ChatUser = () => {
+//     const dispatch = useDispatch()
+//     const socket = useSelector(state => state.socketReducer.socket)
+//     const [input_value, setInput_value] = useState(' ');
+//     const [message, setMessage] = useState(' ')
+
+//     const userName = useSelector(state => state.userReducer.userName)
+//     useEffect(() => {
+//         console.log("xdcxfc");
+//         debugger
+//         socket.on('send-message-to-all', message => {
+//             console.log("xdxcdcfcfcfzzs");
+//             console.log(message);
+//             setMessage(message)
+//         });
+//     }, [])
+//     const messageRef = useRef()
+//     const handleInput = e => {
+//         setInput_value(e.target.value)
+//     }
+//     const handleSendMessage = (text) => {
+//         socket.emit('send-message', { text, id: Date.now(), userName });
+//     }
+//     const send = () => {
+//         setInput_value(input_value)
+//         if (input_value && input_value != '') {
+//             handleSendMessage(input_value);
+//             // setInput_value('')
+//         }
+//     }
+
+//     return (
+//         <>
+
+//             <div className="chatBox">
+//                 <Card border="light" style={{ width: '19rem', minheight: '19rem' }}>
+
+
+//                     <Card.Title className="cardTitle row" style={{ color: '#D10010' }}>
+//                         <div className="col-12"> My Chats</div>
+//                     </Card.Title>
+//                     <div className="linear" > </div>
+//                     <div className="container-fluid">
+//                         <Card.Body>
+
+//                             {
+//                                 input_value !== " " ?
+//                                     <h1>{input_value}</h1>
+//                                     : null
+//                             }
+
+//                         </Card.Body>
+//                         <div className="mb-2">
+//                             <input type="text" onChange={handleInput} ></input>
+//                             <button onClick={send}>Send!!!!!!!!!</button>
+
+//                         </div>
+
+//                     </div>
+//                 </Card >
+//             </div>
+//         </>
+//     )
+// }
+
+// export default ChatUser;
+
+
+
 import './chat.css'
-import profil from '../../assets/user.png'
+import Image from 'react-bootstrap/Image'
+
 import ListGroup from 'react-bootstrap/ListGroup';
-const ChatUser = () => {
+
+import $ from 'jquery';
+import { Card } from 'react-bootstrap'
+
+
+import React, { useRef, useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
+const UserChat = () => {
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
     const [input_value, setInput_value] = useState(' ');
     const [message, setMessage] = useState(' ')
-    let flag = true
-
     const userName = useSelector(state => state.userReducer.userName)
+    const [messagesList, setMessagesList] = useState([" "])
+
+    const addMessage = () => {
+
+        setMessagesList(messagesList => messagesList.concat(input_value))
+        $('input').val('')
+        send()
+
+    }
+
+    const messageRef = useRef()
+    const handleInput = (e) => {
+        setInput_value(e.target.value)
+    }
+    const handleSendMessage = (text) => {
+        debugger
+        socket.emit('send-message', { text, id: Date.now(), userName });
+    }
     useEffect(() => {
         console.log("xdcxfc");
         debugger
@@ -22,54 +119,65 @@ const ChatUser = () => {
             setMessage(message)
         });
     }, [])
-    const messageRef = useRef()
-    const handleInput = e => {
-        setInput_value(e.target.value)
-    }
-    const handleSendMessage = (text) => {
-        socket.emit('send-message', { text, id: Date.now(), userName });
-    }
     const send = () => {
+        debugger
         setInput_value(input_value)
         if (input_value && input_value != '') {
-            flag = true
             handleSendMessage(input_value);
             // setInput_value('')
         }
+
+        console.log(message);
+
     }
 
     return (
         <>
 
+
             <div className="chatBox">
                 <Card border="light" style={{ width: '19rem', minheight: '19rem' }}>
 
-
                     <Card.Title className="cardTitle row" style={{ color: '#D10010' }}>
-                        <div className="col-12"> My Chats</div>
+                        <div className="col-12"> chat with the admin</div>
                     </Card.Title>
                     <div className="linear" > </div>
                     <div className="container-fluid">
                         <Card.Body>
 
-                            {
-                                flag === true ?
-                                    <h1>{input_value}</h1>
-                                    : null
-                            }
+                            {messagesList.map((member, index) => (
+                                <div className='row d-flex flex-row'>
+
+                                    <div>{member}</div>
+
+
+                                </div>
+                            ))}
+
 
                         </Card.Body>
                         <div className="mb-2">
-                            <input type="text" onChange={handleInput} ></input>
-                            <button onClick={send}>Send!!!!!!!!!</button>
-
+                            <input id='input' onChange={handleInput} className="form-control" type="text" placeholder="message" className="chatMessage" ></input>
+                            {/* onChange={(e) => setMessage(e.target.value)} */}
+                            {/* value={input_value} */}
+                            <button onClick={addMessage}>Send</button>
                         </div>
 
                     </div>
                 </Card >
             </div>
+
+            {/* {
+                message !== ' ' ?
+                    <h1>{message}</h1>
+                    : null
+            } */}
+            {/* 
+            <input type="text" ref={messageRef} onChange={handleInput} value={input_value} ></input>
+            <button onClick={send}>Send</button> */}
+
         </>
     )
 }
 
-export default ChatUser;
+export default UserChat;
