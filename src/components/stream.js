@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { actions } from '../redux/actions/action';
-import './video.css'
 const Stream = () => {
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)

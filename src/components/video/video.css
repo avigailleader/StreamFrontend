@@ -7,21 +7,32 @@
     right: 0px;
     left: 0px;
     bottom: 0px;
+    z-index: 0;
+    position: relative;
     /* position: fixed; */
     
 }
 .diVideo{
-    position: absolute;
-    height: 94vh;
+    position: relative;
+    height: 83vh;
     width: 70vw;
-    background-color: black;
-    margin-top: 1.4vh;
+    background-color: brown;
+    margin-top: 2vh;
     border: 1px solid rgba(0,0,0,.125);
     border-radius: 0.25rem;
+    z-index: 0;
 
 }
-.btnVideo{
-margin-top: 89vh;
-border-radius: 25px 25px 25px 25px
-/* position: absolute; */
+
+
+.underDiv{
+    position: relative;
+    height: 10vh;
+    width: 70vw;
+    background-color: white;
+}
+.imgPlayPouse{
+    
+    border-radius:50%;
+    z-index:30
 }
