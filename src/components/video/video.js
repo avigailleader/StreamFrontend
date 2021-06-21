@@ -35,7 +35,6 @@ const Video = (props) => {
             console.log("receive-message-to-all " + message);
             alert(message);
         });
-
     }, [])
 
     const StartVideo = async () => {
