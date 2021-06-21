@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Card } from 'react-bootstrap'
 import './chat.css'
-import profil from '../../assets/user.png'
+import profil from '../../assets/chats&viewers/user.png'
 import ListGroup from 'react-bootstrap/ListGroup';
 const ChatAdmin = () => {
     const dispatch = useDispatch()
