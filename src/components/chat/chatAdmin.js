@@ -92,13 +92,9 @@
 import React, { useState, useEffect } from 'react'
 import { Card } from 'react-bootstrap'
 import './chat.css'
-<<<<<<< HEAD
 // import Image from 'react-bootstrap/Image'
 import profil from '../../assets/chats&viewers/user.png'
 import share from '../../assets/chats&viewers/share.svg'
-=======
-import profil from '../../assets/chats&viewers/user.png'
->>>>>>> a2fcd18be5ca1f8d1e135914ee82805dd644ed1c
 import ListGroup from 'react-bootstrap/ListGroup';
 import { useDispatch, useSelector } from 'react-redux'
 // 
