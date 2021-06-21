@@ -3,10 +3,20 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import recordReducer from './reducers/record.reducer';
 import socketReducer from './reducers/socket.reducer'
 import convarsetionReducer from './reducers/convarsetion.reducer'
-import generalReducer from '../components/video/general.reducer'
 import userReducer from './reducers/user.reducer'
 
 import {
+<<<<<<< HEAD
+=======
+    // addLocalStream,
+    // createdEventFromSocket,
+    // joinedEventFromSocket,
+
+    toggleVideo,
+    toggleAudio,
+} from '../services/socket.service';
+import {
+>>>>>>> a875f324b9c8dba6a0d41102ae5b77eda3f87521
     joinedEventFromSocket,
     createdEventFromSocket,
     addLocalStream,
@@ -18,7 +28,6 @@ const reducer = combineReducers({
     recordReducer,
     socketReducer,
     convarsetionReducer,
-    generalReducer,
     userReducer
 });
 
