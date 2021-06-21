@@ -1,10 +1,10 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Card } from 'react-bootstrap'
-// import 'bootstrap/dist/css/bootstrap.min.css';
-import './chat.css'
+import '../chat.css'
 // import Image from 'react-bootstrap/Image'
-import profil from '../../assets/user.png'
+import profil from '../../../assets/chats&viewers/user.png'
+import share from '../../../assets/chats&viewers/share.svg'
 import ListGroup from 'react-bootstrap/ListGroup';
 // import chevron-left from '../../assets/user.png'
 // import chevronLeft from "../../assets/chevron-left.png"
@@ -14,8 +14,15 @@ import ListGroup from 'react-bootstrap/ListGroup';
 let members = ['Aviv', 'Shay', 'Oded']
 let messages = ['Thanks,', 'What a nice lecture!', 'hoooo']
 
-const myChats = () => {
+const MyChats = () => {
+ 
+    const [shareMsg, setShareMsg] = useState(false)
 
+    
+    const shareMessage = () => {
+        setShareMsg(true)
+
+    }
     return (
         <div className="chatBox">
             <Card border="light" style={{ width: '19rem', minheight: '19rem' }}>
@@ -29,7 +36,14 @@ const myChats = () => {
                     <Card.Body>
                         {members.map((member, index) => (
                             <div className='row d-flex flex-row'>
-                                <img src={profil} className=' col-4 profil-img' rounded ></img>
+                                <img src={profil}
+                                    className=' col-4 profil-img'
+                                    onMouseOver={e => { (e.currentTarget.src = share) }}
+                                    onMouseOut={e => (e.currentTarget.src = profil)}
+                                    onClick={(e) => shareMessage()}
+                                />
+
+
                                 <div className='col-8'>
                                     <div><b>{member}</b></div>
                                     <div>  {messages[index]}</div>
@@ -49,4 +63,4 @@ const myChats = () => {
     )
 }
 
-export default myChats;
+export default MyChats;

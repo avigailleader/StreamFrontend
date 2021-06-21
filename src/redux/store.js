@@ -6,7 +6,14 @@ import convarsetionReducer from './reducers/convarsetion.reducer'
 import generalReducer from '../components/video/general.reducer'
 import userReducer from './reducers/user.reducer'
 
-
+import {
+    // addLocalStream,
+    // createdEventFromSocket,
+    // joinedEventFromSocket,
+   
+    toggleVideo,
+    toggleAudio,
+} from '../services/socket.service';
 import {
     joinedEventFromSocket,
     createdEventFromSocket,
@@ -26,10 +33,11 @@ const reducer = combineReducers({
 const store = createStore(
     reducer,
     applyMiddleware(
-        createdEventFromSocket,
-        addLocalStream,
-        joinedEventFromSocket
-
+        // createdEventFromSocket,
+        // addLocalStream,
+        // joinedEventFromSocket
+        toggleVideo,
+        toggleAudio,
 
     ));
 

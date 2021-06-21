@@ -4,7 +4,7 @@ import Video from '../video/video'
 import ChatAdmin from '../chat/chatAdmin'
 import ChatUser from '../chat/chatUser'
 
-import Viewers from '../chat/Viewers'
+import Viewers from '../chat/admin/Viewers'
 export default function Stream(props) {
     return (
         <div className="container-fluid">
