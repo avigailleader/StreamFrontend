@@ -106,10 +106,10 @@ const MyChats = () => {
     const [messagesList, setMessagesList] = useState([])
     useEffect(() => {
         socket.on('message-to-admin', message => {
-            // let i = 0
+            let i = 0
             // debugger
-            // const m = { message: message, i: i }
-            // setMessagesList(messagesList => messagesList.concat([...m]))
+            const m = { message: message, i: i }
+            setMessagesList(messagesList => messagesList.concat(m))
             setMessage(message)
         });
         socket.on('send-message-to-all', message => {
@@ -126,10 +126,6 @@ const MyChats = () => {
     //     console.log(e);
     // }
 
-    // const shareMessage = () => {
-    //     setShareMsg(true)
-
-    // }
     return (
         <div className="chatBox">
             <Card border="light" style={{ width: '19rem', minheight: '19rem' }}>
@@ -141,10 +137,10 @@ const MyChats = () => {
                 <div className="linear" > </div>
                 <div className="container-fluid">
                     <Card.Body>
-                        {message}
-                        <button onClick={(e) => shareMessage()} >shar</button>
+                        {/* {message}
+                        <button onClick={(e) => shareMessage()} >shar</button> */}
 
-                        {/* {messagesList.map((message, index) => (
+                        {messagesList.map((message, index) => (
                             <div className='row d-flex flex-row'>
                                 <img src={profil}
                                     className=' col-4 profil-img'
@@ -154,10 +150,10 @@ const MyChats = () => {
                                 />
 
                                 <div className='col-8'>
-                                    <div onMouseOver={e => onMouseOver(e)}><b>{message}</b></div>
+                                    <div ><b>{message}</b></div>
                                 </div>
                             </div>
-                        ))} */}
+                        ))}
                     </Card.Body>
                     <div className="mb-2">
                         {/* <input className="form-control" type="text" placeholder="message" className="chatMessage"></input> */}
