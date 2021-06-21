@@ -3,12 +3,12 @@ import axios from 'axios';
 
 import { actions } from '../actions/action';
 const addLocalStream = ({ dispatch, getState }) => next => action => {
-    debugger
+
     if (action.type === 'ADD_LOCAL_STREAM') {
-        debugger
+
         dispatch(actions.setLocalStream(action.payload));
         let localStream = getState().socketReducer.localStream;
-        debugger
+
         localStream.srcObject = action.payload;
 
         dispatch(actions.setLocalVideo(localStream));
@@ -17,16 +17,16 @@ const addLocalStream = ({ dispatch, getState }) => next => action => {
     return next(action);
 }
 const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
-    debugger
+
     if (action.type === 'CREATED_EVENT_FROM_SOCKET') {
-        debugger
+
         navigator.mediaDevices
             .getUserMedia(getState().socketReducer.streamConstraints)
             .then(function (stream) {
-                debugger
+
                 dispatch({ type: 'ADD_LOCAL_STREAM', payload: stream });
                 dispatch(actions.setIsCaller(true));
-                dispatch({ type: 'ADD_NEW_CONVERSATION' });
+                // dispatch({ type: 'ADD_NEW_CONVERSATION' });
 
             })
             .catch(function (err) {
@@ -50,9 +50,9 @@ const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
 }
 //TODO save cuurent user that join to the conversation.
 const joinedEventFromSocket = ({ dispatch, getState }) => next => action => {
-    debugger
+
     if (action.type === 'JOINED_EVENT_FROM_SOCKET') {
-        debugger
+
         navigator.mediaDevices
             .getUserMedia(getState().socketReducer.streamConstraints)
             .then(function (stream) {
@@ -79,7 +79,7 @@ const joinedEventFromSocket = ({ dispatch, getState }) => next => action => {
     }
     return next(action)
 }
-//הוספת שיחה חדשה
+//הוספת שיחה חדשה DB
 const addNewConversation = store => next => action => {
     if (action.type === 'ADD_NEW_CONVERSATION') {
         const state = store.getState();

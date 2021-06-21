@@ -25,6 +25,7 @@
 
     background-image: linear-gradient(82deg, #5F5F5F  , #FFFFFF00 50%)
 }
+<<<<<<< HEAD
 
 .myChat{
     height: 567.39;
@@ -39,23 +40,16 @@
      float: left;
      /* border-image: round; */
      border-radius: 50%;
+=======
+.chat{
+    padding-top:2%;
+    padding-right: 3%;
+    padding-left: 0px;
+>>>>>>> 84b35988e05d13765704c5bf33ff3bfd7ee88688
 }
-.profil-img:hover{
-    color: blue;
+.myChat{
+    height:70%
 }
-
-.chatMessage{
-    border-radius: 20px;
-    background-color:#0A102E57;
-    opacity: 30%;
-    width: 100%;
-
-}
-.chat:hover{
-    background-color:#E8EAEC
-}
-.messagersText{
-    font:"18px light roboto";
-    /* font-alignment:left; */
-    text-align: center;
+.viewers{
+    margin-top:10%
 }

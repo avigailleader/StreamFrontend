@@ -9,22 +9,22 @@ const Stream = () => {
     const roomId = useSelector(state => state.convarsetionReducer.roomId)
     const countParticipantInConversion = useSelector(state => state.generalReducer.countParticipantInConversion)
     const localStream = useSelector(state => state.socketReducer.localStream)
-    debugger
+
     const localStreamRef = useRef()
     console.log(localStreamRef);
-    let room
+    let userName
     useEffect(() => {
-        debugger
-        let room = window.location.href.slice(window.location.href.lastIndexOf('/') + 1);
 
-        if (window.location.href.includes(`${roomId}`)) {
-            debugger
+        let userName = window.location.href.slice(window.location.href.lastIndexOf('/') + 1);
+
+        if (!window.location.href.includes("admin")) {
+
             dispatch(actions.setStreamConstraints({ "video": false, "audio": false }))
             dispatch(actions.setConnectionUserModal(true))
-            debugger
-            console.log(roomId);
-            dispatch(actions.setRoomId(roomId))
-            socket.emit('join', { roomId });
+
+            console.log(userName);
+            dispatch(actions.setRoomId(userName))
+            socket.emit('join', { userName });
 
         }
 
@@ -33,13 +33,19 @@ const Stream = () => {
     const StartVideo = async () => {
 
 
-        if (window.location.pathname === '/') {
-            room = Math.random(10).toString(36).substring(7);
-            console.log(room);
-            dispatch(actions.setRoomId(room))
+        if (window.location.href.includes("admin")) {
+
+            userName = window.location.href.slice(window.location.href.lastIndexOf('/') + 1);
+
+            console.log(userName);
+            dispatch(actions.setRoomId(userName))
             dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
-            await socket.emit('create', { room });
+
+            socket.emit('create', { userName });
+
             console.log(localStream);
+            socket.emit('setStream', { localStream });
+
 
         }
         socket.on('created', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
@@ -47,16 +53,24 @@ const Stream = () => {
 
     }
     useEffect(() => {
-        debugger
+
         localStreamRef.current.srcObject = localStream.srcObject
         console.log(localStreamRef);
     }, [localStream])
+    const isMuted = () => {
+
+        if (window.location.href.includes("admin"))
+            return true;
+        return false
+    }
     return (
         <div>
-            {window.location.pathname === '/' ?
-                <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!<video id="localVideo" height="100%" width="100%" autoPlay ref={localStreamRef} ></video>
+            {window.location.href.includes("admin") ?
+                <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!
+                    <video id="localVideo" height="50%" width="50%" muted={isMuted()} autoPlay ref={localStreamRef} >
+                    </video>
                 </button> :
-                <video id="localVideo" height="100%" width="100%" autoPlay ref={localStreamRef} ></video>
+                <video id="localVideo" muted={isMuted()} height="100%" width="100%" autoPlay ref={localStreamRef} ></video>
             }
         </div>
     )

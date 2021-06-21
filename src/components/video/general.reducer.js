@@ -1,6 +1,6 @@
 import produce from 'immer';
 
-import createReducer from './reducerUtils';
+import createReducer from '../../redux/reducers/reducerUtils';
 
 const initialState = {
     // serverURL: 'https://meet.dev.leader.codes/api',

@@ -1,5 +1,6 @@
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+// import { BrowserRouter as Router, Route } from 'react-router-dom';
 
+<<<<<<< HEAD
 import StartVideo from './startVideo'
 import Viewers from './viewers';
 import Wrap from './wrap';
@@ -22,5 +23,18 @@ function Routes(props) {
         </div>
     );
 }
+=======
+// import Stream from './stream'
+// function Routes(props) {
+//     return (
+//         <div>
+//             <Router>
+//                 <Route path="/:userName" component={Stream} />
+//                 <Route exact path="admin/:userName" component={Stream} />
+//             </Router>
+//         </div>
+//     );
+// }
+>>>>>>> 84b35988e05d13765704c5bf33ff3bfd7ee88688
 
-export default Routes;
+// export default Routes;
