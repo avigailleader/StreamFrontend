@@ -2,7 +2,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { actions } from '../../redux/actions/action';
 import './video.css'
-
+import pouse from "../../assets/Group 21662.svg"
+import play from "../../assets/Component 719 – 5.svg"
+import playDark from "../../assets/Group 21705.svg"
 const Video = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
     const dispatch = useDispatch()
@@ -38,12 +40,16 @@ const Video = (props) => {
     }, [])
 
     const StartVideo = async () => {
+<<<<<<< HEAD
 
 
+=======
+        debugger
+>>>>>>> DY_DIVIDEO
         if (window.location.href.includes("admin")) {
             room = userName
-            dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
-            socket.emit('create', { room });
+          dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
+             socket.emit('create', { room });
         }
 
         socket.on('created', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
@@ -58,25 +64,37 @@ const Video = (props) => {
         if (window.location.href.includes("admin"))
             return true;
         return false
+
     }
 
 
     // הקלטה
     let mediaRecorder;
     let recordedBlobs;
-
+    let btnVideo = useRef()
     let startBtnRef = useRef()
     let checkStart = useRef()
-    let errorMsgElementRef = useRef()
     let downloadButton = useRef()
+<<<<<<< HEAD
     let gumVideo = useRef()
     function clickRecord() {
 
         if (startBtnRef.current.textContent === 'Start Recording') {
             startRecording();
+=======
+    const clickRecord = async () => {
+
+        debugger
+        if (btnVideo.current.src == "http://localhost:3000/static/media/Component%20719%20%E2%80%93%205.95600975.svg") {
+           
+                 startRecording();
+           
+            
+            btnVideo.current.src = pouse
+>>>>>>> DY_DIVIDEO
         } else {
             stopRecording();
-            startBtnRef.current.textContent = 'Start Recording';
+            btnVideo.current.src = play
             downloadButton.current.disabled = false;
         }
     }
@@ -84,6 +102,7 @@ const Video = (props) => {
         mediaRecorder.stop();
     }
     function startRecording() {
+        debugger
         recordedBlobs = [];
         try {
             mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: "video/webm;codecs=vp9,opus" });//window.stream, options);
@@ -104,7 +123,10 @@ const Video = (props) => {
 
         }
         console.log('Created MediaRecorder', mediaRecorder, 'with options', { mimeType: "video/webm;codecs=vp9,opus" });
+<<<<<<< HEAD
         startBtnRef.current.textContent = 'Stop Recording';
+=======
+>>>>>>> DY_DIVIDEO
         downloadButton.current.disabled = true;
         mediaRecorder.onstop = (event) => {
             console.log('Recorder stopped: ', event);
@@ -153,24 +175,38 @@ const Video = (props) => {
             window.URL.revokeObjectURL(url);
         }, 100);
     }
+    //  <div className='row d-flex flex-row'>
+    // <img src={profil}
+    // className=' col-4 profil-img'
+    // onMouseOver={e => { (e.currentTarget.src = share) }}
+    // onMouseOut={e => (e.currentTarget.src = profil)}
+    // onClick={(e) => shareMessage()}
+    // />
+
     return (
-        <div>
-            {window.location.href.includes("admin") ? <div style={{ backgroundColor: 'red', position: "relative" }}>
-                <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!</button>
-                <video id="localVideo" height="200px" width="200px" muted={isMuted()} autoPlay ref={localStreamRef} >
+        <>
+
+            {window.location.href.includes("admin") ? <div className="diVideo">
+
+                <video id="localVideo" height="100%" width="100%" muted={isMuted()} autoPlay ref={localStreamRef} >
                 </video>
-                <video id="gum" playsInline autoPlay muted ref={gumVideo}></video>
-
-                <label>errorMsgElement</label> <span id="errorMsgElement" ref={errorMsgElementRef}></span>
-                <button onClick={clickRecord} ref={startBtnRef}>Start Recording</button>
-                <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
-
-                <p>start record:<input type="checkbox" id="echoCancellation" ref={checkStart}></input></p>
+                {/* <video id="gum" playsInline autoPlay muted ref={gumVideo}></video> */}
             </div>
                 :
                 <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
             }
-        </div>
+
+
+            <div className="underDiv">
+                <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={e => { clickRecord() }}
+                //  onMouseOver={e => { (e.currentTarget.src = playDark) }}
+                // onMouseOut={e => (e.currentTarget.src = play)}
+                >
+                </img>
+                <button onClick={e=>StartVideo()} ref={startBtnRef}>open camera</button>
+                <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
+            </div>
+        </>
     )
 }
 
