@@ -25,7 +25,6 @@
 
     background-image: linear-gradient(82deg, #5F5F5F  , #FFFFFF00 50%)
 }
-<<<<<<< HEAD
 
 .myChat{
     height: 567.39;
@@ -40,12 +39,11 @@
      float: left;
      /* border-image: round; */
      border-radius: 50%;
-=======
+}
 .chat{
     padding-top:2%;
     padding-right: 3%;
     padding-left: 0px;
->>>>>>> 84b35988e05d13765704c5bf33ff3bfd7ee88688
 }
 .myChat{
     height:70%

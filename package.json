@@ -13,11 +13,8 @@
     "react-bootstrap": "^1.6.1",
     "react-bootstrap-validation": "^0.1.11",
     "react-dom": "^17.0.2",
-<<<<<<< HEAD
     "react-icons": "^4.2.0",
-=======
     "react-native-is-muted": "0.0.4",
->>>>>>> 84b35988e05d13765704c5bf33ff3bfd7ee88688
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
