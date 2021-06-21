@@ -112,10 +112,7 @@ const MyChats = () => {
             // setMessagesList(messagesList => messagesList.concat([...m]))
             setMessage(message)
         });
-        socket.on('send-message-to-all', message => {
-            console.log("xdxcdcfcfcfzzs");
-            console.log(message);
-        });
+
     }, [])
     const shareMessage = () => {
         debugger
