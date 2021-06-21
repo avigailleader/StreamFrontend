@@ -9,14 +9,12 @@ const Video = (props) => {
     const socket = useSelector(state => state.socketReducer.socket)
     const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
     const userName = useSelector(state => state.userReducer.userName)
-    const countParticipantInConversion = useSelector(state => state.generalReducer.countParticipantInConversion)
     const localStream = useSelector(state => state.socketReducer.localStream)
     const localStreamRef = useRef()
     const { history } = props;
     let room
     useEffect(() => {
         setDisplayVideo(true)
-
         let userName = ""
         if (window.location.href.includes("admin"))
             userName = window.location.pathname.split("/")[2];
@@ -33,7 +31,10 @@ const Video = (props) => {
             socket.on('not exist room', () => { history.push('/notExist') });
             socket.on('joined', () => { alert("joined successfully to " + room) });
         }
-
+        socket.on('receive-message-to-all', message => {
+            console.log("receive-message-to-all " + message);
+            alert(message);
+        });
     }, [])
 
     const StartVideo = async () => {
@@ -44,6 +45,7 @@ const Video = (props) => {
             dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
             socket.emit('create', { room });
         }
+
         socket.on('created', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
 
 

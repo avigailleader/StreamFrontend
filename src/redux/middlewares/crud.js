@@ -19,7 +19,7 @@ const addLocalStream = ({ dispatch, getState }) => next => action => {
 const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
 
     if (action.type === 'CREATED_EVENT_FROM_SOCKET') {
-
+        debugger
         navigator.mediaDevices
             .getUserMedia(getState().socketReducer.streamConstraints)
             .then(function (stream) {

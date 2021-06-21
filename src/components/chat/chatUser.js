@@ -75,7 +75,8 @@
 
 
 import './chat.css'
-import profil from '../../assets/chats&viewers/user.png'
+import Image from 'react-bootstrap/Image'
+
 import ListGroup from 'react-bootstrap/ListGroup';
 
 import $ from 'jquery';

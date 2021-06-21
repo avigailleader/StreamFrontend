@@ -95,7 +95,6 @@ import './chat.css'
 // import Image from 'react-bootstrap/Image'
 import profil from '../../assets/chats&viewers/user.png'
 import share from '../../assets/chats&viewers/share.svg'
-import ListGroup from 'react-bootstrap/ListGroup';
 import { useDispatch, useSelector } from 'react-redux'
 // 
 
@@ -108,6 +107,7 @@ const MyChats = () => {
         socket.on('message-to-admin', message => {
             let i = 0
             // debugger
+<<<<<<< HEAD
             const m = { message: message, i: i }
             setMessagesList(messagesList => messagesList.concat(m))
             setMessage(message)
@@ -115,16 +115,22 @@ const MyChats = () => {
         socket.on('send-message-to-all', message => {
             console.log("xdxcdcfcfcfzzs");
             console.log(message);
+=======
+            // const m = { message: message, i: i }
+            setMessagesList(messagesList => messagesList.concat(message))
+            // setMessage(message)
+>>>>>>> master
         });
+
     }, [])
     const shareMessage = () => {
         debugger
         socket.emit('send-message-to-all', { message });
 
     }
-    // const onMouseOver = (e) => {
-    //     console.log(e);
-    // }
+    const onMouseOver = (e) => {
+        console.log(e);
+    }
 
     return (
         <div className="chatBox">
