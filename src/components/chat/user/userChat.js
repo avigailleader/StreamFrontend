@@ -1,6 +1,5 @@
 import '../chat.css'
 import Image from 'react-bootstrap/Image'
-
 import ListGroup from 'react-bootstrap/ListGroup';
 
 import $ from 'jquery';
