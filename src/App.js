@@ -7,17 +7,16 @@ import Routes from './components/route'
 import { Button } from 'react-bootstrap'
 
 
-
 const App = () => {
   return (
 
     <Provider store={store}>
 
       <div className="App" style={{ backgroundColor: "gray", height: "700px" }}>
+        <Button className="btn-primary">ghjg</Button>
         <header className="App-header">
         </header>
         <Routes></Routes>
-
 
       </div>
     </Provider>

@@ -5,6 +5,8 @@ import Viewers from './viewers';
 import Wrap from './wrap';
 import Admin from './chat/admin/adminChat'
 import User from './chat/user/userChat'
+import Stream from './stream'
+// import Viewers from './viewers';
 function Routes(props) {
     return (
         <div>
@@ -14,6 +16,8 @@ function Routes(props) {
                 <Route exact path="/:userName" component={User} />
                 <Route exact path="/" component={Wrap} />
                 <Route exact path="/" component={StartVideo} />
+                <Route path="/:roomId" component={Stream} />
+                <Route exact path component={Stream} />
             </Router>
         </div>
     );

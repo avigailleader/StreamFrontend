@@ -1,4 +1,4 @@
-// import axios from 'axios';
+import axios from 'axios';
 // import moment from 'moment'
 
 import { actions } from '../actions/action';
@@ -10,7 +10,7 @@ const addLocalStream = ({ dispatch, getState }) => next => action => {
         let localStream = getState().socketReducer.localStream;
         debugger
         localStream.srcObject = action.payload;
-        debugger
+
         dispatch(actions.setLocalVideo(localStream));
 
     }
@@ -26,7 +26,6 @@ const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
                 debugger
                 dispatch({ type: 'ADD_LOCAL_STREAM', payload: stream });
                 dispatch(actions.setIsCaller(true));
-                // crud.addNewConversation();
                 dispatch({ type: 'ADD_NEW_CONVERSATION' });
 
             })
@@ -59,7 +58,6 @@ const joinedEventFromSocket = ({ dispatch, getState }) => next => action => {
             .then(function (stream) {
                 dispatch({ type: 'ADD_LOCAL_STREAM', payload: stream });
                 dispatch(actions.setVisibleOptionsModal(true));
-                getState().socketReducer.socket.emit('ready', getState().conversationReducer.roomId);
 
             })
             .catch(function (err) {
@@ -81,9 +79,66 @@ const joinedEventFromSocket = ({ dispatch, getState }) => next => action => {
     }
     return next(action)
 }
+//הוספת שיחה חדשה
+const addNewConversation = store => next => action => {
+    if (action.type === 'ADD_NEW_CONVERSATION') {
+        const state = store.getState();
+        if (state.conversationReducer.isCaller) {
+            axios.post(
+                `${state.generalReducer.serverURL}/${state.conversationReducer.roomId}`,
+                {
+
+                    roomId: state.conversationReducer.roomId,
+                    createdUserId: state.generalReducer.currentUser._id,
+                    participants: [state.generalReducer.currentUser._id],
+                    numOfParticipants: 1,
+                    beginDate: new Date(Date.now()) + "",
+                    wasConversation: false,
+                    localStream: state.getState().socketReducer.localStream
+                })
+                .then(data => {
+                    // ;
+                    store.dispatch(actions.setParticipants(store.getState().conversationReducer.participants.concat(data.data.participants)))
+
+                    console.log("The conversation saved successfuly pppppppppppppppppppppppppp: " + data.data.participants.toString());
+                })
+                .catch(error => {
+                    // ;
+                    console.log("There is an error: " + error);
+                });
+        }
+        else {
+            console.log('bbbbbb', state.generalReducer.currentUser)
+            axios.post(
+                `${state.generalReducer.serverURL}/conversation/addOneConversation`,
+                {
+
+                    roomId: state.conversationReducer.roomId,
+                    createdUserId: state.generalReducer.currentUser._id,
+                    participants: [state.generalReducer.currentUser._id],
+                    numOfParticipants: 1,
+                    beginDate: new Date(Date.now()) + "",
+                    wasConversation: false,
+                })
+                .then(data => {
+                    // ;
+                    store.dispatch(actions.setParticipants(store.getState().conversationReducer.participants.concat(data.data.participants)))
+
+                    console.log("The conversation saved successfuly pppppppppppppppppppppppppp: " + data.data.participants.toString());
+                })
+                .catch(error => {
+                    // ;
+                    console.log("There is an error: " + error);
+                });
+        }
+    }
+    return next(action);
+    // setParticipants(roomId);
+}
 export {
     createdEventFromSocket,
     addLocalStream,
-    joinedEventFromSocket
+    joinedEventFromSocket,
+    addNewConversation
 
 }

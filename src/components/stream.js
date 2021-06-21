@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { actions } from '../redux/actions/action';
 import './video.css'
-const Viewers = () => {
+const Stream = () => {
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
     const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
@@ -12,35 +12,54 @@ const Viewers = () => {
     debugger
     const localStreamRef = useRef()
     console.log(localStreamRef);
-
+    let room
     useEffect(() => {
         debugger
         let room = window.location.href.slice(window.location.href.lastIndexOf('/') + 1);
 
-        if (window.location.href.includes(`${room}`)) {
+        if (window.location.href.includes(`${roomId}`)) {
             debugger
-            dispatch(actions.setStreamConstraints({ "video": true, "audio": false }))
+            dispatch(actions.setStreamConstraints({ "video": false, "audio": false }))
             dispatch(actions.setConnectionUserModal(true))
             debugger
-            console.log(room);
-            dispatch(actions.setRoomId(room))
-            socket.emit('join', { room });
+            console.log(roomId);
+            dispatch(actions.setRoomId(roomId))
+            socket.emit('join', { roomId });
 
         }
-        socket.on('joined', event => { dispatch({ type: 'JOINED_EVENT_FROM_SOCKET', payload: event }) });
 
     }, [])
+
+    const StartVideo = async () => {
+
+
+        if (window.location.pathname === '/') {
+            room = Math.random(10).toString(36).substring(7);
+            console.log(room);
+            dispatch(actions.setRoomId(room))
+            dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
+            await socket.emit('create', { room });
+            console.log(localStream);
+
+        }
+        socket.on('created', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
+
+
+    }
     useEffect(() => {
         debugger
         localStreamRef.current.srcObject = localStream.srcObject
         console.log(localStreamRef);
-
     }, [localStream])
     return (
         <div>
-            <video id="localVideo" height="100%" width="100%" autoPlay ref={localStreamRef} ></video>
+            {window.location.pathname === '/' ?
+                <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!<video id="localVideo" height="100%" width="100%" autoPlay ref={localStreamRef} ></video>
+                </button> :
+                <video id="localVideo" height="100%" width="100%" autoPlay ref={localStreamRef} ></video>
+            }
         </div>
     )
 }
 
-export default Viewers
+export default Stream
