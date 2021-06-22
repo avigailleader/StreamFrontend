@@ -72,6 +72,13 @@ const Video = (props) => {
     let startBtnRef = useRef()
     let checkStart = useRef()
     let downloadButton = useRef()
+<<<<<<< HEAD
+    let gumVideo = useRef()
+    function clickRecord() {
+
+        if (startBtnRef.current.textContent === 'Start Recording') {
+            startRecording();
+=======
     const clickRecord = async () => {
 
         debugger
@@ -81,6 +88,7 @@ const Video = (props) => {
             status = !status
 
             btnVideo.current.src = pouse
+>>>>>>> 4203dc4da56609ecf54de40142d9a0df2139d434
         } else {
             stopRecording();
             btnVideo.current.src = play
