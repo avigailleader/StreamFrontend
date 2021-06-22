@@ -96,7 +96,7 @@ import './chat.css'
 import profil from '../../assets/chats&viewers/user.png'
 import share from '../../assets/chats&viewers/share.svg'
 import { useDispatch, useSelector } from 'react-redux'
-// 
+import sendMessage from '../../assets/chats&viewers/sendMessage.svg'
 
 
 const MyChats = () => {
@@ -121,6 +121,33 @@ const MyChats = () => {
     const onMouseOver = (e) => {
         console.log(e);
     }
+
+
+    // const send = () => {
+    //     debugger
+    //     setInput_value(input_value)
+    //     if (input_value && input_value != '') {
+    //         handleSendMessage(input_value);
+    //         // setInput_value('')
+    //     }
+
+    //     console.log(message);
+
+    // }
+    // const handleSendMessage = (text) => {
+    //     debugger
+    //     socket.emit('send-message', { text, id: Date.now(), userName });
+    // }
+    
+    // const addMessage = () => {
+
+    //     setMessagesList(messagesList => messagesList.concat(input_value))
+    //     $('input').val('')
+    //     send()
+
+    // }
+
+
 
     // const shareMessage = () => {
     //     setShareMsg(true)
@@ -152,6 +179,19 @@ const MyChats = () => {
                             </div>
                         ))}
                     </Card.Body>
+
+                    <div className="mb-2" className="sendMessageWrap">
+                        <input id='input' onChange={(e) => setMessage(e.target.value)} className="form-control" type="text" placeholder="message" className="chatMessage " >
+
+                        </input>
+                        {/* onChange={(e) => setMessage(e.target.value)} */}
+                        {/* value={input_value} */}
+                        <button  style={{ float: "right" }}>
+                            {/* onClick={addMessage} */}
+                            <img src={sendMessage} style={{ float: "right" }}></img>
+                        </button>
+                    </div>
+
                     <div className="mb-2">
                         {/* <input className="form-control" type="text" placeholder="message" className="chatMessage"></input> */}
                         {/* <img src={chevronLeft}></img> */}
