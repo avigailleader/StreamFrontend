@@ -40,12 +40,8 @@ const Video = (props) => {
     }, [])
 
     const StartVideo = async () => {
-<<<<<<< HEAD
 
 
-=======
-        debugger
->>>>>>> DY_DIVIDEO
         if (window.location.href.includes("admin")) {
             room = userName
           dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
@@ -75,13 +71,6 @@ const Video = (props) => {
     let startBtnRef = useRef()
     let checkStart = useRef()
     let downloadButton = useRef()
-<<<<<<< HEAD
-    let gumVideo = useRef()
-    function clickRecord() {
-
-        if (startBtnRef.current.textContent === 'Start Recording') {
-            startRecording();
-=======
     const clickRecord = async () => {
 
         debugger
@@ -91,7 +80,6 @@ const Video = (props) => {
            
             
             btnVideo.current.src = pouse
->>>>>>> DY_DIVIDEO
         } else {
             stopRecording();
             btnVideo.current.src = play
@@ -123,10 +111,6 @@ const Video = (props) => {
 
         }
         console.log('Created MediaRecorder', mediaRecorder, 'with options', { mimeType: "video/webm;codecs=vp9,opus" });
-<<<<<<< HEAD
-        startBtnRef.current.textContent = 'Stop Recording';
-=======
->>>>>>> DY_DIVIDEO
         downloadButton.current.disabled = true;
         mediaRecorder.onstop = (event) => {
             console.log('Recorder stopped: ', event);
