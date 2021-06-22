@@ -44,8 +44,8 @@ const Video = (props) => {
 
         if (window.location.href.includes("admin")) {
             room = userName
-          dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
-             socket.emit('create', { room });
+            dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
+            socket.emit('create', { room });
         }
 
         socket.on('created', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
@@ -75,10 +75,10 @@ const Video = (props) => {
 
         debugger
         if (btnVideo.current.src == "http://localhost:3000/static/media/Component%20719%20%E2%80%93%205.95600975.svg") {
-           
-                 startRecording();
-           
-            
+
+            startRecording();
+
+
             btnVideo.current.src = pouse
         } else {
             stopRecording();
@@ -187,7 +187,7 @@ const Video = (props) => {
                 // onMouseOut={e => (e.currentTarget.src = play)}
                 >
                 </img>
-                <button onClick={e=>StartVideo()} ref={startBtnRef}>open camera</button>
+                <button onClick={e => StartVideo()} ref={startBtnRef}>open camera</button>
                 <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
             </div>
         </>
