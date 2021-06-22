@@ -71,13 +71,14 @@ const Video = (props) => {
     let startBtnRef = useRef()
     let checkStart = useRef()
     let downloadButton = useRef()
+    let status = true
     const clickRecord = async () => {
 
         debugger
-        if (btnVideo.current.src == "http://localhost:3000/static/media/Component%20719%20%E2%80%93%205.95600975.svg") {
+        if (status) {
 
             startRecording();
-
+            status = !status
 
             btnVideo.current.src = pouse
         } else {
@@ -88,6 +89,7 @@ const Video = (props) => {
     }
     function stopRecording() {
         mediaRecorder.stop();
+        status=!status
     }
     function startRecording() {
         debugger
