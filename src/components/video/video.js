@@ -13,6 +13,7 @@ const Video = (props) => {
     const userName = useSelector(state => state.userReducer.userName)
     const localStream = useSelector(state => state.socketReducer.localStream)
     const localStreamRef = useRef()
+    let status = true
     const { history } = props;
     let room
     useEffect(() => {
@@ -40,12 +41,8 @@ const Video = (props) => {
     }, [])
 
     const StartVideo = async () => {
-<<<<<<< HEAD
 
 
-=======
-        debugger
->>>>>>> DY_DIVIDEO
         if (window.location.href.includes("admin")) {
             room = userName
             dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
@@ -61,10 +58,10 @@ const Video = (props) => {
     }, [localStream])
     const isMuted = () => {
 
-        if (window.location.href.includes("admin"))
-            return true;
-        return false
-
+        if (window.location.href.includes("admin")) {
+            return true;  
+        }
+        return false;
     }
 
 
@@ -75,19 +72,33 @@ const Video = (props) => {
     let startBtnRef = useRef()
     let checkStart = useRef()
     let downloadButton = useRef()
+<<<<<<< HEAD
     let gumVideo = useRef()
     function clickRecord() {
 
         if (startBtnRef.current.textContent === 'Start Recording') {
             startRecording();
+=======
+    const clickRecord = async () => {
+
+        debugger
+        if (status) {
+
+            startRecording();
+            status = !status
+
+            btnVideo.current.src = pouse
+>>>>>>> 4203dc4da56609ecf54de40142d9a0df2139d434
         } else {
             stopRecording();
             btnVideo.current.src = play
             downloadButton.current.disabled = false;
+            status = !status
         }
     }
     function stopRecording() {
         mediaRecorder.stop();
+        status=!status
     }
     function startRecording() {
         debugger
@@ -173,6 +184,7 @@ const Video = (props) => {
             {window.location.href.includes("admin") ? <div className="diVideo">
 
                 <video id="localVideo" height="100%" width="100%" muted={isMuted()} autoPlay ref={localStreamRef} >
+                    <div className="divInVideo">היי לכולם</div>
                 </video>
                 {/* <video id="gum" playsInline autoPlay muted ref={gumVideo}></video> */}
             </div>
@@ -180,8 +192,7 @@ const Video = (props) => {
                 <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
             }
 
-
-            <div className="underDiv">
+{window.location.href.includes("admin")? <div className="underDiv">
                 <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={e => { clickRecord() }}
                 //  onMouseOver={e => { (e.currentTarget.src = playDark) }}
                 // onMouseOut={e => (e.currentTarget.src = play)}
@@ -189,7 +200,8 @@ const Video = (props) => {
                 </img>
                 <button onClick={e => StartVideo()} ref={startBtnRef}>open camera</button>
                 <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
-            </div>
+            </div>:null}
+          
         </>
     )
 }
