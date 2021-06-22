@@ -10,13 +10,18 @@
     z-index: 0;
     position: relative;
     /* position: fixed; */
-    
+    /* הצגה בצורת מראה */
+    transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  /* Safari and Chrome */
+  -moz-transform: rotateY(180deg);
+
 }
 .diVideo{
     position: relative;
     height: 83vh;
     width: 70vw;
-    background-color: brown;
+    background-color: white;
     margin-top: 2vh;
     border: 1px solid rgba(0,0,0,.125);
     border-radius: 0.25rem;

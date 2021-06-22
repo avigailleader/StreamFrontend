@@ -190,7 +190,7 @@ const Video = (props) => {
                 // onMouseOut={e => (e.currentTarget.src = play)}
                 >
                 </img>
-                <button onClick={e => StartVideo()} ref={startBtnRef}>open camera</button>
+                <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button>
                 <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
             </div>:null}
           
