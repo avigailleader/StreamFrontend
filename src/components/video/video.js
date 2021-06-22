@@ -58,10 +58,10 @@ const Video = (props) => {
     }, [localStream])
     const isMuted = () => {
 
-        if (window.location.href.includes("admin"))
-            return true;
-        return false
-
+        if (window.location.href.includes("admin")) {
+            return true;  
+        }
+        return false;
     }
 
 
@@ -78,14 +78,14 @@ const Video = (props) => {
         if (status) {
 
             startRecording();
-            status=!status
+            status = !status
 
             btnVideo.current.src = pouse
         } else {
             stopRecording();
             btnVideo.current.src = play
             downloadButton.current.disabled = false;
-            status=!status
+            status = !status
         }
     }
     function stopRecording() {
@@ -183,8 +183,7 @@ const Video = (props) => {
                 <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
             }
 
-
-            <div className="underDiv">
+{window.location.href.includes("admin")? <div className="underDiv">
                 <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={e => { clickRecord() }}
                 //  onMouseOver={e => { (e.currentTarget.src = playDark) }}
                 // onMouseOut={e => (e.currentTarget.src = play)}
@@ -192,7 +191,8 @@ const Video = (props) => {
                 </img>
                 <button onClick={e => StartVideo()} ref={startBtnRef}>open camera</button>
                 <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
-            </div>
+            </div>:null}
+          
         </>
     )
 }
