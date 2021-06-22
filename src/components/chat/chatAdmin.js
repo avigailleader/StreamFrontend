@@ -92,6 +92,8 @@
 import React, { useState, useEffect } from 'react'
 import { Card } from 'react-bootstrap'
 import './chat.css'
+import './admin/myChats.css'
+import $ from 'jquery'
 // import Image from 'react-bootstrap/Image'
 import profil from '../../assets/chats&viewers/user.png'
 import share from '../../assets/chats&viewers/share.svg'
@@ -103,6 +105,9 @@ const MyChats = () => {
     const socket = useSelector(state => state.socketReducer.socket)
     const [message, setMessage] = useState('')
     const [messagesList, setMessagesList] = useState([])
+    const userName = useSelector(state => state.userReducer.userName)
+    const [input_value, setInput_value] = useState(' ');
+   
     useEffect(() => {
         socket.on('message-to-admin', message => {
             // let i = 0
@@ -121,31 +126,33 @@ const MyChats = () => {
     const onMouseOver = (e) => {
         console.log(e);
     }
+    const handleInput = (e) => {
+        setInput_value(e.target.value)
+    }
 
+    const send = () => {
+        debugger
+        // setInput_value(input_value)
+        if (input_value && input_value != '') {
+            handleSendMessage(input_value);
+            // setInput_value('')
+        }
 
-    // const send = () => {
-    //     debugger
-    //     setInput_value(input_value)
-    //     if (input_value && input_value != '') {
-    //         handleSendMessage(input_value);
-    //         // setInput_value('')
-    //     }
+        console.log(message);
 
-    //     console.log(message);
-
-    // }
-    // const handleSendMessage = (text) => {
-    //     debugger
-    //     socket.emit('send-message', { text, id: Date.now(), userName });
-    // }
+    }
+    const handleSendMessage = (text) => {
+        debugger
+        socket.emit('send-message', { text, id: Date.now(), userName });
+    }
     
-    // const addMessage = () => {
+    const addMessage = () => {
 
-    //     setMessagesList(messagesList => messagesList.concat(input_value))
-    //     $('input').val('')
-    //     send()
+        setMessagesList(messagesList => messagesList.concat(input_value))
+        $('input').val('')
+        send()
 
-    // }
+    }
 
 
 
@@ -180,17 +187,16 @@ const MyChats = () => {
                         ))}
                     </Card.Body>
 
-                    <div className="mb-2" className="sendMessageWrap">
-                        <input id='input' onChange={(e) => setMessage(e.target.value)} className="form-control" type="text" placeholder="message" className="chatMessage " >
+                    {/* <div className="mb-2" className="sendMessageWrap">
+                        <input id='input' onChange={handleInput} className="form-control" type="text" placeholder="message" className="chatMessage " >
 
                         </input>
-                        {/* onChange={(e) => setMessage(e.target.value)} */}
-                        {/* value={input_value} */}
-                        <button  style={{ float: "right" }}>
-                            {/* onClick={addMessage} */}
+                       
+                        <button onClick={addMessage} style={{ float: "right" }}>
+                          
                             <img src={sendMessage} style={{ float: "right" }}></img>
                         </button>
-                    </div>
+                    </div> */}
 
                     <div className="mb-2">
                         {/* <input className="form-control" type="text" placeholder="message" className="chatMessage"></input> */}

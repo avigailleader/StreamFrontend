@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import { Card } from 'react-bootstrap'
 import '../chat.css'
+import './myChats.css'
 // import Image from 'react-bootstrap/Image'
 import profil from '../../../assets/chats&viewers/user.png'
 import share from '../../../assets/chats&viewers/share.svg'

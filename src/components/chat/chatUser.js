@@ -75,13 +75,14 @@
 
 
 import './chat.css'
+
 import Image from 'react-bootstrap/Image'
 
 import ListGroup from 'react-bootstrap/ListGroup';
 
 import $ from 'jquery';
 import { Card } from 'react-bootstrap'
-
+import sendMessage from '../../assets/chats&viewers/sendMessage.svg'
 
 import React, { useRef, useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -156,23 +157,34 @@ const UserChat = () => {
 
 
                         </Card.Body>
-                        <div className="mb-2">
-                            <input id='input' onChange={handleInput} className="form-control" type="text" placeholder="message" className="chatMessage" ></input>
-                            {/* onChange={(e) => setMessage(e.target.value)} */}
-                            {/* value={input_value} */}
-                            <button onClick={addMessage}>Send</button>
+
+                        <div className="mb-2" className="sendMessageWrap">
+                            <input id='input' onChange={handleInput} className="form-control" type="text" placeholder="message" className="chatMessage " >
+                            </input>
+                            <button onClick={addMessage} style={{ float: "right" }}>
+                                <img src={sendMessage} style={{ float: "right" }}></img>
+                            </button>
                         </div>
+
+
+
+                        {/* <div className="mb-2">
+                            <input id='input' onChange={} className="form-control" type="text" placeholder="message" className="chatMessage" ></input>
+                            {/* onChange={(e) => setMessage(e.target.value)} 
+                    
+                        <button onClick={addMessage}>Send</button>
+                    </div> */}
 
                     </div>
                 </Card >
-            </div>
+        </div>
 
             {/* {
                 message !== ' ' ?
                     <h1>{message}</h1>
                     : null
             } */}
-            {/* 
+    {/* 
             <input type="text" ref={messageRef} onChange={handleInput} value={input_value} ></input>
             <button onClick={send}>Send</button> */}
 
