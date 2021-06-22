@@ -137,9 +137,6 @@ const MyChats = () => {
                 <div className="linear" > </div>
                 <div className="container-fluid">
                     <Card.Body>
-                        {/* {message}
-                        <button onClick={(e) => shareMessage()} >shar</button> */}
-
                         {messagesList.map((message, index) => (
                             <div className='row d-flex flex-row'>
                                 <img src={profil}
