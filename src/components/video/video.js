@@ -72,7 +72,6 @@ const Video = (props) => {
     let startBtnRef = useRef()
     let checkStart = useRef()
     let downloadButton = useRef()
-    let status = true
     const clickRecord = async () => {
 
         debugger
