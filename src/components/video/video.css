@@ -1,12 +1,38 @@
 #localVideo{
 
-    position: relative;
+    position: absolute;
 
     /* background-attachment: fixed; */
     top: 0;
     right: 0px;
     left: 0px;
     bottom: 0px;
+    z-index: 0;
+    position: relative;
     /* position: fixed; */
     
+}
+.diVideo{
+    position: relative;
+    height: 83vh;
+    width: 70vw;
+    background-color: brown;
+    margin-top: 2vh;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+    z-index: 0;
+
+}
+
+
+.underDiv{
+    position: relative;
+    height: 10vh;
+    width: 70vw;
+    background-color: white;
+}
+.imgPlayPouse{
+    
+    border-radius:50%;
+    z-index:30
 }
