@@ -49,5 +49,9 @@
     text-align: center;
     display: inline-block;
     border-radius: 5px;
-
+    font-weight: bold;
+    padding-top: 3px;
+    margin-top: 1.5%;
+    right: 1.5%;
+    position: absolute;
 }

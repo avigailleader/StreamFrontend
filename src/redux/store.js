@@ -10,6 +10,7 @@ import {
     joinedEventFromSocket,
     createdEventFromSocket,
     addLocalStream,
+    closeCamera
 
 
 } from './middlewares/crud';
@@ -26,7 +27,8 @@ const store = createStore(
     applyMiddleware(
         createdEventFromSocket,
         addLocalStream,
-        joinedEventFromSocket
+        joinedEventFromSocket,
+        closeCamera
 
     ));
 

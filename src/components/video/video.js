@@ -5,17 +5,76 @@ import './video.css'
 import pouse from "../../assets/Group 21662.svg"
 import play from "../../assets/Component 719 – 5.svg"
 import playDark from "../../assets/Group 21705.svg"
+import { useStopwatch } from 'react-timer-hook';
 const Video = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
+
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
+    const streamConstraints = useSelector(state => state.socketReducer.streamConstraints)
     const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
     const userName = useSelector(state => state.userReducer.userName)
     const localStream = useSelector(state => state.socketReducer.localStream)
     const localStreamRef = useRef()
     const { history } = props;
+    const {
+        seconds,
+        minutes,
+        hours,
+        start,
+        pause,
+    } = useStopwatch({ autoStart: true });
+
     let room
 
+    function pad(val) {
+        var valString = val + "";
+        if (valString.length < 2) {
+            return "0" + valString;
+        }
+        else {
+            return valString;
+        }
+    }
+    const calculateTimeLeft = () => {
+        let year = new Date().getFullYear();
+        let difference = +new Date(`10/01/${year}`) - +new Date();
+        let timeLeft = {};
+
+        if (difference > 0) {
+            timeLeft = {
+                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+                minutes: Math.floor((difference / 1000 / 60) % 60),
+                // seconds: Math.floor((difference / 1000) % 60)
+            };
+        }
+
+        return timeLeft;
+
+    }
+    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+
+    var h1, m1, s1;
+    if (seconds < 10) {
+        s1 = '0' + seconds
+    }
+    else {
+        s1 = seconds
+    }
+    if (minutes < 10) {
+        m1 = '0' + minutes
+    }
+    else {
+        m1 = minutes
+    }
+    if (hours < 10) {
+        h1 = '0' + hours
+    }
+    else {
+        h1 = hours
+    }
     useEffect(() => {
         setDisplayVideo(true)
         let userName = ""
@@ -73,19 +132,25 @@ const Video = (props) => {
     let startBtnRef = useRef()
     let checkStart = useRef()
     let downloadButton = useRef()
-    let status=true
-    const clickRecord = async () => {
+    let gumVideo = useRef()
+    const closeCamera = () => {
         debugger
-        if (status) {
+        dispatch({ type: 'CLOSE_CAMERA', });
+
+        // dispatch(actions.setStreamConstraints())
+        // navigator.mediaDevices.getUserMedia({ "video": true, "audio": false })
+    }
+    function clickRecord() {
+
+        if (startBtnRef.current.textContent === 'Start Recording') {
             startRecording();
-            status = !status
-            btnVideo.current.src = pouse
         } else {
             stopRecording();
             btnVideo.current.src = play
             downloadButton.current.disabled = false;
         }
     }
+
     function stopRecording() {
         mediaRecorder.stop();
     }
@@ -129,6 +194,7 @@ const Video = (props) => {
     }
     // להורדה
     function clickDownload() {
+
         const blob = new Blob(recordedBlobs, { type: 'video/webm' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -144,6 +210,7 @@ const Video = (props) => {
     }
     // להורדה
     function clickDownload() {
+        debugger
         const blob = new Blob(recordedBlobs, { type: 'video/webm' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -159,7 +226,9 @@ const Video = (props) => {
     }
     return (
         <>
-
+            <div style={{ fontSize: '20px', color: 'black' }}>
+                <span>{h1}</span>:<span>{m1}</span>:<span>{s1}</span>
+            </div>
             {window.location.href.includes("admin") ? <div className="diVideo">
 
                 <video id="localVideo" height="100%" width="100%" muted={true} autoPlay ref={localStreamRef} >
@@ -180,6 +249,8 @@ const Video = (props) => {
                 <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
                 <p class="live">Live</p>
             </div>
+            <button onClick={closeCamera()}>close camera</button>
+
         </>
     )
 }
