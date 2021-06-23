@@ -8,7 +8,7 @@ import playDark from "../../assets/Group 21705.svg"
 import { useStopwatch } from 'react-timer-hook';
 const Video = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
-
+    const [isStart, setIsStart] = useState(false);
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
     const streamConstraints = useSelector(state => state.socketReducer.streamConstraints)
@@ -26,6 +26,7 @@ const Video = (props) => {
     } = useStopwatch({ autoStart: true });
 
     let room
+    let anim = useRef()
 
     function pad(val) {
         var valString = val + "";
@@ -105,6 +106,7 @@ const Video = (props) => {
     }, [])
 
     const StartVideo = async () => {
+        debugger
         if (window.location.href.includes("admin")) {
             room = userName
             dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
@@ -112,6 +114,7 @@ const Video = (props) => {
         }
 
         socket.on('created', room)
+        setIsStart(true)
     }
     useEffect(() => {
         localStreamRef.current.srcObject = localStream.srcObject
@@ -133,10 +136,14 @@ const Video = (props) => {
     let checkStart = useRef()
     let downloadButton = useRef()
     let gumVideo = useRef()
-    const closeCamera = () => {
-        debugger
-        dispatch({ type: 'CLOSE_CAMERA', });
+    let status = true
 
+    useEffect(() => {
+        if (isStart)
+            clickRecord()
+    }, [isStart])
+    const closeCamera = () => {
+        console.log("vhgvwvcjdkbkj");
         // dispatch(actions.setStreamConstraints())
         // navigator.mediaDevices.getUserMedia({ "video": true, "audio": false })
     }
@@ -153,6 +160,8 @@ const Video = (props) => {
 
     function stopRecording() {
         mediaRecorder.stop();
+        anim.current.style.display = 'none';
+
     }
     function startRecording() {
         debugger
@@ -184,6 +193,9 @@ const Video = (props) => {
         mediaRecorder.ondataavailable = handleDataAvailable;
         mediaRecorder.start();
         console.log('MediaRecorder started', mediaRecorder);
+        debugger
+        anim.current.style.display = 'inline-block';
+
     }
     // דוחף למערך סטרימים
     function handleDataAvailable(event) {
@@ -226,30 +238,40 @@ const Video = (props) => {
     }
     return (
         <>
-            <div style={{ fontSize: '20px', color: 'black' }}>
-                <span>{h1}</span>:<span>{m1}</span>:<span>{s1}</span>
-            </div>
-            {window.location.href.includes("admin") ? <div className="diVideo">
+            {/* <div className="diVideo"> */}
+            <div className="container">
+                <div className="row">
+                    <div style={{ fontSize: '20px', color: 'black' }}>
+                        <span>{h1}</span>:<span>{m1}</span>:<span>{s1}</span>
+                    </div>
+                    {window.location.href.includes("admin") ?
 
-                <video id="localVideo" height="100%" width="100%" muted={true} autoPlay ref={localStreamRef} >
-                </video>
-            </div>
-                :
-                <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
-            }
+                        <div className="col-12">
+                            <div className="diVideo">
+                                <video id="localVideo" height="100%" width="100%" muted={true} autoPlay ref={localStreamRef} >
+                                </video>
+
+                            </div>
+                            <p class="blink_me oStyle styleA" ref={anim} >o</p>
+
+                            <div className="underDiv">
+                                <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={!isStart ? e => StartVideo() : e => clickRecord()}
+                                //  onMouseOver={e => { (e.currentTarget.src = playDark) }}
+                                // onMouseOut={e => (e.currentTarget.src = play)}
+                                >
+                                </img>
+                                {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
+                                <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
+                                <p class="live">Live</p>
+                            </div>
+                        </div>
 
 
-            <div className="underDiv">
-                <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={e => { clickRecord() }}
-                //  onMouseOver={e => { (e.currentTarget.src = playDark) }}
-                // onMouseOut={e => (e.currentTarget.src = play)}
-                >
-                </img>
-                <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button>
-                <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
-                <p class="live">Live</p>
+                        :
+                        <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
+                    }</div>
             </div>
-            <button onClick={closeCamera()}>close camera</button>
+            <button onClick={(e) => { closeCamera() }}>close camera</button>
 
         </>
     )
