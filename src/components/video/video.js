@@ -73,13 +73,10 @@ const Video = (props) => {
     let checkStart = useRef()
     let downloadButton = useRef()
     const clickRecord = async () => {
-
         debugger
         if (status) {
-
             startRecording();
             status = !status
-
             btnVideo.current.src = pouse
         } else {
             stopRecording();
@@ -131,7 +128,6 @@ const Video = (props) => {
     }
     // להורדה
     function clickDownload() {
-
         const blob = new Blob(recordedBlobs, { type: 'video/webm' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -147,7 +143,6 @@ const Video = (props) => {
     }
     // להורדה
     function clickDownload() {
-        debugger
         const blob = new Blob(recordedBlobs, { type: 'video/webm' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
