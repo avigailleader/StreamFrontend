@@ -15,11 +15,13 @@ const Video = (props) => {
     const localStreamRef = useRef()
     const { history } = props;
     let room
+
     useEffect(() => {
         setDisplayVideo(true)
         let userName = ""
-        if (window.location.href.includes("admin"))
+        if (window.location.href.includes("admin")) {
             userName = window.location.pathname.split("/")[2];
+        }
         else
             userName = window.location.pathname.split("/")[1];
         console.log("username!! " + userName)
@@ -33,6 +35,10 @@ const Video = (props) => {
             socket.on('not exist room', () => { history.push('/notExist') });
             socket.on('joined', () => { alert("joined successfully to " + room) });
         }
+        else {
+            dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', });
+
+        }
         socket.on('receive-message-to-all', message => {
             console.log("receive-message-to-all " + message);
             alert(message);
@@ -40,17 +46,13 @@ const Video = (props) => {
     }, [])
 
     const StartVideo = async () => {
-
-
         if (window.location.href.includes("admin")) {
             room = userName
             dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
             socket.emit('create', { room });
         }
 
-        socket.on('created', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
-
-
+        socket.on('created', room)
     }
     useEffect(() => {
         localStreamRef.current.srcObject = localStream.srcObject
@@ -160,7 +162,7 @@ const Video = (props) => {
 
             {window.location.href.includes("admin") ? <div className="diVideo">
 
-                <video id="localVideo" height="100%" width="100%" muted={isMuted()} autoPlay ref={localStreamRef} >
+                <video id="localVideo" height="100%" width="100%" muted={true} autoPlay ref={localStreamRef} >
                 </video>
             </div>
                 :
@@ -176,6 +178,7 @@ const Video = (props) => {
                 </img>
                 <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button>
                 <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
+                <p class="live">Live</p>
             </div>
         </>
     )
