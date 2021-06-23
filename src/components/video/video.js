@@ -7,6 +7,7 @@ import play from "../../assets/Component 719 – 5.svg"
 import playDark from "../../assets/Group 21705.svg"
 const Video = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
+    const [isStart,setIsStart]=useState(false);
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
     const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
@@ -15,6 +16,7 @@ const Video = (props) => {
     const localStreamRef = useRef()
     const { history } = props;
     let room
+    let anim = useRef()
 
     useEffect(() => {
         setDisplayVideo(true)
@@ -46,6 +48,7 @@ const Video = (props) => {
     }, [])
 
     const StartVideo = async () => {
+        debugger
         if (window.location.href.includes("admin")) {
             room = userName
             dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
@@ -53,6 +56,7 @@ const Video = (props) => {
         }
 
         socket.on('created', room)
+        setIsStart(true)
     }
     useEffect(() => {
         localStreamRef.current.srcObject = localStream.srcObject
@@ -73,7 +77,12 @@ const Video = (props) => {
     let startBtnRef = useRef()
     let checkStart = useRef()
     let downloadButton = useRef()
-    let status=true
+    let status = true
+
+    useEffect(() => {
+        if(isStart)
+        clickRecord()
+    }, [isStart])
     const clickRecord = async () => {
         debugger
         if (status) {
@@ -88,6 +97,8 @@ const Video = (props) => {
     }
     function stopRecording() {
         mediaRecorder.stop();
+        anim.current.style.display='none';
+
     }
     function startRecording() {
         debugger
@@ -119,6 +130,9 @@ const Video = (props) => {
         mediaRecorder.ondataavailable = handleDataAvailable;
         mediaRecorder.start();
         console.log('MediaRecorder started', mediaRecorder);
+       debugger
+       anim.current.style.display='inline-block';
+       
     }
     // דוחף למערך סטרימים
     function handleDataAvailable(event) {
@@ -159,27 +173,39 @@ const Video = (props) => {
     }
     return (
         <>
+            {/* <div className="diVideo"> */}
+            <div className="container">
+                <div className="row">
+                    {window.location.href.includes("admin") ?
 
-            {window.location.href.includes("admin") ? <div className="diVideo">
+                        <div className="col-12">
+                            <div className="diVideo">
+                                <video id="localVideo" height="100%" width="100%" muted={true} autoPlay ref={localStreamRef} >
+                                </video>
 
-                <video id="localVideo" height="100%" width="100%" muted={true} autoPlay ref={localStreamRef} >
-                </video>
+                            </div>
+                            <p class="blink_me oStyle styleA" ref={anim} >o</p> 
+
+                            <div className="underDiv">
+                                <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={!isStart? e => StartVideo():e=>clickRecord()}
+                                //  onMouseOver={e => { (e.currentTarget.src = playDark) }}
+                                // onMouseOut={e => (e.currentTarget.src = play)}
+                                >
+                                </img>
+                                {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
+                                <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
+                                <p class="live">Live</p>
+                            </div>
+                        </div>
+
+
+                        :
+                        <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
+                    }</div>
             </div>
-                :
-                <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
-            }
 
 
-            <div className="underDiv">
-                <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={e => { clickRecord() }}
-                //  onMouseOver={e => { (e.currentTarget.src = playDark) }}
-                // onMouseOut={e => (e.currentTarget.src = play)}
-                >
-                </img>
-                <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button>
-                <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
-                <p class="live">Live</p>
-            </div>
+
         </>
     )
 }
