@@ -158,13 +158,14 @@ const Video = (props) => {
             stopRecording();
             btnVideo.current.src = play
             downloadButton.current.disabled = false;
+             status=!status
         }
     }
 
     function stopRecording() {
         mediaRecorder.stop();
-        anim.current.style.display = 'none';
-
+        anim.current.style.display='none';
+        // setIsStart(false);
     }
     function startRecording() {
         debugger
