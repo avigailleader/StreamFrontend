@@ -74,5 +74,4 @@ const Stream = () => {
         </div>
     )
 }
-
 export default Stream

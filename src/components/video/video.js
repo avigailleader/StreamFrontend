@@ -5,19 +5,77 @@ import './video.css'
 import pouse from "../../assets/Group 21662.svg"
 import play from "../../assets/Component 719 – 5.svg"
 import playDark from "../../assets/Group 21705.svg"
+import { useStopwatch } from 'react-timer-hook';
 const Video = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
-    const [isStart,setIsStart]=useState(false);
+    const [isStart, setIsStart] = useState(false);
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
+    const streamConstraints = useSelector(state => state.socketReducer.streamConstraints)
     const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
     const userName = useSelector(state => state.userReducer.userName)
     const localStream = useSelector(state => state.socketReducer.localStream)
     const localStreamRef = useRef()
     const { history } = props;
+    const {
+        seconds,
+        minutes,
+        hours,
+        start,
+        pause,
+    } = useStopwatch({ autoStart: true });
+
     let room
     let anim = useRef()
 
+    function pad(val) {
+        var valString = val + "";
+        if (valString.length < 2) {
+            return "0" + valString;
+        }
+        else {
+            return valString;
+        }
+    }
+    const calculateTimeLeft = () => {
+        let year = new Date().getFullYear();
+        let difference = +new Date(`10/01/${year}`) - +new Date();
+        let timeLeft = {};
+
+        if (difference > 0) {
+            timeLeft = {
+                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+                minutes: Math.floor((difference / 1000 / 60) % 60),
+                // seconds: Math.floor((difference / 1000) % 60)
+            };
+        }
+
+        return timeLeft;
+
+    }
+    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+
+    var h1, m1, s1;
+    if (seconds < 10) {
+        s1 = '0' + seconds
+    }
+    else {
+        s1 = seconds
+    }
+    if (minutes < 10) {
+        m1 = '0' + minutes
+    }
+    else {
+        m1 = minutes
+    }
+    if (hours < 10) {
+        h1 = '0' + hours
+    }
+    else {
+        h1 = hours
+    }
     useEffect(() => {
         setDisplayVideo(true)
         let userName = ""
@@ -77,21 +135,22 @@ const Video = (props) => {
     let startBtnRef = useRef()
     let checkStart = useRef()
     let downloadButton = useRef()
+    let gumVideo = useRef()
     let status = true
 
     useEffect(() => {
-        if(isStart){
-             clickRecord()
-          
-        }
-       
+        if (isStart)
+            clickRecord()
     }, [isStart])
-    const clickRecord = async () => {
-        debugger
-        if (status) {
+    const closeCamera = () => {
+        console.log("vhgvwvcjdkbkj");
+        // dispatch(actions.setStreamConstraints())
+        // navigator.mediaDevices.getUserMedia({ "video": true, "audio": false })
+    }
+    function clickRecord() {
+
+        if (startBtnRef.current.textContent === 'Start Recording') {
             startRecording();
-            status = !status
-            btnVideo.current.src = pouse
         } else {
             stopRecording();
             btnVideo.current.src = play
@@ -99,12 +158,11 @@ const Video = (props) => {
              status=!status
         }
     }
+
     function stopRecording() {
         mediaRecorder.stop();
         anim.current.style.display='none';
         // setIsStart(false);
-       
-
     }
     function startRecording() {
         debugger
@@ -136,9 +194,9 @@ const Video = (props) => {
         mediaRecorder.ondataavailable = handleDataAvailable;
         mediaRecorder.start();
         console.log('MediaRecorder started', mediaRecorder);
-       debugger
-       anim.current.style.display='inline-block';
-       
+        debugger
+        anim.current.style.display = 'inline-block';
+
     }
     // דוחף למערך סטרימים
     function handleDataAvailable(event) {
@@ -149,6 +207,7 @@ const Video = (props) => {
     }
     // להורדה
     function clickDownload() {
+
         const blob = new Blob(recordedBlobs, { type: 'video/webm' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -164,6 +223,7 @@ const Video = (props) => {
     }
     // להורדה
     function clickDownload() {
+        debugger
         const blob = new Blob(recordedBlobs, { type: 'video/webm' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -182,6 +242,9 @@ const Video = (props) => {
             {/* <div className="diVideo"> */}
             <div className="container">
                 <div className="row">
+                    <div style={{ fontSize: '20px', color: 'black' }}>
+                        <span>{h1}</span>:<span>{m1}</span>:<span>{s1}</span>
+                    </div>
                     {window.location.href.includes("admin") ?
 
                         <div className="col-12">
@@ -190,10 +253,10 @@ const Video = (props) => {
                                 </video>
 
                             </div>
-                            <p class="blink_me oStyle styleA" ref={anim} >o</p> 
+                            <p class="blink_me oStyle styleA" ref={anim} >o</p>
 
                             <div className="underDiv">
-                                <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={!isStart? e => StartVideo():e=>clickRecord()}
+                                <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={!isStart ? e => StartVideo() : e => clickRecord()}
                                 //  onMouseOver={e => { (e.currentTarget.src = playDark) }}
                                 // onMouseOut={e => (e.currentTarget.src = play)}
                                 >
@@ -209,8 +272,7 @@ const Video = (props) => {
                         <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
                     }</div>
             </div>
-
-
+            <button onClick={(e) => { closeCamera() }}>close camera</button>
 
         </>
     )
