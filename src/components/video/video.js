@@ -165,13 +165,8 @@ const Video = (props) => {
 
     function stopRecording() {
         mediaRecorder.stop();
-<<<<<<< HEAD
         anim.current.style.display='none';
         setIsStart(false);
-=======
-        anim.current.style.display = 'none';
-        // setIsStart(false);
->>>>>>> 725d2b5096061606b1f08d4dd22a1ef2d38f24a4
     }
     function startRecording() {
         debugger
