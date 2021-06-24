@@ -149,8 +149,9 @@ const Video = (props) => {
     }
     function clickRecord() {
 
-        if (startBtnRef.current.textContent === 'Start Recording') {
+        if (status) {
             startRecording();
+            status=!status
         } else {
             stopRecording();
             btnVideo.current.src = play
@@ -162,7 +163,7 @@ const Video = (props) => {
     function stopRecording() {
         mediaRecorder.stop();
         anim.current.style.display='none';
-        // setIsStart(false);
+        setIsStart(false);
     }
     function startRecording() {
         debugger

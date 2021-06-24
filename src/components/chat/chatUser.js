@@ -132,63 +132,41 @@ const UserChat = () => {
 
     }
 
-    return (
-        <>
+    return (<>
+        <div className="chatBox">
+            <Card border="light" style={{ width: '19rem', minheight: '19rem' }}>
+                <Card.Title className="cardTitle row" style={{ color: '#D10010' }}>
+                    <div className="col-12"> chat with the admin</div>
+                </Card.Title>
+                <div className="linear" > </div>
+                <div className="container-fluid">
+                    <Card.Body>
+
+                        {messagesList.map((member, index) => (
+                            <div className='row d-flex flex-row'>
+
+                                <div>{member}</div>
 
 
-            <div className="chatBox">
-                <Card border="light" style={{ width: '19rem', minheight: '19rem' }}>
-
-                    <Card.Title className="cardTitle row" style={{ color: '#D10010' }}>
-                        <div className="col-12"> chat with the admin</div>
-                    </Card.Title>
-                    <div className="linear" > </div>
-                    <div className="container-fluid">
-                        <Card.Body>
-
-                            {messagesList.map((member, index) => (
-                                <div className='row d-flex flex-row'>
-
-                                    <div>{member}</div>
+                            </div>
+                        ))}
 
 
-                                </div>
-                            ))}
+                    </Card.Body>
 
-
-                        </Card.Body>
-
-                        <div className="mb-2" className="sendMessageWrap">
-                            <input id='input' onChange={handleInput} className="form-control" type="text" placeholder="message" className="chatMessage " >
-                            </input>
-                            <button onClick={addMessage} style={{ float: "right" }}>
-                                <img src={sendMessage} style={{ float: "right" }}></img>
-                            </button>
-                        </div>
-
-
-
-                        {/* <div className="mb-2">
-                            <input id='input' onChange={} className="form-control" type="text" placeholder="message" className="chatMessage" ></input>
-                            {/* onChange={(e) => setMessage(e.target.value)} 
-                    
-                        <button onClick={addMessage}>Send</button>
-                    </div> */}
-
+                    <div className="mb-2" className="sendMessageWrap">
+                        <input id='input' onChange={handleInput} className="form-control" type="text" placeholder="message" className="chatMessage " >
+                        </input>
+                        <button onClick={addMessage} style={{ float: "right" }}>
+                            <img src={sendMessage} style={{ float: "right" }}></img>
+                        </button>
                     </div>
-                </Card >
+
+                </div>
+            </Card >
         </div>
+    </>
 
-            {/* {
-                message !== ' ' ?
-                    <h1>{message}</h1>
-                    : null
-            } */}
-    {/* 
-            <input type="text" ref={messageRef} onChange={handleInput} value={input_value} ></input>
-            <button onClick={send}>Send</button> */}
-
-        </>
     )
 }
 
