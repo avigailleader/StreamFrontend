@@ -55,6 +55,8 @@ const closeCamera = ({ dispatch, getState }) => next => action => {
         navigator.mediaDevices
             .getUserMedia({ "video": false, "audio": false })
             .then(function (stream) {
+                dispatch({ type: 'ADD_LOCAL_STREAM', payload: stream });
+
                 alert("the camera closed")
             })
             .catch(function (err) {

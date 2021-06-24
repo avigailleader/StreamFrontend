@@ -143,9 +143,12 @@ const Video = (props) => {
             clickRecord()
     }, [isStart])
     const closeCamera = () => {
+        debugger
         console.log("vhgvwvcjdkbkj");
-        // dispatch(actions.setStreamConstraints())
-        // navigator.mediaDevices.getUserMedia({ "video": true, "audio": false })
+        // dispatch({ type: 'CLOSE_CAMERA', });
+
+        dispatch(actions.setStreamConstraints({ "video": false, "audio": true }))
+        dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', });
     }
     function clickRecord() {
 

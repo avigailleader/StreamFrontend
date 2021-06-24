@@ -17,6 +17,7 @@ const socketData = {
         state.localStream = action.payload;
     },
     setStreamConstraints(state, action) {
+        debugger
 
         state.streamConstraints = action.payload;
     }
