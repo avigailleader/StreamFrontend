@@ -152,19 +152,20 @@ const Video = (props) => {
     }
     function clickRecord() {
 
-        if (startBtnRef.current.textContent === 'Start Recording') {
+        if (status) {
             startRecording();
+            status = !status
         } else {
             stopRecording();
             btnVideo.current.src = play
             downloadButton.current.disabled = false;
-             status=!status
+            status = !status
         }
     }
 
     function stopRecording() {
         mediaRecorder.stop();
-        anim.current.style.display='none';
+        anim.current.style.display = 'none';
         // setIsStart(false);
     }
     function startRecording() {
@@ -245,9 +246,7 @@ const Video = (props) => {
             {/* <div className="diVideo"> */}
             <div className="container">
                 <div className="row">
-                    <div style={{ fontSize: '20px', color: 'black' }}>
-                        <span>{h1}</span>:<span>{m1}</span>:<span>{s1}</span>
-                    </div>
+
                     {window.location.href.includes("admin") ?
 
                         <div className="col-12">
@@ -257,6 +256,9 @@ const Video = (props) => {
 
                             </div>
                             <p class="blink_me oStyle styleA" ref={anim} >o</p>
+                            <div class="blink_me oStyle styleA">
+                                <span >{h1}</span>:<span>{m1}</span>:<span>{s1}</span>
+                            </div>
 
                             <div className="underDiv">
                                 <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={!isStart ? e => StartVideo() : e => clickRecord()}
