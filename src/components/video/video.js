@@ -9,6 +9,7 @@ const Video = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
+    const receiveToAll=useSelector(state => state.convarsetionReducer.receiveMessageToAll)
     const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
     const userName = useSelector(state => state.userReducer.userName)
     const localStream = useSelector(state => state.socketReducer.localStream)
@@ -35,7 +36,8 @@ const Video = (props) => {
         }
         socket.on('receive-message-to-all', message => {
             console.log("receive-message-to-all " + message);
-            alert(message);
+            dispatch(actions.setReceiveMessageToAll(message))
+            // alert(message);
         });
     }, [])
 

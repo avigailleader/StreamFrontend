@@ -67,3 +67,17 @@ input{
     width:85%;
 }
 
+ @keyframes example {
+    from { right:0px;background-color:red }
+    to { right: 300px;background-color:blue }
+  }
+.showShare{
+   
+    position: relative;
+    animation: example;
+    animation-duration: 20s;
+    animation-delay: 2s;
+    animation-timing-function: ease-in-out;
+  }
+  
+ 
