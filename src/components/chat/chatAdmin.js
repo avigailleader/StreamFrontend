@@ -107,17 +107,11 @@ const MyChats = () => {
     const [messagesList, setMessagesList] = useState([])
     const userName = useSelector(state => state.userReducer.userName)
     const [input_value, setInput_value] = useState(' ');
-   
+
     useEffect(() => {
         socket.on('message-to-admin', message => {
-<<<<<<< HEAD
             let i = 0
-=======
-            debugger
-            // let i = 0
->>>>>>> master
             // debugger
-<<<<<<< HEAD
             const m = { message: message, i: i }
             setMessagesList(messagesList => messagesList.concat(m))
             setMessage(message)
@@ -125,11 +119,6 @@ const MyChats = () => {
         socket.on('send-message-to-all', message => {
             console.log("xdxcdcfcfcfzzs");
             console.log(message);
-=======
-            // const m = { message: message, i: i }
-            setMessagesList(messagesList => messagesList.concat(message))
-            // setMessage(message)
->>>>>>> master
         });
 
     }, [])
@@ -160,7 +149,7 @@ const MyChats = () => {
         debugger
         socket.emit('send-message', { text, id: Date.now(), userName });
     }
-    
+
     const addMessage = () => {
 
         setMessagesList(messagesList => messagesList.concat(input_value))

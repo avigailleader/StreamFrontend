@@ -53,18 +53,35 @@
       right: 80vw; 
       color: rgb(181, 0, 14);
        font-weight: 700;
-        font-size: 20px;
+        font-size: 30px;
         z-index: 30;
+}
+.styleB{
+    top: 3.5vh;
+    position: absolute;
+     right: 80vw; 
+     color: rgb(181, 0, 14);
+      font-weight: 700;
+       font-size: 15px;
+       z-index: 40;
+
+
+       position: absolute !important;
+       left: 28%  !important;
+       top: 81%!important;
+       display: none ;
+
 }
 .blink_me {
     animation: blinker 1s linear infinite;
   }
   .oStyle{
     position: absolute !important;
-    left: 25%  !important;
-    top: 80%!important;
+    left: 24%  !important;
+    top: 78%!important;
     display:none;
 }
+
 .live{
     width: 5vw;
     height: 6vh;
