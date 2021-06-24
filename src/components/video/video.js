@@ -38,24 +38,7 @@ const Video = (props) => {
             return valString;
         }
     }
-    const calculateTimeLeft = () => {
-        let year = new Date().getFullYear();
-        let difference = +new Date(`10/01/${year}`) - +new Date();
-        let timeLeft = {};
 
-        if (difference > 0) {
-            timeLeft = {
-                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-                minutes: Math.floor((difference / 1000 / 60) % 60),
-                // seconds: Math.floor((difference / 1000) % 60)
-            };
-        }
-
-        return timeLeft;
-
-    }
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
 
     var h1, m1, s1;
@@ -154,17 +137,14 @@ const Video = (props) => {
     }
     function clickRecord() {
 
-        if (isStart) {
+        if (status) {
             startRecording();
-            btnVideo.current.src = pouse
-            // status = !status
-            setIsStart(false)
+            status = !status
         } else {
             stopRecording();
             btnVideo.current.src = play
             downloadButton.current.disabled = false;
-            // setIsStart(true)
-            // status = !status
+            status = !status
         }
     }
 
@@ -172,7 +152,8 @@ const Video = (props) => {
         mediaRecorder.stop();
         anim.current.style.display = 'none';
         // להפעיל פונקציה שעוצרת את השעון
-        // setIsStart(false);
+        setIsStart(false);
+
     }
     function startRecording() {
         debugger
