@@ -19,13 +19,12 @@ const UserChat = () => {
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
     const [input_value, setInput_value] = useState(" ");
-    const [message, setMessage] = useState({'messageText':input_value})
+    const [message, setMessage] = useState({ 'messageText': input_value })
     const userName = useSelector(state => state.userReducer.userName)
     const [messagesList, setMessagesList] = useState([])
-
     const addMessage = () => {
         debugger
-        setMessage(message['messageText']=input_value)
+        setMessage(message['messageText'] = input_value)
         setMessagesList(messagesList => messagesList.concat(message))
         $('input').val('')
         send()

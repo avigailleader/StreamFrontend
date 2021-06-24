@@ -57,30 +57,22 @@ const MyChats = () => {
 
     //     console.log(input_value);
 
-<<<<<<< HEAD
-}
-const handleSendMessage = (text) => {
-    debugger
-    socket.emit('send-message', { text, id: Date.now(), userName });
-}
 
-const addMessage = () => {
-=======
-    // }
-    // const handleSendMessage = () => {
-    //     debugger
-    //     socket.emit('send-message', { messageToShare, id: Date.now(), userName });
-    // }
->>>>>>> origin/EK_THIRD
+    const handleSendMessage = (text) => {
+        debugger
+        socket.emit('send-message', { text, id: Date.now(), userName });
+    }
 
-    // const addMessage = () => {
+    const addMessage = () => {
 
-    //     setMessagesList(messagesList => messagesList.concat({img:imgRef,message:input_value}))
-    //     $('input').val('')
-    //     send()
+        // const addMessage = () => {
 
-    // }
+        //     setMessagesList(messagesList => messagesList.concat({img:imgRef,message:input_value}))
+        //     $('input').val('')
+        //     send()
 
+        // }
+    }
 
 
     return (
@@ -106,17 +98,13 @@ const addMessage = () => {
                                 />
 
                                 <div className='col-8'>
-<<<<<<< HEAD
-                                    <div ><b>{message}</b></div>
-=======
                                     <div ><b>{message.messageText}</b></div>
->>>>>>> origin/EK_THIRD
-        </div>
+                                </div>
                             </div>
                         ))}
                     </Card.Body>
 
-                {/* <div className="mb-2" className="sendMessageWrap">
+                    {/* <div className="mb-2" className="sendMessageWrap">
                         <input id='input' onChange={handleInput} className="form-control" type="text" placeholder="message" className="chatMessage " >
 
                         </input>
@@ -127,14 +115,14 @@ const addMessage = () => {
                         </button>
                     </div> */}
 
-                <div className="mb-2">
-                    {/* <input className="form-control" type="text" placeholder="message" className="chatMessage"></input> */}
-                    {/* <img src={chevronLeft}></img> */}
-                </div>
+                    <div className="mb-2">
+                        {/* <input className="form-control" type="text" placeholder="message" className="chatMessage"></input> */}
+                        {/* <img src={chevronLeft}></img> */}
+                    </div>
 
                 </div>
             </Card >
-        <div id="showShare" ></div>
+            <div id="showShare" ></div>
         </div >
     )
 }
