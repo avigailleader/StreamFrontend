@@ -1,10 +1,10 @@
 import produce from 'immer';
 import io from "socket.io-client";
-
+import env from "../../config/env/dev"
 import createReducer from './reducerUtils';
 
 const initialState = {
-    socket: io.connect('https://stream.vlogger.codes/', {
+    socket: io.connect(env.BASE_URL, {
         transports: ['websocket']
     }),
     localStream: "",
@@ -17,6 +17,7 @@ const socketData = {
         state.localStream = action.payload;
     },
     setStreamConstraints(state, action) {
+        debugger
 
         state.streamConstraints = action.payload;
     }

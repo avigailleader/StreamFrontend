@@ -74,7 +74,6 @@ const UserChat = () => {
                         </div>
                     ))}
 
-
                         </Card.Body>
                         <div className="mb-2">
                             <input id='input' ref={messageRef} onChange={(e) => setMessage(e.target.value)}  className="form-control" type="text" placeholder="message" className="chatMessage" ></input>

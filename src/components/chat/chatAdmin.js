@@ -92,20 +92,30 @@
 import React, { useState, useEffect } from 'react'
 import { Card } from 'react-bootstrap'
 import './chat.css'
+import './admin/myChats.css'
+import $ from 'jquery'
 // import Image from 'react-bootstrap/Image'
 import profil from '../../assets/chats&viewers/user.png'
 import share from '../../assets/chats&viewers/share.svg'
 import { useDispatch, useSelector } from 'react-redux'
-// 
+import sendMessage from '../../assets/chats&viewers/sendMessage.svg'
 
 
 const MyChats = () => {
     const socket = useSelector(state => state.socketReducer.socket)
     const [message, setMessage] = useState('')
     const [messagesList, setMessagesList] = useState([])
+    const userName = useSelector(state => state.userReducer.userName)
+    const [input_value, setInput_value] = useState(' ');
+   
     useEffect(() => {
         socket.on('message-to-admin', message => {
+<<<<<<< HEAD
             let i = 0
+=======
+            debugger
+            // let i = 0
+>>>>>>> master
             // debugger
 <<<<<<< HEAD
             const m = { message: message, i: i }
@@ -131,6 +141,35 @@ const MyChats = () => {
     const onMouseOver = (e) => {
         console.log(e);
     }
+    const handleInput = (e) => {
+        setInput_value(e.target.value)
+    }
+
+    const send = () => {
+        debugger
+        // setInput_value(input_value)
+        if (input_value && input_value != '') {
+            handleSendMessage(input_value);
+            // setInput_value('')
+        }
+
+        console.log(message);
+
+    }
+    const handleSendMessage = (text) => {
+        debugger
+        socket.emit('send-message', { text, id: Date.now(), userName });
+    }
+    
+    const addMessage = () => {
+
+        setMessagesList(messagesList => messagesList.concat(input_value))
+        $('input').val('')
+        send()
+
+    }
+
+
 
     return (
         <div className="chatBox">
@@ -143,9 +182,6 @@ const MyChats = () => {
                 <div className="linear" > </div>
                 <div className="container-fluid">
                     <Card.Body>
-                        {/* {message}
-                        <button onClick={(e) => shareMessage()} >shar</button> */}
-
                         {messagesList.map((message, index) => (
                             <div className='row d-flex flex-row'>
                                 <img src={profil}
@@ -161,6 +197,18 @@ const MyChats = () => {
                             </div>
                         ))}
                     </Card.Body>
+
+                    {/* <div className="mb-2" className="sendMessageWrap">
+                        <input id='input' onChange={handleInput} className="form-control" type="text" placeholder="message" className="chatMessage " >
+
+                        </input>
+                       
+                        <button onClick={addMessage} style={{ float: "right" }}>
+                          
+                            <img src={sendMessage} style={{ float: "right" }}></img>
+                        </button>
+                    </div> */}
+
                     <div className="mb-2">
                         {/* <input className="form-control" type="text" placeholder="message" className="chatMessage"></input> */}
                         {/* <img src={chevronLeft}></img> */}

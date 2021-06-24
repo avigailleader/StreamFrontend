@@ -1,12 +1,84 @@
+
 #localVideo{
 
     position: relative;
 
     /* background-attachment: fixed; */
-    top: 0;
+    height: 83vh;
+    width: 70vw;
+    margin-top: 0vh;
+    padding-top: 0vh;
+    /* top: 0;
     right: 0px;
     left: 0px;
-    bottom: 0px;
+    bottom: 0px; */
+    z-index: 0;
+    position: relative;
     /* position: fixed; */
-    
+    /* הצגה בצורת מראה */
+    transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  /* Safari and Chrome */
+  -moz-transform: rotateY(180deg);
+
 }
+.diVideo{
+    position: relative;
+    height: 83vh;
+    width: 70vw;
+    background-color: white;
+    margin-top: 1.5vh;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+    z-index: 0;
+
+}
+
+
+.underDiv{
+
+    position: relative;
+    height: 10vh;
+    width: 70vw;
+    background-color: white;
+}
+.imgPlayPouse{
+    
+    border-radius:50%;
+    z-index:30
+}
+.styleA{
+    top: 3.5vh;
+     position: absolute;
+      right: 80vw; 
+      color: rgb(181, 0, 14);
+       font-weight: 700;
+        font-size: 20px;
+        z-index: 30;
+}
+.blink_me {
+    animation: blinker 1s linear infinite;
+  }
+  .oStyle{
+    position: absolute !important;
+    left: 25%  !important;
+    top: 80%!important;
+    display:none;
+}
+.live{
+    width: 5vw;
+    height: 6vh;
+    background-color: red;
+    color: white;
+    text-align: center;
+    display: inline-block;
+    border-radius: 5px;
+    font-weight: bold;
+    padding-top: 3px;
+    margin-top: 1.5%;
+    right: 1.5%;
+    position: absolute;
+}
+@keyframes blinker {  
+    50% { opacity: 0; }
+  }

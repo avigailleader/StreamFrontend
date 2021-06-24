@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import { Card } from 'react-bootstrap'
 import '../chat.css'
+import './myChats.css'
 // import Image from 'react-bootstrap/Image'
 import profil from '../../../assets/chats&viewers/user.png'
 import share from '../../../assets/chats&viewers/share.svg'
@@ -15,10 +16,10 @@ let members = ['Aviv', 'Shay', 'Oded']
 let messages = ['Thanks,', 'What a nice lecture!', 'hoooo']
 
 const MyChats = () => {
- 
+
     const [shareMsg, setShareMsg] = useState(false)
 
-    
+
     const shareMessage = () => {
         setShareMsg(true)
 
@@ -52,10 +53,23 @@ const MyChats = () => {
                             </div>
                         ))}
                     </Card.Body>
-                    <div className="mb-2">
-                        <input className="form-control" type="text" placeholder="message" className="chatMessage"></input>
-                        {/* <img src={chevronLeft}></img> */}
+
+                    <div className="mb-2" className="sendMessageWrap">
+                        <input id='input' onChange={(e) => setMessage(e.target.value)} className="form-control" type="text" placeholder="message" className="chatMessage " >
+
+                        </input>
+                        {/* onChange={(e) => setMessage(e.target.value)} */}
+                        {/* value={input_value} */}
+                        <button onClick={addMessage} style={{ float: "right" }}>
+                            <img src={sendMessage} style={{ float: "right" }}></img>
+                        </button>
                     </div>
+
+
+                    {/* <div className="mb-2">
+                        <input className="form-control" type="text" placeholder="message" className="chatMessage"></input>
+                    </div> */}
+                    {/* <img src={chevronLeft}></img> */}
 
                 </div>
             </Card >

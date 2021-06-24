@@ -48,6 +48,37 @@ const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
     }
     return next(action);
 }
+const closeCamera = ({ dispatch, getState }) => next => action => {
+    debugger
+    if (action.type === 'CLOSE_CAMERA') {
+        debugger
+        navigator.mediaDevices
+            .getUserMedia({ "video": false, "audio": false })
+            .then(function (stream) {
+                dispatch({ type: 'ADD_LOCAL_STREAM', payload: stream });
+
+                alert("the camera closed")
+            })
+            .catch(function (err) {
+                console.log(err);
+                if (err.name === "NotFoundError" || err.name === "DevicesNotFoundError") {
+                    console.log("required track is missing");
+                } else if (err.name === "NotReadableError" || err.name === "TrackStartError") {
+                    console.log("webcam or mic are already in use");
+                } else if (err.name === "OverconstrainedError" || err.name === "ConstraintNotSatisfiedError") {
+                    console.log("constraints can not be satisfied by avb. devices");
+                } else if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
+                    console.log("permission denied in browser");
+                } else if (err.name === "TypeError" || err.name === "TypeError") {
+                    console.log("empty constraints object");
+                } else {
+                    console.log("other errors");
+                }
+            });
+    }
+    return next(action);
+}
+
 //TODO save cuurent user that join to the conversation.
 const joinedEventFromSocket = ({ dispatch, getState }) => next => action => {
 
@@ -139,6 +170,7 @@ export {
     createdEventFromSocket,
     addLocalStream,
     joinedEventFromSocket,
-    addNewConversation
+    addNewConversation,
+    closeCamera
 
 }
