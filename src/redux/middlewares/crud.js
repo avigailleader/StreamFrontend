@@ -53,7 +53,7 @@ const closeCamera = ({ dispatch, getState }) => next => action => {
     if (action.type === 'CLOSE_CAMERA') {
         debugger
         navigator.mediaDevices
-            .getUserMedia({ "video": false, "audio": false })
+            .getUserMedia({ "video": false, "audio": true })
             .then(function (stream) {
                 dispatch({ type: 'ADD_LOCAL_STREAM', payload: stream });
 

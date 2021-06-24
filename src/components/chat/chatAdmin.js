@@ -20,12 +20,15 @@ const MyChats = () => {
 
     useEffect(() => {
         socket.on('message-to-admin', message => {
-            debugger
-            // let i = 0
+            let i = 0
             // debugger
-            // const m = { message: message, i: i }
-            setMessagesList(messagesList => messagesList.concat(message))
-            // setMessage(message)
+            const m = { message: message, i: i }
+            setMessagesList(messagesList => messagesList.concat(m))
+            setMessage(message)
+        });
+        socket.on('send-message-to-all', message => {
+            console.log("xdxcdcfcfcfzzs");
+            console.log(message);
         });
 
     }, [])
@@ -67,10 +70,6 @@ const MyChats = () => {
 
 
 
-    // const shareMessage = () => {
-    //     setShareMsg(true)
-
-    // }
     return (
         <div className="chatBox">
             <Card border="light" style={{ width: '19rem', minheight: '19rem' }}>
@@ -92,7 +91,7 @@ const MyChats = () => {
                                 />
 
                                 <div className='col-8'>
-                                    <div onMouseOver={e => onMouseOver(e)}><b>{message}</b></div>
+                                    <div ><b>{message}</b></div>
                                 </div>
                             </div>
                         ))}

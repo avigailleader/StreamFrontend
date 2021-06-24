@@ -27,6 +27,7 @@ const Video = (props) => {
 
     let room
     let anim = useRef()
+    let time = useRef()
 
     function pad(val) {
         var valString = val + "";
@@ -136,6 +137,7 @@ const Video = (props) => {
     let checkStart = useRef()
     let downloadButton = useRef()
     let gumVideo = useRef()
+
     let status = true
 
     useEffect(() => {
@@ -148,13 +150,13 @@ const Video = (props) => {
         // dispatch({ type: 'CLOSE_CAMERA', });
 
         dispatch(actions.setStreamConstraints({ "video": false, "audio": true }))
-        dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', });
+        dispatch({ type: 'CLOSE_CAMERA', });
     }
     function clickRecord() {
 
         if (status) {
             startRecording();
-            status=!status
+            status = !status
         } else {
             stopRecording();
             btnVideo.current.src = play
@@ -165,7 +167,8 @@ const Video = (props) => {
 
     function stopRecording() {
         mediaRecorder.stop();
-        anim.current.style.display='none';
+        anim.current.style.display = 'none';
+        // להפעיל פונקציה שעוצרת את השעון
         setIsStart(false);
     }
     function startRecording() {
@@ -200,6 +203,7 @@ const Video = (props) => {
         console.log('MediaRecorder started', mediaRecorder);
         debugger
         anim.current.style.display = 'inline-block';
+        time.current.style.display = 'inline-block';
 
     }
     // דוחף למערך סטרימים
@@ -255,10 +259,9 @@ const Video = (props) => {
                                 </video>
 
                             </div>
+
                             <p class="blink_me oStyle styleA" ref={anim} >o</p>
-                            <div class="blink_me oStyle styleA">
-                                <span >{h1}</span>:<span>{m1}</span>:<span>{s1}</span>
-                            </div>
+                            <p className="styleB" ref={time}> <span >{h1}</span>:<span>{m1}</span>:<span>{s1}</span></p>
 
                             <div className="underDiv">
                                 <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={!isStart ? e => StartVideo() : e => clickRecord()}
