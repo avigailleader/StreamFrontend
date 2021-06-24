@@ -154,14 +154,17 @@ const Video = (props) => {
     }
     function clickRecord() {
 
-        if (status) {
+        if (isStart) {
             startRecording();
-            status = !status
+            btnVideo.current.src = pouse
+            // status = !status
+            setIsStart(false)
         } else {
             stopRecording();
             btnVideo.current.src = play
             downloadButton.current.disabled = false;
-            status = !status
+            // setIsStart(true)
+            // status = !status
         }
     }
 
@@ -169,7 +172,7 @@ const Video = (props) => {
         mediaRecorder.stop();
         anim.current.style.display = 'none';
         // להפעיל פונקציה שעוצרת את השעון
-        setIsStart(false);
+        // setIsStart(false);
     }
     function startRecording() {
         debugger
