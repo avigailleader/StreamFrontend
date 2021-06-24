@@ -9,6 +9,8 @@ import { useStopwatch } from 'react-timer-hook';
 const Video = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
     const [isStart, setIsStart] = useState(false);
+    const [isStart1, setIsStart1] = useState(false);
+
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
     const streamConstraints = useSelector(state => state.socketReducer.streamConstraints)
@@ -96,9 +98,9 @@ const Video = (props) => {
             dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
             socket.emit('create', { room });
         }
-
         socket.on('created', room)
         setIsStart(true)
+        setIsStart1(true)
     }
     useEffect(() => {
         localStreamRef.current.srcObject = localStream.srcObject
@@ -116,15 +118,11 @@ const Video = (props) => {
     let mediaRecorder;
     let recordedBlobs;
     let btnVideo = useRef()
-    let startBtnRef = useRef()
-    let checkStart = useRef()
     let downloadButton = useRef()
-    let gumVideo = useRef()
-
     let status = true
 
     useEffect(() => {
-        if (isStart)
+        if (isStart && isStart1)
             clickRecord()
     }, [isStart])
     const closeCamera = () => {
@@ -135,11 +133,12 @@ const Video = (props) => {
         dispatch(actions.setStreamConstraints({ "video": false, "audio": true }))
         dispatch({ type: 'CLOSE_CAMERA', });
     }
-    function clickRecord() {
-
+    const clickRecord = async () => {
+        debugger
         if (status) {
             startRecording();
             status = !status
+            btnVideo.current.src = pouse
         } else {
             stopRecording();
             btnVideo.current.src = play
@@ -200,22 +199,6 @@ const Video = (props) => {
     // להורדה
     function clickDownload() {
 
-        const blob = new Blob(recordedBlobs, { type: 'video/webm' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = 'test.webm';
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(() => {
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }, 100);
-    }
-    // להורדה
-    function clickDownload() {
-        debugger
         const blob = new Blob(recordedBlobs, { type: 'video/webm' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
