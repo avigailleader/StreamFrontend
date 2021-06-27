@@ -24,28 +24,19 @@ const Video = (props) => {
         seconds,
         minutes,
         hours,
+        isRunning,
         start,
+        reset,
         pause,
     } = useStopwatch({ autoStart: true });
 
     let room
     let anim = useRef()
     let time = useRef()
-
-    function pad(val) {
-        var valString = val + "";
-        if (valString.length < 2) {
-            return "0" + valString;
-        }
-        else {
-            return valString;
-        }
-    }
-
-
-
+    setInterval(() => { }, 1000)
     var h1, m1, s1;
     if (seconds < 10) {
+
         s1 = '0' + seconds
     }
     else {
@@ -63,6 +54,24 @@ const Video = (props) => {
     else {
         h1 = hours
     }
+    const stopStreamedVideo = () => {
+        pause()
+        debugger
+        const stream = localStreamRef.current.srcObject;
+        const tracks = stream.getTracks();
+
+        tracks.forEach(function (track) {
+            track.stop();
+        });
+
+        // localStreamRef.current.srcObject = null;
+    }
+    const openCamera = () => {
+        dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', });
+        start(true)
+
+    }
+
     useEffect(() => {
         setDisplayVideo(true)
         let userName = ""
@@ -94,7 +103,7 @@ const Video = (props) => {
     }, [])
 
     const StartVideo = async () => {
-        debugger
+
         if (window.location.href.includes("admin")) {
             room = userName
             dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
@@ -127,22 +136,15 @@ const Video = (props) => {
         if (isStart && isStart1)
             clickRecord()
     }, [isStart])
-    const closeCamera = () => {
-        debugger
-        console.log("vhgvwvcjdkbkj");
-        // dispatch({ type: 'CLOSE_CAMERA', });
-
-        dispatch(actions.setStreamConstraints({ "video": false, "audio": true }))
-        dispatch({ type: 'CLOSE_CAMERA', });
-    }
     const clickRecord = async () => {
-        debugger
+
         if (status) {
             startRecording();
             status = !status
             btnVideo.current.src = pouse
         } else {
             stopRecording();
+            pause()
             btnVideo.current.src = play
             downloadButton.current.disabled = false;
             status = !status
@@ -157,7 +159,7 @@ const Video = (props) => {
 
     }
     function startRecording() {
-        debugger
+        start()
         recordedBlobs = [];
         try {
             mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: "video/webm;codecs=vp9,opus" });//window.stream, options);
@@ -186,7 +188,7 @@ const Video = (props) => {
         mediaRecorder.ondataavailable = handleDataAvailable;
         mediaRecorder.start();
         console.log('MediaRecorder started', mediaRecorder);
-        debugger
+
         anim.current.style.display = 'inline-block';
         time.current.style.display = 'inline-block';
 
@@ -249,7 +251,8 @@ const Video = (props) => {
                         <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
                     }</div>
             </div>
-            <button onClick={(e) => { closeCamera() }}>close camera</button>
+            <button onClick={(e) => { stopStreamedVideo(localStreamRef) }}>close camera</button>
+            <button onClick={(e) => { openCamera() }}>close camera</button>
 
         </>
     )

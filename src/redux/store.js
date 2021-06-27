@@ -28,7 +28,7 @@ const store = createStore(
         createdEventFromSocket,
         addLocalStream,
         joinedEventFromSocket,
-        closeCamera
+        // closeCamera
 
     ));
 

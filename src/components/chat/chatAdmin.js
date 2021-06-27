@@ -23,7 +23,7 @@ const MyChats = () => {
         socket.on('message-to-admin', message => {
             console.log(message);
             // let i = 0
-            debugger
+
             // const m = { message: message, i: i }
             setMessagesList(messagesList => messagesList.concat({ 'messageText': message }))
             // setMessage(message)
@@ -31,7 +31,7 @@ const MyChats = () => {
 
     }, [])
     const shareMessage = (e) => {
-        debugger
+
         console.log(e);
         let div = document.getElementById('showShare')
         div.innerHTML = e.innerHTML
@@ -48,7 +48,7 @@ const MyChats = () => {
     }
 
     // const send = () => {
-    //     debugger
+    //       
     //     // setInput_value(input_value)
     //     if (input_value && input_value != '') {
     //         handleSendMessage(input_value);
@@ -59,7 +59,7 @@ const MyChats = () => {
 
 
     const handleSendMessage = (text) => {
-        debugger
+
         socket.emit('send-message', { text, id: Date.now(), userName });
     }
 
