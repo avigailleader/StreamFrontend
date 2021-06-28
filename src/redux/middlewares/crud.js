@@ -10,12 +10,40 @@ const addLocalStream = ({ dispatch, getState }) => next => action => {
         let localStream = getState().socketReducer.localStream;
 
         localStream.srcObject = action.payload;
-
+        const peer = createPeer();
+        stream.getTracks().forEach(track => peer.addTrack(track, stream));
         dispatch(actions.setLocalVideo(localStream));
 
     }
     return next(action);
 }
+function createPeer() {
+    debugger
+    const peer = new RTCPeerConnection({
+        iceServers: [
+            {
+                urls: "stun:stun.stunprotocol.org"
+            }
+        ]
+    });
+    peer.onnegotiationneeded = () => handleNegotiationNeededEvent(peer);
+
+    return peer;
+}
+
+async function handleNegotiationNeededEvent(peer) {
+    debugger
+    const offer = await peer.createOffer();
+    await peer.setLocalDescription(offer);
+    const payload = {
+        sdp: peer.localDescription
+    };
+
+    const { data } = await axios.post('/broadcast', payload);
+    const desc = new RTCSessionDescription(data.sdp);
+    peer.setRemoteDescription(desc).catch(e => console.log(e));
+}
+
 const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
 
     if (action.type === 'CREATED_EVENT_FROM_SOCKET') {
