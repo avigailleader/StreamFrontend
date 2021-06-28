@@ -9,9 +9,12 @@ const Video = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
+    const receiveToAll = useSelector(state => state.convarsetionReducer.receiveMessageToAll)
     const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
     const userName = useSelector(state => state.userReducer.userName)
     const localStream = useSelector(state => state.socketReducer.localStream)
+    const [message, setMessage] = useState({})
+    const [ifShow,setIfShow]=useState(false)
     const localStreamRef = useRef()
     let status = true
     const { history } = props;
@@ -34,12 +37,31 @@ const Video = (props) => {
             socket.on('not exist room', () => { history.push('/notExist') });
             socket.on('joined', () => { alert("joined successfully to " + room) });
         }
-        socket.on('receive-message-to-all', message => {
-            console.log("receive-message-to-all " + message);
-            alert(message);
+        socket.on('receive-message-to-all', recMessage => {
+            debugger
+            setMessage({})
+            console.log(recMessage);
+            shareMessage(recMessage)
+            // setMessage(message=> message['data']=recMessage)
+            console.log(message['data']);
+            console.log("receive-message-to-all: " + recMessage);
+            setIfShow(true)
+            // dispatch(actions.setReceiveMessageToAll(recMessage))
+            // alert(message);
         });
     }, [])
+    const shareMessage = (msg) => {
+        setMessage(message['data'] = msg)
 
+    }
+    const showMessageToShare = () => {
+        debugger
+        let div = document.getElementById('showMessage')
+        console.log(message.data);
+        div.innerHTML = message.data
+
+        console.log(div);
+    }
     const StartVideo = async () => {
 
 
@@ -172,7 +194,16 @@ const Video = (props) => {
 
     return (
         <>
+            <div id='showMessage'></div>
+            {ifShow ?
+                <>
+                    {showMessageToShare}
+                    {/* <h2>hi its from video</h2> */}
+                </>
+                // <div className='col-8'>
 
+                // </div>
+                : null}
             {window.location.href.includes("admin") ? <div className="diVideo">
 
                 <video id="localVideo" height="100%" width="100%" muted={isMuted()} autoPlay ref={localStreamRef} >

@@ -99,30 +99,42 @@ import profil from '../../assets/chats&viewers/user.png'
 import share from '../../assets/chats&viewers/share.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import sendMessage from '../../assets/chats&viewers/sendMessage.svg'
-
+import { useRef } from 'react'
 
 const MyChats = () => {
     const socket = useSelector(state => state.socketReducer.socket)
-    const [message, setMessage] = useState('')
+    const [messageToShare, setMessageToShare] = useState({})
     const [messagesList, setMessagesList] = useState([])
     const userName = useSelector(state => state.userReducer.userName)
     const [input_value, setInput_value] = useState(' ');
-   
+    const imgRef = useRef(<img src={profil}></img>)
+    const divRef = useRef()
     useEffect(() => {
         socket.on('message-to-admin', message => {
+<<<<<<< HEAD
             debugger
+=======
+            console.log(message);
+>>>>>>> EK_third
             // let i = 0
-            // debugger
+            debugger
             // const m = { message: message, i: i }
-            setMessagesList(messagesList => messagesList.concat(message))
+            setMessagesList(messagesList => messagesList.concat({ 'messageText': message }))
             // setMessage(message)
         });
 
     }, [])
-    const shareMessage = () => {
+    const shareMessage = (e) => {
         debugger
-        socket.emit('send-message-to-all', { message });
-
+        console.log(e);
+        let div = document.getElementById('showShare')
+        div.innerHTML = e.innerHTML
+        console.log(e.innerHTML);
+        setMessageToShare(messageToShare['data'] = e.innerHTML)
+        socket.emit('send-message-to-all', { messageToShare });
+        
+        setMessageToShare({})
+        
     }
     const onMouseOver = (e) => {
         console.log(e);
@@ -131,29 +143,29 @@ const MyChats = () => {
         setInput_value(e.target.value)
     }
 
-    const send = () => {
-        debugger
-        // setInput_value(input_value)
-        if (input_value && input_value != '') {
-            handleSendMessage(input_value);
-            // setInput_value('')
-        }
+    // const send = () => {
+    //     debugger
+    //     // setInput_value(input_value)
+    //     if (input_value && input_value != '') {
+    //         handleSendMessage(input_value);
+    //         // setInput_value('')
+    //     }
 
-        console.log(message);
+    //     console.log(input_value);
 
-    }
-    const handleSendMessage = (text) => {
-        debugger
-        socket.emit('send-message', { text, id: Date.now(), userName });
-    }
-    
-    const addMessage = () => {
+    // }
+    // const handleSendMessage = () => {
+    //     debugger
+    //     socket.emit('send-message', { messageToShare, id: Date.now(), userName });
+    // }
 
-        setMessagesList(messagesList => messagesList.concat(input_value))
-        $('input').val('')
-        send()
+    // const addMessage = () => {
 
-    }
+    //     setMessagesList(messagesList => messagesList.concat({img:imgRef,message:input_value}))
+    //     $('input').val('')
+    //     send()
+
+    // }
 
 
 
@@ -173,16 +185,18 @@ const MyChats = () => {
                 <div className="container-fluid">
                     <Card.Body>
                         {messagesList.map((message, index) => (
-                            <div className='row d-flex flex-row'>
-                                <img src={profil}
+                            <div className='row d-flex flex-row member'
+
+                                onClick={(e) => shareMessage(e.currentTarget)}>
+                                <img ref={imgRef} src={profil}
                                     className=' col-4 profil-img'
                                     onMouseOver={e => { (e.currentTarget.src = share) }}
                                     onMouseOut={e => (e.currentTarget.src = profil)}
-                                    onClick={(e) => shareMessage()}
+                                // onClick={(e) => shareMessage()}
                                 />
 
                                 <div className='col-8'>
-                                    <div onMouseOver={e => onMouseOver(e)}><b>{message}</b></div>
+                                    <div ><b>{message.messageText}</b></div>
                                 </div>
                             </div>
                         ))}
@@ -206,8 +220,22 @@ const MyChats = () => {
 
                 </div>
             </Card >
+            <div id="showShare" ></div>
         </div>
     )
 }
 
 export default MyChats;
+
+// {members.map((member, index) => (
+//     <div className='row d-flex flex-row member'>
+//         <h1>{index}</h1>
+//         <img onClick={share()} src={profil} className=' col-4 profil-img' rounded ></img>
+//         <div className='col-8'>
+//             <div>  {messages[index]}</div>
+//             <div>{message}</div>
+//         </div>
+
+
+//     </div>
+// ))}
