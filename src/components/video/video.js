@@ -5,6 +5,8 @@ import './video.css'
 import pouse from "../../assets/Group 21662.svg"
 import play from "../../assets/Component 719 – 5.svg"
 import playDark from "../../assets/Group 21705.svg"
+import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+
 import { useStopwatch } from 'react-timer-hook';
 const Video = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
@@ -251,8 +253,8 @@ const Video = (props) => {
                         <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
                     }</div>
             </div>
-            <button onClick={(e) => { stopStreamedVideo(localStreamRef) }}>close camera</button>
-            <button onClick={(e) => { openCamera() }}>close camera</button>
+            <Button variant="danger" onClick={(e) => { stopStreamedVideo(localStreamRef) }}>close camera</Button>
+            <Button variant="danger" onClick={(e) => { openCamera() }}>close camera</Button>
 
         </>
     )
