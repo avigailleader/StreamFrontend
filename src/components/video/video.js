@@ -181,6 +181,7 @@ const Video = (props) => {
             }
 
         }
+        //cfcgfcgfcgfcfgfcgf
         console.log('Created MediaRecorder', mediaRecorder, 'with options', { mimeType: "video/webm;codecs=vp9,opus" });
         downloadButton.current.disabled = true;
         mediaRecorder.onstop = (event) => {
