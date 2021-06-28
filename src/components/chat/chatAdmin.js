@@ -125,9 +125,11 @@ const MyChats = () => {
         console.log(e);
         let div = document.getElementById('showShare')
         div.innerHTML = e.innerHTML
+        console.log(e.innerHTML);
         setMessageToShare(messageToShare['data'] = e.innerHTML)
-        let t=socket.emit('send-message-to-all', { messageToShare });
-        console.log(t);
+        socket.emit('send-message-to-all', { messageToShare });
+        
+        setMessageToShare({})
         
     }
     const onMouseOver = (e) => {
