@@ -5,25 +5,83 @@ import './video.css'
 import pouse from "../../assets/Group 21662.svg"
 import play from "../../assets/Component 719 – 5.svg"
 import playDark from "../../assets/Group 21705.svg"
+import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+
+import { useStopwatch } from 'react-timer-hook';
 const Video = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
+    const [isStart, setIsStart] = useState(false);
+    const [isStart1, setIsStart1] = useState(false);
+
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
+    const streamConstraints = useSelector(state => state.socketReducer.streamConstraints)
     const receiveToAll = useSelector(state => state.convarsetionReducer.receiveMessageToAll)
     const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
     const userName = useSelector(state => state.userReducer.userName)
     const localStream = useSelector(state => state.socketReducer.localStream)
     const [message, setMessage] = useState({})
-    const [ifShow,setIfShow]=useState(false)
+    const [ifShow, setIfShow] = useState(false)
     const localStreamRef = useRef()
-    let status = true
     const { history } = props;
+    const {
+        seconds,
+        minutes,
+        hours,
+        isRunning,
+        start,
+        reset,
+        pause,
+    } = useStopwatch({ autoStart: true });
+
     let room
+    let anim = useRef()
+    let time = useRef()
+    setInterval(() => { }, 1000)
+    var h1, m1, s1;
+    if (seconds < 10) {
+
+        s1 = '0' + seconds
+    }
+    else {
+        s1 = seconds
+    }
+    if (minutes < 10) {
+        m1 = '0' + minutes
+    }
+    else {
+        m1 = minutes
+    }
+    if (hours < 10) {
+        h1 = '0' + hours
+    }
+    else {
+        h1 = hours
+    }
+    const stopStreamedVideo = () => {
+        pause()
+        debugger
+        const stream = localStreamRef.current.srcObject;
+        const tracks = stream.getTracks();
+
+        tracks.forEach(function (track) {
+            track.stop();
+        });
+
+        // localStreamRef.current.srcObject = null;
+    }
+    const openCamera = () => {
+        dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', });
+        start(true)
+
+    }
+
     useEffect(() => {
         setDisplayVideo(true)
         let userName = ""
-        if (window.location.href.includes("admin"))
+        if (window.location.href.includes("admin")) {
             userName = window.location.pathname.split("/")[2];
+        }
         else
             userName = window.location.pathname.split("/")[1];
         console.log("username!! " + userName)
@@ -36,6 +94,10 @@ const Video = (props) => {
             // socket.on('joined', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
             socket.on('not exist room', () => { history.push('/notExist') });
             socket.on('joined', () => { alert("joined successfully to " + room) });
+        }
+        else {
+            dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', });
+
         }
         socket.on('receive-message-to-all', recMessage => {
             debugger
@@ -64,26 +126,24 @@ const Video = (props) => {
     }
     const StartVideo = async () => {
 
-
         if (window.location.href.includes("admin")) {
             room = userName
             dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
             socket.emit('create', { room });
         }
-
-        socket.on('created', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
-
-
+        socket.on('created', room)
+        setIsStart(true)
+        setIsStart1(true)
     }
     useEffect(() => {
         localStreamRef.current.srcObject = localStream.srcObject
     }, [localStream])
     const isMuted = () => {
 
-        if (window.location.href.includes("admin")) {
-            return true;  
-        }
-        return false;
+        if (window.location.href.includes("admin"))
+            return true;
+        return false
+
     }
 
 
@@ -91,31 +151,37 @@ const Video = (props) => {
     let mediaRecorder;
     let recordedBlobs;
     let btnVideo = useRef()
-    let startBtnRef = useRef()
-    let checkStart = useRef()
     let downloadButton = useRef()
+    let status = true
+
+    useEffect(() => {
+        if (isStart && isStart1)
+            clickRecord()
+    }, [isStart])
     const clickRecord = async () => {
 
-        debugger
         if (status) {
-
             startRecording();
             status = !status
-
             btnVideo.current.src = pouse
         } else {
             stopRecording();
+            pause()
             btnVideo.current.src = play
             downloadButton.current.disabled = false;
             status = !status
         }
     }
+
     function stopRecording() {
         mediaRecorder.stop();
-        status=!status
+        anim.current.style.display = 'none';
+        // להפעיל פונקציה שעוצרת את השעון
+        setIsStart(false);
+
     }
     function startRecording() {
-        debugger
+        start()
         recordedBlobs = [];
         try {
             mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: "video/webm;codecs=vp9,opus" });//window.stream, options);
@@ -135,6 +201,7 @@ const Video = (props) => {
             }
 
         }
+        //cfcgfcgfcgfcfgfcgf
         console.log('Created MediaRecorder', mediaRecorder, 'with options', { mimeType: "video/webm;codecs=vp9,opus" });
         downloadButton.current.disabled = true;
         mediaRecorder.onstop = (event) => {
@@ -144,6 +211,10 @@ const Video = (props) => {
         mediaRecorder.ondataavailable = handleDataAvailable;
         mediaRecorder.start();
         console.log('MediaRecorder started', mediaRecorder);
+
+        anim.current.style.display = 'inline-block';
+        time.current.style.display = 'inline-block';
+
     }
     // דוחף למערך סטרימים
     function handleDataAvailable(event) {
@@ -168,63 +239,58 @@ const Video = (props) => {
             window.URL.revokeObjectURL(url);
         }, 100);
     }
-    // להורדה
-    function clickDownload() {
-        debugger
-        const blob = new Blob(recordedBlobs, { type: 'video/webm' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = 'test.webm';
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(() => {
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }, 100);
-    }
-    //  <div className='row d-flex flex-row'>
-    // <img src={profil}
-    // className=' col-4 profil-img'
-    // onMouseOver={e => { (e.currentTarget.src = share) }}
-    // onMouseOut={e => (e.currentTarget.src = profil)}
-    // onClick={(e) => shareMessage()}
-    // />
-
     return (
         <>
-            <div id='showMessage'></div>
-            {ifShow ?
-                <>
-                    {showMessageToShare}
-                    {/* <h2>hi its from video</h2> */}
-                </>
-                // <div className='col-8'>
 
-                // </div>
-                : null}
-            {window.location.href.includes("admin") ? <div className="diVideo">
+            {/*   
 
-                <video id="localVideo" height="100%" width="100%" muted={isMuted()} autoPlay ref={localStreamRef} >
-                    <div className="divInVideo">היי לכולם</div>
-                </video>
-                {/* <video id="gum" playsInline autoPlay muted ref={gumVideo}></video> */}
-            </div>
-                :
-                <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
-            }
+                    {window.location.href.includes("admin") ?
 
-{window.location.href.includes("admin")? <div className="underDiv">
-                <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={e => { clickRecord() }}
-                //  onMouseOver={e => { (e.currentTarget.src = playDark) }}
-                // onMouseOut={e => (e.currentTarget.src = play)}
-                >
-                </img>
-                <button onClick={e => StartVideo()} ref={startBtnRef}>open camera</button>
-                <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
-            </div>:null}
-          
+                        <div className="col-12">
+                            <div className="diVideo">
+                                <video id="localVideo" height="100%" width="100%" muted={true} autoPlay ref={localStreamRef} >
+                                </video>
+
+                            </div> */}
+            <div className="container">
+                <div className="row">   <div id='showMessage'></div>
+                    {ifShow ?
+                        <>
+                            {showMessageToShare}
+                            {/* <h2>hi its from video</h2> */}
+                        </>
+                        // <div className='col-8'>
+
+                        // </div>
+                        : null}
+                    {window.location.href.includes("admin") ?
+                        <div className="col-12">
+                            <div className="diVideo">
+                                <video id="localVideo" height="100%" width="100%" muted={true} autoPlay ref={localStreamRef} >
+                                </video>
+
+
+                                <p class="blink_me oStyle styleA" ref={anim} >o</p>
+                                <p className="styleB" ref={time}> <span >{h1}</span>:<span>{m1}</span>:<span>{s1}</span></p>
+
+                                <div className="underDiv">
+                                    <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={!isStart ? e => StartVideo() : e => clickRecord()}
+                                    //  onMouseOver={e => { (e.currentTarget.src = playDark) }}
+                                    // onMouseOut={e => (e.currentTarget.src = play)}
+                                    >
+                                    </img>
+                                    {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
+                                    <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
+                                    <p class="live">Live</p>
+                                </div>
+                            </div></div>
+
+                        :
+                        <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
+                    }
+                    <Button variant="danger" onClick={(e) => { stopStreamedVideo(localStreamRef) }}>close camera</Button>
+                    <Button variant="danger" onClick={(e) => { openCamera() }}>close camera</Button>
+                </div ></div >
         </>
     )
 }

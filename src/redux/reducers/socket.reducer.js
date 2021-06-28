@@ -18,6 +18,7 @@ const socketData = {
     },
     setStreamConstraints(state, action) {
 
+
         state.streamConstraints = action.payload;
     }
 }

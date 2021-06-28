@@ -33,15 +33,15 @@ const Stream = () => {
 
 
         if (window.location.href.includes("admin")) {
-            debugger
+
             userName = window.location.href.slice(window.location.href.lastIndexOf('/') + 1);
-            debugger
+
             console.log(userName);
             dispatch(actions.setRoomId(userName))
             dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
-            debugger
+
             socket.emit('create', { userName });
-            debugger
+
             console.log(localStream);
             socket.emit('setStream', { localStream });
 
@@ -57,22 +57,21 @@ const Stream = () => {
         console.log(localStreamRef);
     }, [localStream])
     const isMuted = () => {
-        debugger
+
         if (window.location.href.includes("admin"))
             return true;
         return false
     }
     return (
         <div>
-            {window.location.href.includes("admin") ?<>
+            {window.location.href.includes("admin") ? <>
                 <button onClick={e => { StartVideo() }}>click me!!!!!!!!!!!</button>
-                    <video id="localVideo" height="50%" width="50%" muted={isMuted()} autoPlay ref={localStreamRef} >
-                    </video></>
-                 :
+                <video id="localVideo" height="50%" width="50%" muted={isMuted()} autoPlay ref={localStreamRef} >
+                </video></>
+                :
                 <video id="localVideo" muted={isMuted()} height="100%" width="100%" autoPlay ref={localStreamRef} ></video>
             }
         </div>
     )
 }
-
 export default Stream
