@@ -202,6 +202,7 @@ const Video = (props) => {
             btnVideo.current.src = play
             downloadButton.current.disabled = false;
             setStatus(true)
+            stopStreamedVideo(localStreamRef)
 
         }
     }
@@ -287,7 +288,16 @@ const Video = (props) => {
 
                                 <p class="blink_me oStyle styleA" ref={anim} >o</p>
                                 <p className="styleB" ref={time}> <span >{h1}</span>:<span>{m1}</span>:<span>{s1}</span></p>
-
+                                <div className="underDiv">
+                                    <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={!isStart ? e => StartVideo() : e => clickRecord()}
+                                    //  onMouseOver={e => { (e.currentTarget.src = playDark) }}
+                                    // onMouseOut={e => (e.currentTarget.src = play)}
+                                    >
+                                    </img>
+                                    {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
+                                    <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
+                                    <p class="live">Live</p>
+                                </div>
 
                             </div></div>
 
@@ -297,18 +307,9 @@ const Video = (props) => {
                 </div >
             </div >
 
-            <Button variant="danger" onClick={(e) => { stopStreamedVideo(localStreamRef) }}>close camera</Button>
-            <Button variant="danger" onClick={(e) => { openCamera() }}>open camera</Button>
-            <div className="underDiv">
-                <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={!isStart ? e => StartVideo() : e => clickRecord()}
-                //  onMouseOver={e => { (e.currentTarget.src = playDark) }}
-                // onMouseOut={e => (e.currentTarget.src = play)}
-                >
-                </img>
-                {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
-                <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
-                <p class="live">Live</p>
-            </div>
+            {/* <Button variant="danger" onClick={(e) => { stopStreamedVideo(localStreamRef) }}>close camera</Button> */}
+            {/* <Button variant="danger" onClick={(e) => { openCamera() }}>open camera</Button> */}
+
         </>
     )
 }
