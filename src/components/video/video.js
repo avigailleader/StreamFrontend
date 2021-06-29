@@ -10,8 +10,7 @@ import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { useStopwatch } from 'react-timer-hook';
 const Video = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
-    const [isStart, setIsStart] = useState(false);
-    const [isStart1, setIsStart1] = useState(false);
+    // const [isStart, setIsStart] = useState(false);
 
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
@@ -132,8 +131,7 @@ const Video = (props) => {
             socket.emit('create', { room });
         }
         socket.on('created', room)
-        setIsStart(true)
-        setIsStart1(true)
+        setIsStart(1)
     }
     useEffect(() => {
         localStreamRef.current.srcObject = localStream.srcObject
@@ -146,35 +144,62 @@ const Video = (props) => {
 
     }
 
-
     // הקלטה
-    let mediaRecorder;
-    let recordedBlobs;
     let btnVideo = useRef()
     let downloadButton = useRef()
-    let status = true
+    const [status, setStatus] = useState(true)
+    const [isStart, setIsStart] = useState(0);
+    const [mediaR, setMediaR] = useState()
+    const [recordedBlobs,setRecordedBlobs]=useState([])
+    useEffect(() => {
+        if (mediaR) {
+            console.log("mediaR:", mediaR)
+            console.log('Created MediaRecorder', mediaR, 'with options', { mimeType: "video/webm;codecs=vp9,opus" });
+            downloadButton.current.disabled = true;
+
+            mediaR.onstop = (event) => {
+                console.log('Recorder stopped: ', event);
+                console.log('Recorded Blobs: ', recordedBlobs);
+            };
+
+            mediaR.ondataavailable = handleDataAvailable;
+            mediaR.start();
+            console.log('MediaRecorder started', mediaR);
+
+            anim.current.style.display = 'inline-block';
+            time.current.style.display = 'inline-block';
+
+
+        }
+    }, [mediaR])
 
     useEffect(() => {
-        if (isStart && isStart1)
+        debugger
+        if (isStart == 1)
             clickRecord()
     }, [isStart])
     const clickRecord = async () => {
-
+        debugger
         if (status) {
             startRecording();
-            status = !status
+            // setMediaR(mediaRecorder)
+            console.log("mediaR:", mediaR);
+            setStatus(false)
+            setIsStart(2)
             btnVideo.current.src = pouse
         } else {
+            // mediaRecorder = mediaR
             stopRecording();
             pause()
             btnVideo.current.src = play
             downloadButton.current.disabled = false;
-            status = !status
+            setStatus(true)
+
         }
     }
 
     function stopRecording() {
-        mediaRecorder.stop();
+        mediaR.stop();
         anim.current.style.display = 'none';
         // להפעיל פונקציה שעוצרת את השעון
         setIsStart(false);
@@ -182,17 +207,20 @@ const Video = (props) => {
     }
     function startRecording() {
         start()
-        recordedBlobs = [];
+        let mr
         try {
-            mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: "video/webm;codecs=vp9,opus" });//window.stream, options);
+            mr = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: "video/webm;codecs=vp9,opus" });//window.stream, options);
+            setMediaR(mr)
         } catch (e0) {
             console.log('Unable to create MediaRecorder with options Object: ', { mimeType: "video/webm;codecs=vp9,opus" }, e0);
             try {
-                mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: 'video/webm;codecs=vp8' });
+                mr = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: 'video/webm;codecs=vp8' });
+                setMediaR(mr)
             } catch (e1) {
                 console.log('Unable to create MediaRecorder with options Object: ', { mimeType: 'video/webm;codecs=vp8' }, e1);
                 try {
-                    mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, 'video/mp4');
+                    mr = new MediaRecorder(window.store.getState().socketReducer.localStream, 'video/mp4');
+                    setMediaR(mr)
                 } catch (e2) {
                     alert('MediaRecorder is not supported by this browser.');
                     console.error('Exception while creating MediaRecorder:', e2);
@@ -201,26 +229,13 @@ const Video = (props) => {
             }
 
         }
-        //cfcgfcgfcgfcfgfcgf
-        console.log('Created MediaRecorder', mediaRecorder, 'with options', { mimeType: "video/webm;codecs=vp9,opus" });
-        downloadButton.current.disabled = true;
-        mediaRecorder.onstop = (event) => {
-            console.log('Recorder stopped: ', event);
-            console.log('Recorded Blobs: ', recordedBlobs);
-        };
-        mediaRecorder.ondataavailable = handleDataAvailable;
-        mediaRecorder.start();
-        console.log('MediaRecorder started', mediaRecorder);
-
-        anim.current.style.display = 'inline-block';
-        time.current.style.display = 'inline-block';
 
     }
     // דוחף למערך סטרימים
     function handleDataAvailable(event) {
         console.log('handleDataAvailable', event);
         if (event.data && event.data.size > 0) {
-            recordedBlobs.push(event.data);
+            setRecordedBlobs(rb=>[...rb,event.data]);
         }
     }
     // להורדה

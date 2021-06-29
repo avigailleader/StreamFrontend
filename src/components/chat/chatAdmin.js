@@ -21,10 +21,8 @@ const MyChats = () => {
     const divRef = useRef()
     useEffect(() => {
         socket.on('message-to-admin', message => {
-
             console.log(message);
-
-            console.log(message)            // let i = 0
+            // let i = 0
 
             // const m = { message: message, i: i }
             setMessagesList(messagesList => messagesList.concat({ 'messageText': message }))
@@ -33,6 +31,8 @@ const MyChats = () => {
 
     }, [])
     const shareMessage = (e) => {
+
+   
 
         console.log(e);
         let div = document.getElementById('showShare')
