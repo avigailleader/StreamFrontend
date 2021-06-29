@@ -203,7 +203,9 @@ const Video = (props) => {
         mediaR.stop();
         anim.current.style.display = 'none';
         // להפעיל פונקציה שעוצרת את השעון
-        setIsStart(false);
+        // אני רוצה להפעיל את היוז אפקט רק אם הוא מתחיל סרטון 
+        // ואני לא יכולה לשנות את הסטייט לטרו בעצירת סרטון כי אז הוא מבצע לי את יוז אפקט
+        setIsStart(1);
 
     }
     function startRecording() {
@@ -254,6 +256,8 @@ const Video = (props) => {
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
         }, 100);
+        setRecordedBlobs([])
+        setMediaR()
     }
     return (
         <>
