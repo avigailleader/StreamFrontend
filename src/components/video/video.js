@@ -8,6 +8,7 @@ import playDark from "../../assets/Group 21705.svg"
 import { useStopwatch } from 'react-timer-hook';
 const Video = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
+    // const [isStart, setIsStart] = useState(false);
 
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
@@ -101,7 +102,7 @@ const Video = (props) => {
     }, [])
 
     const StartVideo = async () => {
-        debugger
+
         if (window.location.href.includes("admin")) {
             room = userName
             dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
