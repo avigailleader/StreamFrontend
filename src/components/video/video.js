@@ -36,7 +36,7 @@ const Video = (props) => {
     let room
     let anim = useRef()
     let time = useRef()
-    setInterval(() => { }, 1000)
+    // setInterval(() => { }, 1000)
     var h1, m1, s1;
     if (seconds < 10) {
 
@@ -115,14 +115,22 @@ const Video = (props) => {
         setMessage(message['data'] = msg)
 
     }
+
     const showMessageToShare = () => {
+        let canvas = document.getElementById("myCanvas");
+        console.log(canvas);
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, 150, 75);
         debugger
         let div = document.getElementById('showMessage')
+        alert('div:', div)
         console.log(message.data);
-        div.innerHTML = message.data
-
+        // div.innerHTML = message.data
+        alert(message.data)
         console.log(div);
     }
+
     const StartVideo = async () => {
 
         if (window.location.href.includes("admin")) {
@@ -150,7 +158,7 @@ const Video = (props) => {
     const [status, setStatus] = useState(true)
     const [isStart, setIsStart] = useState(0);
     const [mediaR, setMediaR] = useState()
-    const [recordedBlobs,setRecordedBlobs]=useState([])
+    const [recordedBlobs, setRecordedBlobs] = useState([])
     useEffect(() => {
         if (mediaR) {
             console.log("mediaR:", mediaR)
@@ -235,7 +243,7 @@ const Video = (props) => {
     function handleDataAvailable(event) {
         console.log('handleDataAvailable', event);
         if (event.data && event.data.size > 0) {
-            setRecordedBlobs(rb=>[...rb,event.data]);
+            setRecordedBlobs(rb => [...rb, event.data]);
         }
     }
     // להורדה
@@ -262,13 +270,14 @@ const Video = (props) => {
                     <div id='showMessage'></div>
                     {ifShow ?
                         <>
-                            {showMessageToShare}
-                            {/* <h2>hi its from video</h2> */}
-                        </>
-                        // <div className='col-8'>
+                            <canvas id='myCanvas' style={{backgroundColor:'black'}}>{showMessageToShare}</canvas>
 
-                        // </div>
+                        </>
+
                         : null}
+
+
+
                     {window.location.href.includes("admin") ?
                         <div className="col-12">
                             <div className="diVideo">
@@ -285,7 +294,8 @@ const Video = (props) => {
                         :
                         <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
                     }
-                </div ></div >
+                </div >
+            </div >
 
             <Button variant="danger" onClick={(e) => { stopStreamedVideo(localStreamRef) }}>close camera</Button>
             <Button variant="danger" onClick={(e) => { openCamera() }}>open camera</Button>

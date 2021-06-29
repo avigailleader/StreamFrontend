@@ -23,10 +23,15 @@ const UserChat = () => {
     const userName = useSelector(state => state.userReducer.userName)
     const [messagesList, setMessagesList] = useState([])
     const addMessage = () => {
-
-        setMessage(message['messageText'] = input_value)
+        if (!input_value || input_value ===" ") {
+            setMessage({ 'messageText': input_value })
+        }
+        else {
+            setMessage(message['messageText'] = input_value)
+        }
         setMessagesList(messagesList => messagesList.concat(message))
         $('input').val('')
+
         send()
     }
 
@@ -37,6 +42,7 @@ const UserChat = () => {
     const handleSendMessage = () => {
 
         socket.emit('send-message', { message, id: Date.now(), userName });
+        // setMessage(message['messageText'] = '')
     }
     useEffect(() => {
         console.log("xdcxfc");
