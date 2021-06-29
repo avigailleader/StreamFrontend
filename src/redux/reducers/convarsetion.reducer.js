@@ -11,7 +11,8 @@ const initialState = {
     connectionUserModel: true,
     cameraStatus: false,
     microphoneStatus: false,
-    messagesList:["dgdg"]
+    receiveMessageToAll:{}
+    
 
 }
 
@@ -42,6 +43,9 @@ const convarsetionData = {
     setMicrophoneStatus(state, action) {
         state.microphoneStatus = action.payload;
     },
+    setReceiveMessageToAll(state,action){
+        state.receiveMessageToAll=action.payload;
+    }
 
 }
 

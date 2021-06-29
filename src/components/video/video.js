@@ -8,10 +8,11 @@ import playDark from "../../assets/Group 21705.svg"
 import { useStopwatch } from 'react-timer-hook';
 const Video = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
-    const [isStart, setIsStart] = useState(false);
+
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
     const streamConstraints = useSelector(state => state.socketReducer.streamConstraints)
+    const receiveToAll = useSelector(state => state.convarsetionReducer.receiveMessageToAll)
     const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
     const userName = useSelector(state => state.userReducer.userName)
     const localStream = useSelector(state => state.socketReducer.localStream)
@@ -21,45 +22,19 @@ const Video = (props) => {
         seconds,
         minutes,
         hours,
+        isRunning,
         start,
+        reset,
         pause,
     } = useStopwatch({ autoStart: true });
 
     let room
     let anim = useRef()
     let time = useRef()
-
-    function pad(val) {
-        var valString = val + "";
-        if (valString.length < 2) {
-            return "0" + valString;
-        }
-        else {
-            return valString;
-        }
-    }
-    const calculateTimeLeft = () => {
-        let year = new Date().getFullYear();
-        let difference = +new Date(`10/01/${year}`) - +new Date();
-        let timeLeft = {};
-
-        if (difference > 0) {
-            timeLeft = {
-                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-                minutes: Math.floor((difference / 1000 / 60) % 60),
-                // seconds: Math.floor((difference / 1000) % 60)
-            };
-        }
-
-        return timeLeft;
-
-    }
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-
-
+    setInterval(() => { }, 1000)
     var h1, m1, s1;
     if (seconds < 10) {
+
         s1 = '0' + seconds
     }
     else {
@@ -77,6 +52,24 @@ const Video = (props) => {
     else {
         h1 = hours
     }
+    const stopStreamedVideo = () => {
+        pause()
+        debugger
+        const stream = localStreamRef.current.srcObject;
+        const tracks = stream.getTracks();
+
+        tracks.forEach(function (track) {
+            track.stop();
+        });
+
+        // localStreamRef.current.srcObject = null;
+    }
+    const openCamera = () => {
+        dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', });
+        start(true)
+
+    }
+
     useEffect(() => {
         setDisplayVideo(true)
         let userName = ""
@@ -102,7 +95,8 @@ const Video = (props) => {
         }
         socket.on('receive-message-to-all', message => {
             console.log("receive-message-to-all " + message);
-            alert(message);
+            dispatch(actions.setReceiveMessageToAll(message))
+            // alert(message);
         });
     }, [])
 
@@ -113,9 +107,8 @@ const Video = (props) => {
             dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
             socket.emit('create', { room });
         }
-
         socket.on('created', room)
-        setIsStart(true)
+        setIsStart(1)
     }
     useEffect(() => {
         localStreamRef.current.srcObject = localStream.srcObject
@@ -128,62 +121,83 @@ const Video = (props) => {
 
     }
 
-
     // הקלטה
-    let mediaRecorder;
-    let recordedBlobs;
     let btnVideo = useRef()
-    let startBtnRef = useRef()
-    let checkStart = useRef()
     let downloadButton = useRef()
-    let gumVideo = useRef()
+    const [status, setStatus] = useState(true)
+    const [isStart, setIsStart] = useState(0);
+    const [mediaR, setMediaR] = useState()
+    const [recordedBlobs,setRecordedBlobs]=useState([])
+    useEffect(() => {
+        if (mediaR) {
+            console.log("mediaR:", mediaR)
+            console.log('Created MediaRecorder', mediaR, 'with options', { mimeType: "video/webm;codecs=vp9,opus" });
+            downloadButton.current.disabled = true;
 
-    let status = true
+            mediaR.onstop = (event) => {
+                console.log('Recorder stopped: ', event);
+                console.log('Recorded Blobs: ', recordedBlobs);
+            };
+
+            mediaR.ondataavailable = handleDataAvailable;
+            mediaR.start();
+            console.log('MediaRecorder started', mediaR);
+
+            anim.current.style.display = 'inline-block';
+            time.current.style.display = 'inline-block';
+
+
+        }
+    }, [mediaR])
 
     useEffect(() => {
-        if (isStart)
+        debugger
+        if (isStart == 1)
             clickRecord()
     }, [isStart])
-    const closeCamera = () => {
+    const clickRecord = async () => {
         debugger
-        console.log("vhgvwvcjdkbkj");
-        // dispatch({ type: 'CLOSE_CAMERA', });
-
-        dispatch(actions.setStreamConstraints({ "video": false, "audio": true }))
-        dispatch({ type: 'CLOSE_CAMERA', });
-    }
-    function clickRecord() {
-
         if (status) {
             startRecording();
-            status = !status
+            // setMediaR(mediaRecorder)
+            console.log("mediaR:", mediaR);
+            setStatus(false)
+            setIsStart(2)
+            btnVideo.current.src = pouse
         } else {
+            // mediaRecorder = mediaR
             stopRecording();
+            pause()
             btnVideo.current.src = play
             downloadButton.current.disabled = false;
-            status = !status
+            setStatus(true)
+
         }
     }
 
     function stopRecording() {
-        mediaRecorder.stop();
+        mediaR.stop();
         anim.current.style.display = 'none';
         // להפעיל פונקציה שעוצרת את השעון
         setIsStart(false);
+
     }
     function startRecording() {
-        debugger
-        recordedBlobs = [];
+        start()
+        let mr
         try {
-            mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: "video/webm;codecs=vp9,opus" });//window.stream, options);
+            mr = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: "video/webm;codecs=vp9,opus" });//window.stream, options);
+            setMediaR(mr)
         } catch (e0) {
             console.log('Unable to create MediaRecorder with options Object: ', { mimeType: "video/webm;codecs=vp9,opus" }, e0);
             try {
-                mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: 'video/webm;codecs=vp8' });
+                mr = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: 'video/webm;codecs=vp8' });
+                setMediaR(mr)
             } catch (e1) {
                 console.log('Unable to create MediaRecorder with options Object: ', { mimeType: 'video/webm;codecs=vp8' }, e1);
                 try {
-                    mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, 'video/mp4');
+                    mr = new MediaRecorder(window.store.getState().socketReducer.localStream, 'video/mp4');
+                    setMediaR(mr)
                 } catch (e2) {
                     alert('MediaRecorder is not supported by this browser.');
                     console.error('Exception while creating MediaRecorder:', e2);
@@ -192,46 +206,18 @@ const Video = (props) => {
             }
 
         }
-        console.log('Created MediaRecorder', mediaRecorder, 'with options', { mimeType: "video/webm;codecs=vp9,opus" });
-        downloadButton.current.disabled = true;
-        mediaRecorder.onstop = (event) => {
-            console.log('Recorder stopped: ', event);
-            console.log('Recorded Blobs: ', recordedBlobs);
-        };
-        mediaRecorder.ondataavailable = handleDataAvailable;
-        mediaRecorder.start();
-        console.log('MediaRecorder started', mediaRecorder);
-        debugger
-        anim.current.style.display = 'inline-block';
-        time.current.style.display = 'inline-block';
 
     }
     // דוחף למערך סטרימים
     function handleDataAvailable(event) {
         console.log('handleDataAvailable', event);
         if (event.data && event.data.size > 0) {
-            recordedBlobs.push(event.data);
+            setRecordedBlobs(rb=>[...rb,event.data]);
         }
     }
     // להורדה
     function clickDownload() {
 
-        const blob = new Blob(recordedBlobs, { type: 'video/webm' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = 'test.webm';
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(() => {
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }, 100);
-    }
-    // להורדה
-    function clickDownload() {
-        debugger
         const blob = new Blob(recordedBlobs, { type: 'video/webm' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -280,7 +266,8 @@ const Video = (props) => {
                         <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
                     }</div>
             </div>
-            <button onClick={(e) => { closeCamera() }}>close camera</button>
+            <button onClick={(e) => { stopStreamedVideo(localStreamRef) }}>close camera</button>
+            <button onClick={(e) => { openCamera() }}>close camera</button>
 
         </>
     )

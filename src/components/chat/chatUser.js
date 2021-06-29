@@ -18,30 +18,29 @@ import { useDispatch, useSelector } from 'react-redux'
 const UserChat = () => {
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
-    const [input_value, setInput_value] = useState(' ');
-    const [message, setMessage] = useState(' ')
+    const [input_value, setInput_value] = useState(" ");
+    const [message, setMessage] = useState({ 'messageText': input_value })
     const userName = useSelector(state => state.userReducer.userName)
-    const [messagesList, setMessagesList] = useState([" "])
-
+    const [messagesList, setMessagesList] = useState([])
     const addMessage = () => {
 
-        setMessagesList(messagesList => messagesList.concat(input_value))
+        setMessage(message['messageText'] = input_value)
+        setMessagesList(messagesList => messagesList.concat(message))
         $('input').val('')
         send()
-
     }
 
     const messageRef = useRef()
     const handleInput = (e) => {
         setInput_value(e.target.value)
     }
-    const handleSendMessage = (text) => {
-        debugger
-        socket.emit('send-message', { text, id: Date.now(), userName });
+    const handleSendMessage = () => {
+
+        socket.emit('send-message', { message, id: Date.now(), userName });
     }
     useEffect(() => {
         console.log("xdcxfc");
-        debugger
+
         socket.on('send-message-to-all', message => {
             console.log("xdxcdcfcfcfzzs");
             console.log(message);
@@ -49,7 +48,7 @@ const UserChat = () => {
         });
     }, [])
     const send = () => {
-        debugger
+
         setInput_value(input_value)
         if (input_value && input_value != '') {
             handleSendMessage(input_value);
@@ -77,7 +76,7 @@ const UserChat = () => {
                             {messagesList.map((member, index) => (
                                 <div className='row d-flex flex-row'>
 
-                                    <div>{member}</div>
+                                    <div>{member.messageText}</div>
 
                                 </div>
                             ))}

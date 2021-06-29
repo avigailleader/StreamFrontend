@@ -1,0 +1,14 @@
+.member:hover{
+    background-color:  #0000000F;
+    border-radius: 12px; 
+    
+}
+
+
+.profil:hover{
+ background-image: url('../../../assets/chats&viewers/share.svg');
+}
+
+.divHover{
+    background-image: url('../../../assets/chats&viewers/share.svg')
+}
