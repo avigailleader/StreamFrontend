@@ -86,10 +86,9 @@ const Video = (props) => {
         const desc = new RTCSessionDescription(data.sdp);
         peer.setRemoteDescription(desc).catch(e => console.log(e));
     }
-
     const handleTrackEvent1 = (e) => {
         debugger
-        // document.getElementById("video").srcObject = e.streams[0];
+        document.getElementById("video").srcObject = e.streams[0];
         // dispatch(actions.setLocalStream(e.streams[0]))
         // localStreamRef1.current.srcObject = e.streams[0];
     };
