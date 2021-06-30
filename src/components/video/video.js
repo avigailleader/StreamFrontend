@@ -91,7 +91,7 @@ const Video = (props) => {
         debugger
         // document.getElementById("video").srcObject = e.streams[0];
         // dispatch(actions.setLocalStream(e.streams[0]))
-        localStreamRef1.current.srcObject = e.streams[0];
+        // localStreamRef1.current.srcObject = e.streams[0];
     };
 
     const openCamera = () => {
@@ -100,6 +100,16 @@ const Video = (props) => {
 
     }
 
+    const stopStreamedVideo = () => {
+        pause()
+        debugger
+        const stream = localStreamRef.current.srcObject;
+        const tracks = stream.getTracks();
+
+        tracks.forEach(function (track) {
+            track.stop();
+        });
+    }
 
     useEffect(() => {
         setDisplayVideo(true)
