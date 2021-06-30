@@ -6,6 +6,7 @@ import pouse from "../../assets/Group 21662.svg"
 import play from "../../assets/Component 719 – 5.svg"
 import playDark from "../../assets/Group 21705.svg"
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import axios from 'axios'
 
 import { useStopwatch } from 'react-timer-hook';
 const Video = (props) => {
@@ -21,6 +22,8 @@ const Video = (props) => {
     const userName = useSelector(state => state.userReducer.userName)
     const localStream = useSelector(state => state.socketReducer.localStream)
     const localStreamRef = useRef()
+    const localStreamRef1 = useRef()
+
     const { history } = props;
     const {
         seconds,
@@ -56,23 +59,47 @@ const Video = (props) => {
     else {
         h1 = hours
     }
-    const stopStreamedVideo = () => {
-        pause()
+    const createPeer1 = () => {
         debugger
-        const stream = localStreamRef.current.srcObject;
-        const tracks = stream.getTracks();
-
-        tracks.forEach(function (track) {
-            track.stop();
+        const peer = new RTCPeerConnection({
+            iceServers: [
+                {
+                    urls: "stun:stun.stunprotocol.org"
+                }
+            ]
         });
+        peer.ontrack = handleTrackEvent1;
+        peer.onnegotiationneeded = () => handleNegotiationNeededEvent1(peer);
 
-        // localStreamRef.current.srcObject = null;
+        return peer;
     }
+
+    const handleNegotiationNeededEvent1 = async (peer) => {
+        debugger
+        const offer = await peer.createOffer();
+        await peer.setLocalDescription(offer);
+        const payload = {
+            sdp: peer.localDescription
+        };
+
+        const { data } = await axios.post('https://stream.vlogger.codes/consumer', payload);
+        const desc = new RTCSessionDescription(data.sdp);
+        peer.setRemoteDescription(desc).catch(e => console.log(e));
+    }
+
+    const handleTrackEvent1 = (e) => {
+        debugger
+        // document.getElementById("video").srcObject = e.streams[0];
+        dispatch(actions.setLocalStream(e.streams[0]))
+        // localStreamRef1.current.srcObject = e.streams[0];
+    };
+
     const openCamera = () => {
         dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', });
         start(true)
 
     }
+
 
     useEffect(() => {
         setDisplayVideo(true)
@@ -80,13 +107,17 @@ const Video = (props) => {
         if (window.location.href.includes("admin")) {
             userName = window.location.pathname.split("/")[2];
         }
-        else
+        else {
             userName = window.location.pathname.split("/")[1];
+            debugger
+            const peer = createPeer1();
+            peer.addTransceiver("video", { direction: "recvonly" })
+        }
         console.log("username!! " + userName)
         dispatch(actions.setUserName(userName))
         if (!window.location.href.includes("admin")) {
-            dispatch(actions.setStreamConstraints({ "video": false, "audio": false }))
-            dispatch(actions.setConnectionUserModal(true))
+            // dispatch(actions.setStreamConstraints({ "video": false, "audio": false }))
+            // dispatch(actions.setConnectionUserModal(true))
             room = userName
             socket.emit('join', { room });
             // socket.on('joined', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
@@ -94,6 +125,7 @@ const Video = (props) => {
             socket.on('joined', () => { alert("joined successfully to " + room) });
         }
         else {
+            // startStream()
             dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', });
 
         }
@@ -108,7 +140,7 @@ const Video = (props) => {
 
         if (window.location.href.includes("admin")) {
             room = userName
-            dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
+            // dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
             socket.emit('create', { room });
         }
         socket.on('created', room)
@@ -116,7 +148,11 @@ const Video = (props) => {
         setIsStart1(true)
     }
     useEffect(() => {
+        // if (window.location.href.includes("admin")) {
+        //     debugger
         localStreamRef.current.srcObject = localStream.srcObject
+        // }
+
     }, [localStream])
     const isMuted = () => {
 
@@ -153,14 +189,14 @@ const Video = (props) => {
         }
     }
 
-    function stopRecording() {
+    const stopRecording = () => {
         mediaRecorder.stop();
         anim.current.style.display = 'none';
         // להפעיל פונקציה שעוצרת את השעון
         setIsStart(false);
 
     }
-    function startRecording() {
+    const startRecording = () => {
         start()
         recordedBlobs = [];
         try {
@@ -181,7 +217,6 @@ const Video = (props) => {
             }
 
         }
-        //cfcgfcgfcgfcfgfcgf
         console.log('Created MediaRecorder', mediaRecorder, 'with options', { mimeType: "video/webm;codecs=vp9,opus" });
         downloadButton.current.disabled = true;
         mediaRecorder.onstop = (event) => {
@@ -197,14 +232,14 @@ const Video = (props) => {
 
     }
     // דוחף למערך סטרימים
-    function handleDataAvailable(event) {
+    const handleDataAvailable = (event) => {
         console.log('handleDataAvailable', event);
         if (event.data && event.data.size > 0) {
             recordedBlobs.push(event.data);
         }
     }
     // להורדה
-    function clickDownload() {
+    const clickDownload = () => {
 
         const blob = new Blob(recordedBlobs, { type: 'video/webm' });
         const url = window.URL.createObjectURL(blob);
@@ -229,7 +264,7 @@ const Video = (props) => {
 
                         <div className="col-12">
                             <div className="diVideo">
-                                <video id="localVideo" height="100%" width="100%" muted={true} autoPlay ref={localStreamRef} >
+                                <video id="localVideo" height="100%" width="100%" muted={true} autoPlay eref={localStreamRef} >
                                 </video>
 
                             </div>
@@ -248,17 +283,15 @@ const Video = (props) => {
                                 <p class="live">Live</p>
                             </div>
                         </div>
-
-
                         :
-                        <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
-                    }</div>
+                        <video id="video" autoPlay ref={localStreamRef}  ></video>}</div>
             </div>
+
             <Button variant="danger" onClick={(e) => { stopStreamedVideo(localStreamRef) }}>close camera</Button>
             <Button variant="danger" onClick={(e) => { openCamera() }}>close camera</Button>
+            {/* <video id="video" ></video> */}
 
         </>
     )
 }
-
 export default Video

@@ -10,10 +10,8 @@ const addLocalStream = ({ dispatch, getState }) => next => action => {
         let localStream = getState().socketReducer.localStream;
 
         localStream.srcObject = action.payload;
-        const peer = createPeer();
-        stream.getTracks().forEach(track => peer.addTrack(track, stream));
-        dispatch(actions.setLocalVideo(localStream));
 
+        // dispatch(actions.setLocalVideo(localStream));
     }
     return next(action);
 }
@@ -39,7 +37,7 @@ async function handleNegotiationNeededEvent(peer) {
         sdp: peer.localDescription
     };
 
-    const { data } = await axios.post('/broadcast', payload);
+    const { data } = await axios.post('https://stream.vlogger.codes/broadcast', payload);
     const desc = new RTCSessionDescription(data.sdp);
     peer.setRemoteDescription(desc).catch(e => console.log(e));
 }
@@ -53,6 +51,8 @@ const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
             .then(function (stream) {
 
                 dispatch({ type: 'ADD_LOCAL_STREAM', payload: stream });
+                const peer = createPeer();
+                stream.getTracks().forEach(track => peer.addTrack(track, stream));
                 dispatch(actions.setIsCaller(true));
                 // dispatch({ type: 'ADD_NEW_CONVERSATION' });
 
