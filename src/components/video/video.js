@@ -90,8 +90,8 @@ const Video = (props) => {
     const handleTrackEvent1 = (e) => {
         debugger
         // document.getElementById("video").srcObject = e.streams[0];
-        dispatch(actions.setLocalStream(e.streams[0]))
-        // localStreamRef1.current.srcObject = e.streams[0];
+        // dispatch(actions.setLocalStream(e.streams[0]))
+        localStreamRef1.current.srcObject = e.streams[0];
     };
 
     const openCamera = () => {
@@ -148,10 +148,10 @@ const Video = (props) => {
         setIsStart1(true)
     }
     useEffect(() => {
-        // if (window.location.href.includes("admin")) {
-        //     debugger
-        localStreamRef.current.srcObject = localStream.srcObject
-        // }
+        if (window.location.href.includes("admin")) {
+            debugger
+            localStreamRef.current.srcObject = localStream.srcObject
+        }
 
     }, [localStream])
     const isMuted = () => {
@@ -264,7 +264,7 @@ const Video = (props) => {
 
                         <div className="col-12">
                             <div className="diVideo">
-                                <video id="localVideo" height="100%" width="100%" muted={true} autoPlay eref={localStreamRef} >
+                                <video id="localVideo" height="100%" width="100%" muted={true} autoPlay ref={localStreamRef} >
                                 </video>
 
                             </div>
@@ -284,12 +284,11 @@ const Video = (props) => {
                             </div>
                         </div>
                         :
-                        <video id="video" autoPlay ref={localStreamRef}  ></video>}</div>
+                        <video id="video" ref={localStreamRef1}></video>}</div>
             </div>
 
             <Button variant="danger" onClick={(e) => { stopStreamedVideo(localStreamRef) }}>close camera</Button>
             <Button variant="danger" onClick={(e) => { openCamera() }}>close camera</Button>
-            {/* <video id="video" ></video> */}
 
         </>
     )
