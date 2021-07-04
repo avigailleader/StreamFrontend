@@ -6,7 +6,7 @@ import pouse from "../../assets/Group 21662.svg"
 import play from "../../assets/Component 719 – 5.svg"
 import playDark from "../../assets/Group 21705.svg"
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-
+import $ from 'jquery'
 import { useStopwatch } from 'react-timer-hook';
 const Video = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
@@ -63,16 +63,18 @@ const Video = (props) => {
         const stream = localStreamRef.current.srcObject;
         const tracks = stream.getTracks();
 
-        tracks.forEach(function (track) {
+        tracks.forEach((track) => {
             track.stop();
         });
 
         // localStreamRef.current.srcObject = null;
     }
     const openCamera = () => {
-        dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', });
-        start(true)
-
+        return new Promise((resolve, reject) => {
+            dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', })
+            start(true)
+            resolve("camera open")
+        })
     }
 
     useEffect(() => {
@@ -124,6 +126,10 @@ const Video = (props) => {
         console.log(div);
     }
     const StartVideo = async () => {
+        // debugger רק אם נצטרך שתי הקלטות ברינדור אחד נטפל בזה
+        // if (!status) {
+        //     await openCamera()
+        // }
 
         if (window.location.href.includes("admin")) {
             room = userName
@@ -131,7 +137,8 @@ const Video = (props) => {
             socket.emit('create', { room });
         }
         socket.on('created', room)
-        setIsStart(1)
+        setStatus(true)
+        setIsStart(true)
     }
     useEffect(() => {
         localStreamRef.current.srcObject = localStream.srcObject
@@ -148,7 +155,7 @@ const Video = (props) => {
     let btnVideo = useRef()
     let downloadButton = useRef()
     const [status, setStatus] = useState(true)
-    const [isStart, setIsStart] = useState(0);
+    const [isStart, setIsStart] = useState(false);
     const [mediaR, setMediaR] = useState()
     const [recordedBlobs, setRecordedBlobs] = useState([])
     useEffect(() => {
@@ -163,7 +170,10 @@ const Video = (props) => {
             };
 
             mediaR.ondataavailable = handleDataAvailable;
-            mediaR.start();
+            try {
+                mediaR.start();
+            } catch (err) { console.log(err); }
+
             console.log('MediaRecorder started', mediaR);
 
             anim.current.style.display = 'inline-block';
@@ -175,40 +185,35 @@ const Video = (props) => {
 
     useEffect(() => {
         debugger
-        if (isStart == 1)
+        if (isStart && status)
             clickRecord()
     }, [isStart])
     const clickRecord = async () => {
         debugger
         if (status) {
             startRecording();
-            // setMediaR(mediaRecorder)
-            console.log("mediaR:", mediaR);
             setStatus(false)
-            setIsStart(2)
+            setIsStart(true)
             btnVideo.current.src = pouse
         } else {
-            // mediaRecorder = mediaR
             stopRecording();
             pause()
             btnVideo.current.src = play
             downloadButton.current.disabled = false;
-            setStatus(true)
+            setIsStart(false)
             stopStreamedVideo(localStreamRef)
 
         }
     }
 
-    function stopRecording() {
+    const stopRecording = () => {
         mediaR.stop();
         anim.current.style.display = 'none';
         // להפעיל פונקציה שעוצרת את השעון
         // אני רוצה להפעיל את היוז אפקט רק אם הוא מתחיל סרטון 
         // ואני לא יכולה לשנות את הסטייט לטרו בעצירת סרטון כי אז הוא מבצע לי את יוז אפקט
-        setIsStart(1);
-
     }
-    function startRecording() {
+    const startRecording = () => {
         start()
         let mr
         try {
@@ -235,17 +240,46 @@ const Video = (props) => {
 
     }
     // דוחף למערך סטרימים
-    function handleDataAvailable(event) {
+    const handleDataAvailable = (event) => {
         console.log('handleDataAvailable', event);
         if (event.data && event.data.size > 0) {
             setRecordedBlobs(rb => [...rb, event.data]);
         }
     }
-    // להורדה
-    function clickDownload() {
+    const uploadVideo = (fileToUpload) => {
 
+        var myFile = new FormData();
+        myFile.append("file", fileToUpload);
+
+        $.ajax({
+
+            type: "POST",
+            url: "https://files.codes/api/" + userName + "/upload",
+            headers: { Authorization: " liveChat/userWithOutJwt" },
+            data: myFile,
+            processData: false,
+            contentType: false,
+            success: (data) => {
+                alert("upload success");
+                console.log(data)
+
+            },
+            error: function (err) {
+                alert('please try again later',err);
+
+            },
+        });
+        
+    }
+
+
+    // להורדה
+
+    const clickDownload = () => {
         const blob = new Blob(recordedBlobs, { type: 'video/webm' });
         const url = window.URL.createObjectURL(blob);
+        // העלאה לשרת
+        uploadVideo(url)
         const a = document.createElement('a');
         a.style.display = 'none';
         a.href = url;
