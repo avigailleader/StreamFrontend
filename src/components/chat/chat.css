@@ -1,3 +1,6 @@
+.cb{
+    height: 40vh;
+}
 .chatCard {
     color: #FFFFFF;
     direction: rtl;
@@ -11,6 +14,7 @@
     border-radius: 12px;
     border-color: none;
     opacity: 1;
+    height: 40vh;
 
 }
 .chatHeader{

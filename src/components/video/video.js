@@ -161,7 +161,7 @@ const Video = (props) => {
     useEffect(() => {
         if (mediaR) {
             console.log("mediaR:", mediaR)
-            console.log('Created MediaRecorder', mediaR, 'with options', { mimeType: "video/webm;codecs=vp9,opus" });
+            console.log('Created MediaRecorder', mediaR, 'with options', { mimeType: "video/WEBM;codecs=VP8,OPUS" });
             downloadButton.current.disabled = true;
 
             mediaR.onstop = (event) => {
@@ -215,9 +215,12 @@ const Video = (props) => {
     }
     const startRecording = () => {
         start()
+        debugger
         let mr
         try {
-            mr = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: "video/webm;codecs=vp9,opus" });//window.stream, options);
+            mr = new MediaRecorder(window.store.getState().socketReducer.localStream,{ mimeType: "video/webm;codecs=vp8,vp9,opus" } );
+
+            // mr = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: "video/webm;codecs=vp9,opus" });//window.stream, options);
             setMediaR(mr)
         } catch (e0) {
             console.log('Unable to create MediaRecorder with options Object: ', { mimeType: "video/webm;codecs=vp9,opus" }, e0);
@@ -257,6 +260,8 @@ const Video = (props) => {
             url: "https://files.codes/api/" + userName + "/upload",
             headers: { Authorization: " liveChat/userWithOutJwt" },
             data: myFile,
+            async: false,
+
             processData: false,
             contentType: false,
             success: (data) => {
@@ -276,7 +281,7 @@ const Video = (props) => {
     // להורדה
 
     const clickDownload = () => {
-        const blob = new Blob(recordedBlobs, { type: 'video/webm' });
+        const blob = new Blob(recordedBlobs, { type: 'video/mebm' });
         const url = window.URL.createObjectURL(blob);
         // העלאה לשרת
         uploadVideo(url)
@@ -290,8 +295,8 @@ const Video = (props) => {
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
         }, 100);
-        setRecordedBlobs([])
-        setMediaR()
+        // setRecordedBlobs([])
+        // setMediaR()
     }
     return (
         <>
