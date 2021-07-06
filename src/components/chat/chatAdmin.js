@@ -32,17 +32,18 @@ const MyChats = () => {
     }, [])
     const shareMessage = (e) => {
 
-   
-
         console.log(e);
-        let div = document.getElementById('showShare')
-        div.innerHTML = e.innerHTML
-        console.log(e.innerHTML);
-        setMessageToShare(messageToShare['data'] = e.innerHTML)
+        // let div = document.getElementById('showShare')
+        // div.innerHTML = e.innerHTML
+        // console.log(e.innerHTML);
+        // setMessageToShare(messageToShare.userImg = e.children[0])
+       
+        setMessageToShare((messageToShare.userImg= e.children[0].outerHTML))
+        setMessageToShare(messageToShare.dataDiv =e.children[1].innerText)
         socket.emit('send-message-to-all', { messageToShare });
-        
+
         setMessageToShare({})
-        
+
     }
     const onMouseOver = (e) => {
         console.log(e);

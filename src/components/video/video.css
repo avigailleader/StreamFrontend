@@ -98,6 +98,43 @@
     right: 1.5%;
     position: absolute;
 }
+
 @keyframes blinker {  
     50% { opacity: 0; }
+}
+
+
+.canvas{
+    /* height: 100px;
+    width: 350px; */
+    border: black solid 1px;
+    text-align: center;
+    align-items: center;
+    position: absolute !important;
+    z-index: 100000000;
+    display: flex; 
+    /* animation: linearCanvas 10s infinite;
+    animation-timing-function: linear */
+}
+  
+
+/* 
+div {
+    width: 100px;
+    height: 50px;
+    background-color: red;
+    font-weight: bold;
+    position: relative;
+   
   }
+  
+  #div1 {;}
+  #div2 {animation-timing-function: ease;}
+  #div3 {animation-timing-function: ease-in;}
+  #div4 {animation-timing-function: ease-out;}
+  #div5 {animation-timing-function: ease-in-out;}
+   */
+  /* @keyframes linearCanvas {
+    from {left: 0px;}
+    to {left: 50px;}
+  } */

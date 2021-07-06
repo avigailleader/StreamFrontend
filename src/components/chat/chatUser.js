@@ -62,6 +62,7 @@ const UserChat = () => {
         }
 
         console.log(message);
+        setMessage({})
 
     }
 
