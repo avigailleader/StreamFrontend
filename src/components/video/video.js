@@ -121,11 +121,12 @@ const Video = (props) => {
     useEffect(() => {
         if (ifShow) {
             canvas = document.getElementById("myCanvas");
+            // canvas.height='500px'
             console.log('canvas:', canvas);
             ctx = canvas.getContext('2d');
             ctx.font = "20px Georgia";
             ctx.fillStyle = " #0A102E57";
-            ctx.strokeText("hello world", 50, 50);
+            ctx.strokeText("my message", 70, 50);
             let iimg = new Image();
             iimg.src = img;
             let pat = ctx.drawImage(iimg, 10, 10);
@@ -134,7 +135,7 @@ const Video = (props) => {
                 setTimeout(() => {
                     $('#myCanvas').slideDown(1000, 'fast')
                     setIfShowStatus(false);
-                }, 3000)
+                }, 2000)
             })
 
             ctx.fillStyle = pat;
