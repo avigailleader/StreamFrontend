@@ -271,7 +271,7 @@ const Video = (props) => {
             processData: false,
             contentType: false,
             success: (data) => {
-                alert("upload success"+data.data.url);
+                alert("upload success:  \n"+data.data.url);
                 console.log(data)
                 setShowModal(true)
             },
