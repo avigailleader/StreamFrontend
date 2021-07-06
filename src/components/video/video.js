@@ -271,7 +271,7 @@ const Video = (props) => {
             processData: false,
             contentType: false,
             success: (data) => {
-                alert("upload success:  \n"+data.data.url);
+                alert("upload success: "+data.data.url);
                 console.log(data)
                 setShowModal(true)
             },
@@ -347,7 +347,7 @@ const Video = (props) => {
                         <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
                     }
 
-                    {showModal ? <SaveVideoModle></SaveVideoModle> : null}
+                    {showModal ? <SaveVideoModle setShowModal={setShowModal}></SaveVideoModle> : null}
                 </div>
             </div>
             {/* <Button variant="danger" onClick={(e) => { stopStreamedVideo(localStreamRef) }}>close camera</Button> */}

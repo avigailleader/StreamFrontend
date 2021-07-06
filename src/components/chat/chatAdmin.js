@@ -81,7 +81,7 @@ const MyChats = () => {
 
     return (
         <div className="chatBox cb">
-            <Card border="light" style={{ width: '19rem', minheight: '19rem',height: '47vh'}}>
+            <Card border="light" style={{ width: '19rem', minheight: '19rem',    height: "52vh"}}>
 
 
                 <Card.Title className="cardTitle row" style={{ color: '#D10010' }}>

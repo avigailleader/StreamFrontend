@@ -16,14 +16,15 @@ import dialogNameImg from '../../assets/modal/Dialog Img.svg'
 import './SaveVideoModle.css'
 const SaveVideoModle = (props) => {
     const dispatch = useDispatch()
-
+    const {setShowModal} = props
     const saveNameVideoRef = useRef()
     const saveNameVideo = (e) => {
         debugger
         dispatch(actions.setVideoLiveName(saveNameVideoRef.current.value))
         saveNameVideoRef.current.value = " "
-
+        setShowModal(false)
     }
+
     return (
 
         <div className="row">
