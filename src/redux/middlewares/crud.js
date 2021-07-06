@@ -1,4 +1,6 @@
 import axios from 'axios';
+import env from "../../config/env/dev"
+
 // import moment from 'moment'
 
 import { actions } from '../actions/action';
@@ -166,11 +168,32 @@ const addNewConversation = store => next => action => {
     return next(action);
     // setParticipants(roomId);
 }
+const saveVideo = ({ dispatch, getState }) => next => action => {
+
+    if (action.type === 'SAVE_VIDEO') {
+        const video = {
+            videoLiveName: getState().conversationReducer.videoLiveName,
+            date: new Date(),
+            length: getState().conversationReducer.length,
+            url: getState().conversationReducer.url,
+            userName: getState().userReducer.userName
+        }
+        axios.post(env.BASE_URL + 'api/createVideo', video).then((data) => {
+            console.log(data);
+        }).catch((err) => {
+            console.log(err);
+        })
+
+    }
+    return next(action)
+
+}
 export {
     createdEventFromSocket,
     addLocalStream,
     joinedEventFromSocket,
     addNewConversation,
-    closeCamera
+    closeCamera,
+    saveVideo
 
 }

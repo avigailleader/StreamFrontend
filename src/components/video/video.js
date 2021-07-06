@@ -9,6 +9,7 @@ import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import img from '../../assets/chats&viewers/user.png';
 import { useStopwatch } from 'react-timer-hook';
 import $ from 'jquery';
+import SaveVideoModle from '../modles/SaveVideoModle'
 const Video = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
     // const [isStart, setIsStart] = useState(false);
@@ -179,10 +180,11 @@ const Video = (props) => {
     const [isStart, setIsStart] = useState(false);
     const [mediaR, setMediaR] = useState()
     const [recordedBlobs, setRecordedBlobs] = useState([])
+    const [showModal,setShowModal]=useState(false)
     useEffect(() => {
         if (mediaR) {
             console.log("mediaR:", mediaR)
-            console.log('Created MediaRecorder', mediaR, 'with options', { mimeType: "video/webm;codecs=vp9,opus" });
+            console.log('Created MediaRecorder', mediaR, 'with options', { mimeType: "video/WEBM;codecs=VP8,OPUS" });
             downloadButton.current.disabled = true;
 
             mediaR.onstop = (event) => {
@@ -228,17 +230,24 @@ const Video = (props) => {
     }
 
     const stopRecording = () => {
+
         mediaR.stop();
         anim.current.style.display = 'none';
+       
+        // clickDownload()
+
         // להפעיל פונקציה שעוצרת את השעון
         // אני רוצה להפעיל את היוז אפקט רק אם הוא מתחיל סרטון 
         // ואני לא יכולה לשנות את הסטייט לטרו בעצירת סרטון כי אז הוא מבצע לי את יוז אפקט
     }
     const startRecording = () => {
         start()
+        debugger
         let mr
         try {
-            mr = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: "video/webm;codecs=vp9,opus" });//window.stream, options);
+            mr = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: "video/webm;codecs=vp8,vp9,opus" });
+
+            // mr = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: "video/webm;codecs=vp9,opus" });//window.stream, options);
             setMediaR(mr)
         } catch (e0) {
             console.log('Unable to create MediaRecorder with options Object: ', { mimeType: "video/webm;codecs=vp9,opus" }, e0);
@@ -267,7 +276,9 @@ const Video = (props) => {
             setRecordedBlobs(rb => [...rb, event.data]);
         }
     }
-    const uploadVideo = (fileToUpload) => {
+    const uploadVideo = () => {
+        const blob = new Blob(recordedBlobs, { type: 'video/mebm' });
+        let fileToUpload = new File([blob], `test.webm`, { lastModified: new Date().getTime(), type: blob.type })
 
         var myFile = new FormData();
         myFile.append("file", fileToUpload);
@@ -281,9 +292,9 @@ const Video = (props) => {
             processData: false,
             contentType: false,
             success: (data) => {
-                alert("upload success");
+                alert("upload success:  "+data.data.url);
                 console.log(data)
-
+                setShowModal(true)
             },
             error: function (err) {
                 alert('please try again later', err);
@@ -297,22 +308,24 @@ const Video = (props) => {
     // להורדה
 
     const clickDownload = () => {
-        const blob = new Blob(recordedBlobs, { type: 'video/webm' });
-        const url = window.URL.createObjectURL(blob);
+        // const blob = new Blob(recordedBlobs, { type: 'video/mebm' });
+        // let file = new File([blob], `test.webm`, { lastModified: new Date().getTime(), type: blob.type })
+
+        // const url = window.URL.createObjectURL(blob);
         // העלאה לשרת
-        uploadVideo(url)
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = 'test.webm';
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(() => {
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }, 100);
-        setRecordedBlobs([])
-        setMediaR()
+        // uploadVideo()
+        // const a = document.createElement('a');
+        // a.style.display = 'none';
+        // a.href = url;
+        // a.download = 'test.webm';
+        // document.body.appendChild(a);
+        // a.click();
+        // setTimeout(() => {
+        //     document.body.removeChild(a);
+        //     window.URL.revokeObjectURL(url);
+        // }, 100);
+        // setRecordedBlobs([])
+        // setMediaR()
     }
     return (
         <>
@@ -343,7 +356,7 @@ const Video = (props) => {
                                     >
                                     </img>
                                     {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
-                                    <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
+                                    <button id="download" onClick={uploadVideo} ref={downloadButton} style={{backgroundColor:"red"}}>Upload Video</button>
                                     <p class="live">Live</p>
                                 </div>
 
@@ -352,9 +365,10 @@ const Video = (props) => {
                         :
                         <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
                     }
-                </div >
-            </div >
 
+                    {showModal ? <SaveVideoModle></SaveVideoModle> : null}
+                </div>
+            </div>
             {/* <Button variant="danger" onClick={(e) => { stopStreamedVideo(localStreamRef) }}>close camera</Button> */}
             {/* <Button variant="danger" onClick={(e) => { openCamera() }}>open camera</Button> */}
 

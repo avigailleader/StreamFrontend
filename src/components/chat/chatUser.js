@@ -71,7 +71,7 @@ const UserChat = () => {
 
 
             <div className="chatBox">
-                <Card border="light" style={{ width: '19rem', minheight: '19rem' }}>
+                <Card border="light" style={{ width: '19rem', minheight: '19rem' ,height: '46vh'}}>
 
                     <Card.Title className="cardTitle row" style={{ color: '#D10010' }}>
                         <div className="col-12"> chat with the admin</div>

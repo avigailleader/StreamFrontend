@@ -11,12 +11,19 @@ const initialState = {
     connectionUserModel: true,
     cameraStatus: false,
     microphoneStatus: false,
-    receiveMessageToAll:{}
-    
+    receiveMessageToAll:{},
+    videoLiveName: "",
+    date: "",
+    length: "",
+    url: "",
 
 }
 
 const convarsetionData = {
+    setVideoLiveName(state, action) {
+
+        state.videoLiveName = action.payload;
+    },
 
     setRoomId(state, action) {
 

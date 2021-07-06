@@ -12,7 +12,7 @@ const Viewers = () => {
     let numViewers = 9846
     return (
 
-        <Card border="light" style={{ width: '19rem' }}>
+        <Card border="light" style={{ width: '19rem',marginTop:'6.5vh' }}>
 
             <Card.Title className="cardTitle row" style={{ color: '#D10010' }}>
                 <div className="col-4">Viewers</div>

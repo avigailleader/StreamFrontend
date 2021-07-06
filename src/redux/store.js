@@ -10,6 +10,7 @@ import {
     joinedEventFromSocket,
     createdEventFromSocket,
     addLocalStream,
+    saveVideo,
     closeCamera
 
 
@@ -28,6 +29,7 @@ const store = createStore(
         createdEventFromSocket,
         addLocalStream,
         joinedEventFromSocket,
+        saveVideo
         // closeCamera
 
     ));
