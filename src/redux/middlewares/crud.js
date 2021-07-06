@@ -1,5 +1,6 @@
 import axios from 'axios';
 // import moment from 'moment'
+import env from "../../config/env/dev"
 
 import { actions } from '../actions/action';
 const addLocalStream = ({ dispatch, getState }) => next => action => {
@@ -37,7 +38,7 @@ async function handleNegotiationNeededEvent(peer) {
         sdp: peer.localDescription
     };
 
-    const { data } = await axios.post('https://stream.vlogger.codes/broadcast', payload);
+    const { data } = await axios.post(env.BASE_URL + 'broadcast', payload);
     const desc = new RTCSessionDescription(data.sdp);
     peer.setRemoteDescription(desc).catch(e => console.log(e));
 }
@@ -138,67 +139,34 @@ const joinedEventFromSocket = ({ dispatch, getState }) => next => action => {
     }
     return next(action)
 }
-//הוספת שיחה חדשה DB
-const addNewConversation = store => next => action => {
-    if (action.type === 'ADD_NEW_CONVERSATION') {
-        const state = store.getState();
-        if (state.conversationReducer.isCaller) {
-            axios.post(
-                `${state.generalReducer.serverURL}/${state.conversationReducer.roomId}`,
-                {
 
-                    roomId: state.conversationReducer.roomId,
-                    createdUserId: state.generalReducer.currentUser._id,
-                    participants: [state.generalReducer.currentUser._id],
-                    numOfParticipants: 1,
-                    beginDate: new Date(Date.now()) + "",
-                    wasConversation: false,
-                    localStream: state.getState().socketReducer.localStream
-                })
-                .then(data => {
-                    // ;
-                    store.dispatch(actions.setParticipants(store.getState().conversationReducer.participants.concat(data.data.participants)))
+const saveVideo = ({ dispatch, getState }) => next => action => {
 
-                    console.log("The conversation saved successfuly pppppppppppppppppppppppppp: " + data.data.participants.toString());
-                })
-                .catch(error => {
-                    // ;
-                    console.log("There is an error: " + error);
-                });
+    if (action.type === 'SAVE_VIDEO') {
+        const video = {
+            videoLiveName: getState().conversationReducer.videoLiveName,
+            date: new Date(),
+            length: getState().conversationReducer.length,
+            url: getState().conversationReducer.url,
+            userName: getState().userReducer.userName
         }
-        else {
-            console.log('bbbbbb', state.generalReducer.currentUser)
-            axios.post(
-                `${state.generalReducer.serverURL}/conversation/addOneConversation`,
-                {
+        axios.post(env.BASE_URL + 'api/createVideo', video).then((data) => {
+            console.log(data);
+        }).catch((err) => {
+            console.log(err);
+        })
 
-                    roomId: state.conversationReducer.roomId,
-                    createdUserId: state.generalReducer.currentUser._id,
-                    participants: [state.generalReducer.currentUser._id],
-                    numOfParticipants: 1,
-                    beginDate: new Date(Date.now()) + "",
-                    wasConversation: false,
-                })
-                .then(data => {
-                    // ;
-                    store.dispatch(actions.setParticipants(store.getState().conversationReducer.participants.concat(data.data.participants)))
-
-                    console.log("The conversation saved successfuly pppppppppppppppppppppppppp: " + data.data.participants.toString());
-                })
-                .catch(error => {
-                    // ;
-                    console.log("There is an error: " + error);
-                });
-        }
     }
-    return next(action);
-    // setParticipants(roomId);
+    return next(action)
+
 }
+
+
 export {
     createdEventFromSocket,
     addLocalStream,
     joinedEventFromSocket,
-    addNewConversation,
+    saveVideo,
     closeCamera
 
 }

@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { actions } from '../../redux/actions/action';
-import './video.css'
-import pouse from "../../assets/Group 21662.svg"
-import play from "../../assets/Component 719 – 5.svg"
-import playDark from "../../assets/Group 21705.svg"
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { actions } from '../../../redux/actions/action';
+import '../video.css'
+import pouse from "../../../assets/Group 21662.svg"
+import play from "../../../assets/Component 719 – 5.svg"
 import axios from 'axios'
-import env from "../../config/env/dev"
+import env from "../../../config/env/dev"
 
 import { useStopwatch } from 'react-timer-hook';
-const Video = (props) => {
+const UserVideo = (props) => {
+    const { history } = props;
+
     const [displayVideo, setDisplayVideo] = useState(false);
     const [isStart, setIsStart] = useState(false);
     const [isStart1, setIsStart1] = useState(false);
@@ -22,16 +22,15 @@ const Video = (props) => {
     const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
     const userName = useSelector(state => state.userReducer.userName)
     const localStream = useSelector(state => state.socketReducer.localStream)
-    const localStreamRef = useRef()
+    // const localStreamRef = useRef()
+    const localStreamRef1 = useRef()
+    const [localStreamRef, setLocalStreamRef] = useState(localStreamRef1)
 
-    const { history } = props;
     const {
         seconds,
         minutes,
         hours,
-        isRunning,
         start,
-        reset,
         pause,
     } = useStopwatch({ autoStart: true });
 
@@ -59,23 +58,7 @@ const Video = (props) => {
     else {
         h1 = hours
     }
-    const openCamera = () => {
-        dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', });
-        start(true)
-
-    }
-
-    const stopStreamedVideo = () => {
-        pause()
-        debugger
-        const stream = localStreamRef.current.srcObject;
-        const tracks = stream.getTracks();
-
-        tracks.forEach(function (track) {
-            track.stop();
-        });
-    }
-    function createPeer() {
+    const createPeer1 = () => {
         debugger
         const peer = new RTCPeerConnection({
             iceServers: [
@@ -84,12 +67,13 @@ const Video = (props) => {
                 }
             ]
         });
-        peer.onnegotiationneeded = () => handleNegotiationNeededEvent(peer);
+        peer.ontrack = handleTrackEvent1;
+        peer.onnegotiationneeded = () => handleNegotiationNeededEvent1(peer);
 
         return peer;
     }
 
-    async function handleNegotiationNeededEvent(peer) {
+    const handleNegotiationNeededEvent1 = async (peer) => {
         debugger
         const offer = await peer.createOffer();
         await peer.setLocalDescription(offer);
@@ -97,46 +81,37 @@ const Video = (props) => {
             sdp: peer.localDescription
         };
 
-        const { data } = await axios.post(env.BASE_URL + 'broadcast', payload);
+        const { data } = await axios.post(env.BASE_URL + 'consumer', payload);
         const desc = new RTCSessionDescription(data.sdp);
         peer.setRemoteDescription(desc).catch(e => console.log(e));
     }
-    const startStream = async () => {
+    const handleTrackEvent1 = (e) => {
         debugger
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        document.getElementById("localVideo").srcObject = stream;
-        const peer = createPeer();
-        stream.getTracks().forEach(track => peer.addTrack(track, stream));
-    }
+        setLocalStreamRef((a) => a.current.srcObject = e.streams[0])
+        // document.getElementById("video").srcObject = e.streams[0];
+        // dispatch(actions.setLocalStream(e.streams[0]))
+        // localStreamRef1.current.srcObject = e.streams[0];
+    };
+
+
     useEffect(() => {
         setDisplayVideo(true)
         let userName = ""
-        if (window.location.href.includes("admin")) {
-            userName = window.location.pathname.split("/")[2];
-        }
-        else {
-            userName = window.location.pathname.split("/")[1];
-            debugger
-            const peer = createPeer1();
-            peer.addTransceiver("video", { direction: "recvonly" })
-        }
+        userName = window.location.pathname.split("/")[1];
+        debugger
+        const peer = createPeer1();
+        peer.addTransceiver("video", { direction: "recvonly" })
+
         console.log("username!! " + userName)
         dispatch(actions.setUserName(userName))
-        if (!window.location.href.includes("admin")) {
-            // dispatch(actions.setStreamConstraints({ "video": false, "audio": false }))
-            // dispatch(actions.setConnectionUserModal(true))
-            room = userName
-            socket.emit('join', { room });
-            // socket.on('joined', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
-            socket.on('not exist room', () => { history.push('/notExist') });
-            socket.on('joined', () => { alert("joined successfully to " + room) });
-        }
-        else {
+        // dispatch(actions.setStreamConstraints({ "video": false, "audio": false }))
+        // dispatch(actions.setConnectionUserModal(true))
+        room = userName
+        socket.emit('join', { room });
+        // socket.on('joined', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
+        socket.on('not exist room', () => { history.push('/notExist') });
+        socket.on('joined', () => { alert("joined successfully to " + room) });
 
-            startStream()
-            // dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', });
-
-        }
         socket.on('receive-message-to-all', message => {
             console.log("receive-message-to-all " + message);
             dispatch(actions.setReceiveMessageToAll(message))
@@ -145,23 +120,10 @@ const Video = (props) => {
     }, [])
 
     const StartVideo = async () => {
-
-        if (window.location.href.includes("admin")) {
-            room = userName
-            // dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
-            socket.emit('create', { room });
-        }
         socket.on('created', room)
         setIsStart(true)
         setIsStart1(true)
     }
-    // useEffect(() => {
-    //     if (window.location.href.includes("admin")) {
-    //         debugger
-    //         localStreamRef.current.srcObject = localStream.srcObject
-    //     }
-
-    // }, [localStream])
     const isMuted = () => {
 
         if (window.location.href.includes("admin"))
@@ -201,6 +163,7 @@ const Video = (props) => {
         mediaRecorder.stop();
         anim.current.style.display = 'none';
         // להפעיל פונקציה שעוצרת את השעון
+
         setIsStart(false);
 
     }
@@ -264,38 +227,13 @@ const Video = (props) => {
     }
     return (
         <>
-            {/* <div className="diVideo"> */}
             <div className="container">
                 <div className="row">
-                    <div className="col-12">
-                        <div className="diVideo">
-                            <video id="localVideo" height="100%" width="100%" muted={true} autoPlay ref={localStreamRef} >
-                            </video>
-
-                        </div>
-
-                        <p class="blink_me oStyle styleA" ref={anim} >o</p>
-                        <p className="styleB" ref={time}> <span >{h1}</span>:<span>{m1}</span>:<span>{s1}</span></p>
-
-                        <div className="underDiv">
-                            <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={!isStart ? e => StartVideo() : e => clickRecord()}
-                            //  onMouseOver={e => { (e.currentTarget.src = playDark) }}
-                            // onMouseOut={e => (e.currentTarget.src = play)}
-                            >
-                            </img>
-                            {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
-                            <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
-                            <p class="live">Live</p>
-                        </div>
-                    </div>
-
+                    <video id="video" autoplay playsInline ref={localStreamRef}></video>
                 </div>
             </div>
-
-            <Button variant="danger" onClick={(e) => { stopStreamedVideo(localStreamRef) }}>close camera</Button>
-            <Button variant="danger" onClick={(e) => { openCamera() }}>close camera</Button>
 
         </>
     )
 }
-export default Video
+export default UserVideo

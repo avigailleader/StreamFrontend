@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store'
 import { Button } from 'react-bootstrap'
 import Routes from './components/routes/route'
-
+import SaveVideoModle from './components/modles/SaveVideoModle'
 const App = () => {
   return (
 
@@ -13,7 +13,7 @@ const App = () => {
         <header className="App-header">
         </header>
         <Routes></Routes>
-
+        {/* <SaveVideoModle></SaveVideoModle> */}
       </div>
     </Provider>
 
