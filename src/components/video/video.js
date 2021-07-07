@@ -73,7 +73,6 @@ const Video = (props) => {
         tracks.forEach((track) => {
             track.stop();
         });
-
         // localStreamRef.current.srcObject = null;
     }
     const openCamera = () => {
@@ -94,6 +93,7 @@ const Video = (props) => {
             userName = window.location.pathname.split("/")[1];
         console.log("username!! " + userName)
         dispatch(actions.setUserName(userName))
+        dispatch(actions.setVideoLiveName(userName))
         if (!window.location.href.includes("admin")) {
             dispatch(actions.setStreamConstraints({ "video": false, "audio": false }))
             dispatch(actions.setConnectionUserModal(true))
@@ -109,7 +109,7 @@ const Video = (props) => {
         }
         socket.on('receive-message-to-all', recMessage => {
             debugger
-          
+
             console.log(recMessage);
             debugger
             message = recMessage
@@ -180,7 +180,8 @@ const Video = (props) => {
     const [isStart, setIsStart] = useState(false);
     const [mediaR, setMediaR] = useState()
     const [recordedBlobs, setRecordedBlobs] = useState([])
-    const [showModal,setShowModal]=useState(false)
+    const [showModal, setShowModal] = useState(false)
+    const [upload, setUpload] = useState(false)
     useEffect(() => {
         if (mediaR) {
             console.log("mediaR:", mediaR)
@@ -190,9 +191,11 @@ const Video = (props) => {
             mediaR.onstop = (event) => {
                 console.log('Recorder stopped: ', event);
                 console.log('Recorded Blobs: ', recordedBlobs);
+                // uploadVideo()
             };
 
             mediaR.ondataavailable = handleDataAvailable;
+
             try {
                 mediaR.start();
             } catch (err) { console.log(err); }
@@ -211,6 +214,7 @@ const Video = (props) => {
         if (isStart && status)
             clickRecord()
     }, [isStart])
+
     const clickRecord = async () => {
         debugger
         if (status) {
@@ -225,21 +229,24 @@ const Video = (props) => {
             downloadButton.current.disabled = false;
             setIsStart(false)
             stopStreamedVideo(localStreamRef)
-
+            setUpload(true)
         }
+        return 10;
     }
 
-    const stopRecording = () => {
-
-        mediaR.stop();
+    const stopRecording = async () => {
+        debugger
+        await mediaR.stop();
         anim.current.style.display = 'none';
-       
-        // clickDownload()
 
-        // להפעיל פונקציה שעוצרת את השעון
-        // אני רוצה להפעיל את היוז אפקט רק אם הוא מתחיל סרטון 
-        // ואני לא יכולה לשנות את הסטייט לטרו בעצירת סרטון כי אז הוא מבצע לי את יוז אפקט
+        // clickDownload()
     }
+    // useEffect(() => {
+    //     if (upload) {
+    //         uploadVideo()
+    //         setUpload(false)
+    //     }
+    // }, [upload])
     const startRecording = () => {
         start()
         debugger
@@ -271,12 +278,14 @@ const Video = (props) => {
     }
     // דוחף למערך סטרימים
     const handleDataAvailable = (event) => {
+        debugger
         console.log('handleDataAvailable', event);
         if (event.data && event.data.size > 0) {
             setRecordedBlobs(rb => [...rb, event.data]);
         }
     }
     const uploadVideo = () => {
+        debugger
         const blob = new Blob(recordedBlobs, { type: 'video/mebm' });
         let fileToUpload = new File([blob], `test.webm`, { lastModified: new Date().getTime(), type: blob.type })
 
@@ -292,7 +301,7 @@ const Video = (props) => {
             processData: false,
             contentType: false,
             success: (data) => {
-                alert("upload success:  "+data.data.url);
+                alert("upload success:  " + data.data.url);
                 console.log(data)
                 setShowModal(true)
             },
@@ -356,7 +365,7 @@ const Video = (props) => {
                                     >
                                     </img>
                                     {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
-                                    <button id="download" onClick={uploadVideo} ref={downloadButton} style={{backgroundColor:"red"}}>Upload Video</button>
+                                    <button id="download" ref={downloadButton} onClick={uploadVideo} style={{ backgroundColor: "red" }}>Upload Video</button>
                                     <p class="live">Live</p>
                                 </div>
 

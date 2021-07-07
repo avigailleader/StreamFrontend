@@ -16,12 +16,17 @@ import dialogNameImg from '../../assets/modal/Dialog Img.svg'
 import './SaveVideoModle.css'
 const SaveVideoModle = (props) => {
     const dispatch = useDispatch()
-    const {setShowModal} = props
+    const videoLiveName = useSelector(state => state.convarsetionReducer.videoLiveName)
+    const { setShowModal } = props
     const saveNameVideoRef = useRef()
+    const [changeNameVideo, setChangeNameVideo] = useState(videoLiveName)
+    const changeName = (e) => {
+        setChangeNameVideo(e)
+    }
     const saveNameVideo = (e) => {
         debugger
-        dispatch(actions.setVideoLiveName(saveNameVideoRef.current.value))
-        saveNameVideoRef.current.value = " "
+        dispatch(actions.setVideoLiveName(changeNameVideo))
+        // saveNameVideoRef.current.value = videoLiveName
         setShowModal(false)
     }
 
@@ -47,7 +52,7 @@ const SaveVideoModle = (props) => {
                     <p style={{ position: 'absolute', top: '333px', right: '184px', fontSize: '21px' }}>Enter your live name:</p>
                 </DialogContent>
                 <DialogActions>
-                    <input type="text" ref={saveNameVideoRef} id="input_name_video"
+                    <input type="text" ref={saveNameVideoRef} onChange={(e)=>changeName(e.target.value)} id="input_name_video" value={changeNameVideo}
                         style={{
                             top: '374px', width: "38%",
                             height: "6.5%", position: 'absolute', right: '180px', borderColor: "#D10010", borderRadius: '14%', top: '374px'
