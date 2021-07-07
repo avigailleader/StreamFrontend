@@ -22,8 +22,13 @@ const UserChat = () => {
     const [message, setMessage] = useState({ 'messageText': input_value })
     const userName = useSelector(state => state.userReducer.userName)
     const [messagesList, setMessagesList] = useState([])
+    const [chosenEmoji, setChosenEmoji] = useState(null);
+    const [showEmogi, setShowEmogi] = useState()
+    const onEmojiClick = (event, emojiObject) => {
+        setChosenEmoji(emojiObject);
+    };
     const addMessage = () => {
-        if (!input_value || input_value ===" ") {
+        if (!input_value || input_value === " ") {
             setMessage({ 'messageText': input_value })
         }
         else {
@@ -65,13 +70,16 @@ const UserChat = () => {
         setMessage({})
 
     }
+    const addEimogi = () => {
+
+    }
 
     return (
         <>
 
 
             <div className="chatBox">
-                <Card border="light" style={{ width: '19rem', minheight: '19rem' ,height: '46vh'}}>
+                <Card border="light" style={{ width: '19rem', minheight: '19rem', height: '46vh' }}>
 
                     <Card.Title className="cardTitle row" style={{ color: '#D10010' }}>
                         <div className="col-12"> chat with the admin</div>
@@ -91,6 +99,15 @@ const UserChat = () => {
 
                         <div className="mb-2" className="sendMessageWrap">
                             <input id='input' onChange={handleInput} className="form-control" type="text" placeholder="message" className="chatMessage " >
+                                <button onClick={(e) => addEimogi}>+</button>
+                                <div>
+                                    {chosenEmoji ? (
+                                        <span>You chose: {chosenEmoji.emoji}</span>
+                                    ) : (
+                                        <span>No emoji Chosen</span>
+                                    )}
+                                    <Picker onEmojiClick={onEmojiClick} />
+                                </div>
                             </input>
                             <button onClick={addMessage} style={{ float: "right" }}>
                                 <img src={sendMessage} style={{ float: "right" }}></img>

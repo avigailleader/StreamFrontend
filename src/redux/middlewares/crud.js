@@ -112,62 +112,7 @@ const joinedEventFromSocket = ({ dispatch, getState }) => next => action => {
     }
     return next(action)
 }
-//הוספת שיחה חדשה DB
-const addNewConversation = store => next => action => {
-    if (action.type === 'ADD_NEW_CONVERSATION') {
-        const state = store.getState();
-        if (state.conversationReducer.isCaller) {
-            axios.post(
-                `${state.generalReducer.serverURL}/${state.conversationReducer.roomId}`,
-                {
 
-                    roomId: state.conversationReducer.roomId,
-                    createdUserId: state.generalReducer.currentUser._id,
-                    participants: [state.generalReducer.currentUser._id],
-                    numOfParticipants: 1,
-                    beginDate: new Date(Date.now()) + "",
-                    wasConversation: false,
-                    localStream: state.getState().socketReducer.localStream
-                })
-                .then(data => {
-                    // ;
-                    store.dispatch(actions.setParticipants(store.getState().conversationReducer.participants.concat(data.data.participants)))
-
-                    console.log("The conversation saved successfuly pppppppppppppppppppppppppp: " + data.data.participants.toString());
-                })
-                .catch(error => {
-                    // ;
-                    console.log("There is an error: " + error);
-                });
-        }
-        else {
-            console.log('bbbbbb', state.generalReducer.currentUser)
-            axios.post(
-                `${state.generalReducer.serverURL}/conversation/addOneConversation`,
-                {
-
-                    roomId: state.conversationReducer.roomId,
-                    createdUserId: state.generalReducer.currentUser._id,
-                    participants: [state.generalReducer.currentUser._id],
-                    numOfParticipants: 1,
-                    beginDate: new Date(Date.now()) + "",
-                    wasConversation: false,
-                })
-                .then(data => {
-                    // ;
-                    store.dispatch(actions.setParticipants(store.getState().conversationReducer.participants.concat(data.data.participants)))
-
-                    console.log("The conversation saved successfuly pppppppppppppppppppppppppp: " + data.data.participants.toString());
-                })
-                .catch(error => {
-                    // ;
-                    console.log("There is an error: " + error);
-                });
-        }
-    }
-    return next(action);
-    // setParticipants(roomId);
-}
 const saveVideo = ({ dispatch, getState }) => next => action => {
     debugger
     if (action.type === 'SAVE_VIDEO') {
@@ -178,9 +123,7 @@ const saveVideo = ({ dispatch, getState }) => next => action => {
             url: getState().convarsetionReducer.url,
             userName: getState().userReducer.userName
         }
-        axios.post(env.BASE_URL + `api/:${getState().userReducer.userName}/createVideo`, jsonObject,
-            { headers: { 'Content-Type': "application/json" } }
-        )
+        axios.post(env.BASE_URL + `api/:${getState().userReducer.userName}/createVideo`, jsonObject)
             .then((data) => {
                 console.log(data);
             }).catch((err) => {
@@ -195,7 +138,6 @@ export {
     createdEventFromSocket,
     addLocalStream,
     joinedEventFromSocket,
-    addNewConversation,
     closeCamera,
     saveVideo
 
