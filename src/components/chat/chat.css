@@ -68,9 +68,11 @@ input{
     padding-left: 10px;
     background-color:#0A102E57;
     color:black;
-    width:85%;
+    width:75%;
 }
-
+.inputMassage{
+    display: inline-block
+}
  @keyframes example {
     from { right:0px;background-color:red }
     to { right: 300px;background-color:blue }
