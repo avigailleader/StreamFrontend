@@ -4,8 +4,6 @@ import { actions } from '../../redux/actions/action';
 import './video.css'
 import pouse from "../../assets/Group 21662.svg"
 import play from "../../assets/Component 719 – 5.svg"
-import playDark from "../../assets/Group 21705.svg"
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import img from '../../assets/chats&viewers/user.png';
 import { useStopwatch } from 'react-timer-hook';
 import $ from 'jquery';
@@ -16,13 +14,9 @@ const Video = (props) => {
 
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
-    const streamConstraints = useSelector(state => state.socketReducer.streamConstraints)
-    const receiveToAll = useSelector(state => state.convarsetionReducer.receiveMessageToAll)
-    const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
     const userName = useSelector(state => state.userReducer.userName)
     const localStream = useSelector(state => state.socketReducer.localStream)
     const [ifShow, setIfShow] = useState(false)
-    // const [message, setMessage]=useState({})
     let canvas, message, ctx;
     const localStreamRef = useRef()
     const { history } = props;
@@ -42,7 +36,6 @@ const Video = (props) => {
     // setInterval(() => { }, 1000)
     var h1, m1, s1;
     if (seconds < 10) {
-
         s1 = '0' + seconds
     }
     else {
@@ -66,6 +59,7 @@ const Video = (props) => {
     }
     const stopStreamedVideo = () => {
         pause()
+        dispatch(actions.setLength(h1 + ":" + m1 + ":" + s1))
         debugger
         const stream = localStreamRef.current.srcObject;
         const tracks = stream.getTracks();

@@ -171,21 +171,21 @@ const addNewConversation = store => next => action => {
 const saveVideo = ({ dispatch, getState }) => next => action => {
     debugger
     if (action.type === 'SAVE_VIDEO') {
-        const video = {
+        let jsonObject = {
             videoLiveName: getState().convarsetionReducer.videoLiveName,
             date: new Date(Date.now()),
             length: getState().convarsetionReducer.length,
             url: getState().convarsetionReducer.url,
             userName: getState().userReducer.userName
         }
-        const video1 = JSON.parse(video)
-        axios.post(env.BASE_URL + `api/:${video.userName}/createVideo`, video1
-
-        ).then((data) => {
-            console.log(data);
-        }).catch((err) => {
-            console.log(err);
-        })
+        axios.post(env.BASE_URL + `api/:${getState().userReducer.userName}/createVideo`, jsonObject,
+            { headers: { 'Content-Type': "application/json" } }
+        )
+            .then((data) => {
+                console.log(data);
+            }).catch((err) => {
+                console.log(err);
+            })
 
     }
     return next(action)

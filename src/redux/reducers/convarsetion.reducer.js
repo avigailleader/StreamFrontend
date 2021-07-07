@@ -21,13 +21,15 @@ const initialState = {
 
 const convarsetionData = {
     setVideoLiveName(state, action) {
-        debugger
         state.videoLiveName = action.payload;
     },
     setUrl(state, action) {
-        debugger
         state.url = action.payload;
 
+    },
+    setLength(state, action) {
+        debugger
+        state.length = action.payload
     },
     setRoomId(state, action) {
 
