@@ -169,16 +169,19 @@ const addNewConversation = store => next => action => {
     // setParticipants(roomId);
 }
 const saveVideo = ({ dispatch, getState }) => next => action => {
-
+    debugger
     if (action.type === 'SAVE_VIDEO') {
         const video = {
-            videoLiveName: getState().conversationReducer.videoLiveName,
-            date: new Date(),
-            length: getState().conversationReducer.length,
-            url: getState().conversationReducer.url,
+            videoLiveName: getState().convarsetionReducer.videoLiveName,
+            date: new Date(Date.now()),
+            length: getState().convarsetionReducer.length,
+            url: getState().convarsetionReducer.url,
             userName: getState().userReducer.userName
         }
-        axios.post(env.BASE_URL + 'api/createVideo', video).then((data) => {
+        const video1 = JSON.parse(video)
+        axios.post(env.BASE_URL + `api/:${video.userName}/createVideo`, video1
+
+        ).then((data) => {
             console.log(data);
         }).catch((err) => {
             console.log(err);

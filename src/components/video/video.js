@@ -109,7 +109,7 @@ const Video = (props) => {
         }
         socket.on('receive-message-to-all', recMessage => {
             debugger
-          
+
             console.log(recMessage);
             debugger
             message = recMessage
@@ -180,7 +180,7 @@ const Video = (props) => {
     const [isStart, setIsStart] = useState(false);
     const [mediaR, setMediaR] = useState()
     const [recordedBlobs, setRecordedBlobs] = useState([])
-    const [showModal,setShowModal]=useState(false)
+    const [showModal, setShowModal] = useState(false)
     useEffect(() => {
         if (mediaR) {
             console.log("mediaR:", mediaR)
@@ -233,7 +233,7 @@ const Video = (props) => {
 
         mediaR.stop();
         anim.current.style.display = 'none';
-       
+
         // clickDownload()
 
         // להפעיל פונקציה שעוצרת את השעון
@@ -276,7 +276,7 @@ const Video = (props) => {
             setRecordedBlobs(rb => [...rb, event.data]);
         }
     }
-    const uploadVideo = () => {
+    const uploadVideo = async () => {
         const blob = new Blob(recordedBlobs, { type: 'video/mebm' });
         let fileToUpload = new File([blob], `test.webm`, { lastModified: new Date().getTime(), type: blob.type })
 
@@ -292,9 +292,11 @@ const Video = (props) => {
             processData: false,
             contentType: false,
             success: (data) => {
-                alert("upload success:  "+data.data.url);
+                alert("upload success:  " + data.data.url);
                 console.log(data)
+                dispatch(actions.setUrl(data.data.url))
                 setShowModal(true)
+
             },
             error: function (err) {
                 alert('please try again later', err);
@@ -356,7 +358,7 @@ const Video = (props) => {
                                     >
                                     </img>
                                     {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
-                                    <button id="download" onClick={uploadVideo} ref={downloadButton} style={{backgroundColor:"red"}}>Upload Video</button>
+                                    <button id="download" onClick={uploadVideo} ref={downloadButton} style={{ backgroundColor: "red" }}>Upload Video</button>
                                     <p class="live">Live</p>
                                 </div>
 

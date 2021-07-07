@@ -16,13 +16,14 @@ import dialogNameImg from '../../assets/modal/Dialog Img.svg'
 import './SaveVideoModle.css'
 const SaveVideoModle = (props) => {
     const dispatch = useDispatch()
-    const {setShowModal} = props
+    const { setShowModal } = props
     const saveNameVideoRef = useRef()
-    const saveNameVideo = (e) => {
+    const saveNameVideo = async (e) => {
         debugger
-        dispatch(actions.setVideoLiveName(saveNameVideoRef.current.value))
-        saveNameVideoRef.current.value = " "
+        await dispatch(actions.setVideoLiveName(saveNameVideoRef.current.value))
         setShowModal(false)
+        dispatch({ type: "SAVE_VIDEO" })
+
     }
 
     return (
