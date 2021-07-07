@@ -23,7 +23,7 @@ const UserChat = () => {
     const userName = useSelector(state => state.userReducer.userName)
     const [messagesList, setMessagesList] = useState([])
     const addMessage = () => {
-        if (!input_value || input_value ===" ") {
+        if (!input_value || input_value === " ") {
             setMessage({ 'messageText': input_value })
         }
         else {
@@ -65,13 +65,32 @@ const UserChat = () => {
         setMessage({})
 
     }
+    document.addEventListener("keypress", function (e) {
+        debugger
+        if (!e) e = window.event;
+        if (e.keyCode == '13') {
+
+
+            e.preventDefault();
+            addMessage()
+            return false;
+
+
+
+
+        }
+    })
+
+
+
+
 
     return (
         <>
 
 
             <div className="chatBox">
-                <Card border="light" style={{ width: '19rem', minheight: '19rem' ,height: '46vh'}}>
+                <Card border="light" style={{ width: '19rem', minheight: '19rem', height: '46vh' }}>
 
                     <Card.Title className="cardTitle row" style={{ color: '#D10010' }}>
                         <div className="col-12"> chat with the admin</div>
