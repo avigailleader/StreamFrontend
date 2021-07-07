@@ -116,9 +116,7 @@ const Video = (props) => {
         }
         else {
             userName = window.location.pathname.split("/")[1];
-            debugger
-            const peer = createPeer1();
-            peer.addTransceiver("video", { direction: "recvonly" })
+          
         }
         console.log("username!! " + userName)
         dispatch(actions.setUserName(userName))
