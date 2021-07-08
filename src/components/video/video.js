@@ -70,13 +70,7 @@ const Video = (props) => {
 
         // localStreamRef.current.srcObject = null;
     }
-    const openCamera = () => {
-        return new Promise((resolve, reject) => {
-            dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', })
-            start(true)
-            resolve("camera open")
-        })
-    }
+
 
     useEffect(() => {
         setDisplayVideo(true)
@@ -98,7 +92,7 @@ const Video = (props) => {
             socket.on('joined', () => { alert("joined successfully to " + room) });
         }
         else {
-            dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', });
+            dispatch(actions.createdEventFromSocket());
 
         }
         socket.on('receive-message-to-all', recMessage => {
@@ -301,7 +295,7 @@ const Video = (props) => {
     }
 
 
-    
+
     return (
         <>
 

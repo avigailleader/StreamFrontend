@@ -22,7 +22,7 @@ const SaveVideoModle = (props) => {
         debugger
         await dispatch(actions.setVideoLiveName(saveNameVideoRef.current.value))
         setShowModal(false)
-        dispatch({ type: "SAVE_VIDEO" })
+        dispatch(actions.saveVideo())
 
     }
 

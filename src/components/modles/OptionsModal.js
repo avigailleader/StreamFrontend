@@ -26,8 +26,8 @@ const mapDispatchToProps = (dispatch) => ({
     setVisibleOptionsModal: (p) => dispatch(actions.setVisibleOptionsModal(p)),
     setLocalStream: (localStream) => dispatch(actions.setLocalStream(localStream)),
     // setCameraStatus: (cameraStatus) => dispatch(actions.setCameraStatus(cameraStatus)),
-    toggleVideoStatus: (videoStatus) => dispatch({ type: 'TOGGLE_VIDEO_STATUS', payload: videoStatus }),
-    toggleAudioStatus: (audioStatus) => dispatch({ type: 'TOGGLE_AUDIO_STATUS', payload: audioStatus }),
+    // toggleVideoStatus: (videoStatus) => dispatch({ type: 'TOGGLE_VIDEO_STATUS', payload: videoStatus }),
+    // toggleAudioStatus: (audioStatus) => dispatch({ type: 'TOGGLE_AUDIO_STATUS', payload: audioStatus }),
     dispatch: dispatch,
 });
 

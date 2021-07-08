@@ -26,7 +26,7 @@ const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
             .getUserMedia(getState().socketReducer.streamConstraints)
             .then(function (stream) {
 
-                dispatch({ type: 'ADD_LOCAL_STREAM', payload: stream });
+                dispatch(actions.addLocalStream(stream));
                 dispatch(actions.setIsCaller(true));
                 // dispatch({ type: 'ADD_NEW_CONVERSATION' });
 
@@ -89,7 +89,7 @@ const joinedEventFromSocket = ({ dispatch, getState }) => next => action => {
         navigator.mediaDevices
             .getUserMedia(getState().socketReducer.streamConstraints)
             .then(function (stream) {
-                dispatch({ type: 'ADD_LOCAL_STREAM', payload: stream });
+                dispatch(actions.addLocalStream(stream));
                 dispatch(actions.setVisibleOptionsModal(true));
 
             })
