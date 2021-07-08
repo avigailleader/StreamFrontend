@@ -97,26 +97,22 @@ const UserChat = () => {
                     </Card.Title>
                     <div className="linear" > </div>
                     <div className="container-fluid inputMes">
-                        <Card.Body>
+                        <Card.Body className="scrollMes">
 
                             {messagesList.map((member, index) => (
-                                <div className='row d-flex flex-row'>
+                                <div className='row d-flex flex-row '>
 
-                                    <div>{member.messageText}</div>
+                                    <div className="underscroll">{member.messageText}</div>
 
                                 </div>
                             ))}
                         </Card.Body>
-                        {/* <div className="inptDad"> */}
-                            {/* <div className="mb-2" className="sendMessageWrap"> */}
                                 <input id='input' onChange={handleInput} className="form-control " type="text" placeholder="message" className="chatMessage " >
                                 </input>
                                 <button onClick={addMessage} className="plusMessage" style={{ float: "right" }}>
                                     <img src={sendMessage} style={{ float: "right" }}></img>
                                 </button>
-                            {/* </div> */}
-                        {/* </div> */}
-
+                          
 
 
 
