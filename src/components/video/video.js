@@ -9,6 +9,7 @@ import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import img from '../../assets/chats&viewers/user.png';
 import { useStopwatch } from 'react-timer-hook';
 import $ from 'jquery';
+import { IoIosClose } from 'react-icons/io';
 const Video = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
     // const [isStart, setIsStart] = useState(false);
@@ -21,8 +22,9 @@ const Video = (props) => {
     const userName = useSelector(state => state.userReducer.userName)
     const localStream = useSelector(state => state.socketReducer.localStream)
     const [ifShow, setIfShow] = useState(false)
+    const [visibleCanvas, setVisibleCanvas] = useState(false)
     // const [message, setMessage]=useState({})
-    let canvas, message, ctx;
+    let canvas, message, ctx, closeVisibleCanvas;
     const localStreamRef = useRef()
     const { history } = props;
     const {
@@ -61,6 +63,7 @@ const Video = (props) => {
     }
 
     const setIfShowStatus = (status) => {
+        setVisibleCanvas(true)
         setIfShow(status)
     }
     const stopStreamedVideo = () => {
@@ -108,7 +111,6 @@ const Video = (props) => {
         }
         socket.on('receive-message-to-all', recMessage => {
             debugger
-          
             console.log(recMessage);
             debugger
             message = recMessage
@@ -116,26 +118,61 @@ const Video = (props) => {
         });
     }, [])
 
+    const handleClose = () => {
+        //לסגירת המודל
+        setVisibleCanvas(false);
+    }
+    const drawXClose = () => {
+       
+        closeVisibleCanvas = document.getElementById("myClose")
 
+        let data = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">' +
+            '<foreignObject width="100%" height="100%">' +
+            '<div xmlns="http://www.w3.org/1999/xhtml" style="font-size:40px">' +
+           
+            // `${<IoIosClose id="myClose" onClick={handleClose} size="24" className="x xClosecanvas col-2 offset-10 mt-2" />}` +
+           ` <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className='XClose'  viewBox="0 0 16 16">`
+                +'<path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z" />'
+            +'</svg>' +
+            '</div>' +
+            '</foreignObject>' +
+            '</svg>';
 
+        let DOMURL = window.URL || window.webkitURL || window;
+
+        let img = new Image();
+        // img.onClick=handleClose()
+        let svg = new Blob([data], {
+            type: 'image/svg+xml;charset=utf-8'
+        });
+        let url = DOMURL.createObjectURL(svg);
+
+        img.onload = () => {
+            ctx.drawImage(img, 0, 0);
+            DOMURL.revokeObjectURL(url);
+        }
+
+        img.src = url;
+    }
     useEffect(() => {
         if (ifShow) {
             canvas = document.getElementById("myCanvas");
-            // canvas.height='500px'
-            console.log('canvas:', canvas);
             ctx = canvas.getContext('2d');
+            drawXClose()
             ctx.font = "20px Georgia";
-            ctx.fillStyle = " #0A102E57";
-            ctx.strokeText("my message", 70, 50);
+            ctx.fillStyle = "#5F5F5F";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeText("hello world", 100, 60);
+
+
             let iimg = new Image();
             iimg.src = img;
-            let pat = ctx.drawImage(iimg, 10, 10);
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            let pat = ctx.drawImage(iimg, 20, 15);
             $('#myCanvas').show('fast', 'linear', () => {
                 setTimeout(() => {
                     $('#myCanvas').slideDown(1000, 'fast')
                     setIfShowStatus(false);
-                }, 2000)
+                }, 10000)
             })
 
             ctx.fillStyle = pat;
@@ -200,7 +237,6 @@ const Video = (props) => {
             anim.current.style.display = 'inline-block';
             time.current.style.display = 'inline-block';
 
-
         }
     }, [mediaR])
 
@@ -213,6 +249,7 @@ const Video = (props) => {
         debugger
         if (status) {
             startRecording();
+            console.log("mediaR:", mediaR);
             setStatus(false)
             setIsStart(true)
             btnVideo.current.src = pouse
@@ -223,7 +260,6 @@ const Video = (props) => {
             downloadButton.current.disabled = false;
             setIsStart(false)
             stopStreamedVideo(localStreamRef)
-
         }
     }
 
@@ -256,9 +292,7 @@ const Video = (props) => {
                     return;
                 }
             }
-
         }
-
     }
     // דוחף למערך סטרימים
     const handleDataAvailable = (event) => {
@@ -323,8 +357,8 @@ const Video = (props) => {
                         <>
                             <canvas id="myCanvas" className='canvas'></canvas>
                         </>
-
                         : null}
+                   
                     {window.location.href.includes("admin") ?
                         <div className="col-12">
                             <div className="diVideo">
@@ -333,22 +367,16 @@ const Video = (props) => {
 
                                 </video>
 
-
                                 <p class="blink_me oStyle styleA" ref={anim} >o</p>
                                 <p className="styleB" ref={time}> <span >{h1}</span>:<span>{m1}</span>:<span>{s1}</span></p>
                                 <div className="underDiv">
                                     <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={!isStart ? e => StartVideo() : e => clickRecord()}
-                                    //  onMouseOver={e => { (e.currentTarget.src = playDark) }}
-                                    // onMouseOut={e => (e.currentTarget.src = play)}
                                     >
                                     </img>
-                                    {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
                                     <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
                                     <p class="live">Live</p>
                                 </div>
-
                             </div></div>
-
                         :
                         <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
                     }
@@ -362,6 +390,4 @@ const Video = (props) => {
     )
 }
 
-export default Video
-
-
+export default Video;
