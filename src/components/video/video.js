@@ -105,6 +105,7 @@ const Video = (props) => {
         debugger
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         document.getElementById("localVideo").srcObject = stream;
+        console.log(stream);
         const peer = createPeer();
         stream.getTracks().forEach(track => peer.addTrack(track, stream));
     }
@@ -116,7 +117,7 @@ const Video = (props) => {
         }
         else {
             userName = window.location.pathname.split("/")[1];
-          
+
         }
         console.log("username!! " + userName)
         dispatch(actions.setUserName(userName))

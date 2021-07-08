@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { actions } from '../../../redux/actions/action';
 import '../video.css'
@@ -86,9 +86,10 @@ const UserVideo = (props) => {
         peer.setRemoteDescription(desc).catch(e => console.log(e));
     }
     const handleTrackEvent1 = (e) => {
+        // dispatch(actions.setLocalStream(e.streams[0]))
         debugger
-        setLocalStreamRef((a) => a.current.srcObject = e.streams[0])
-        // document.getElementById("video").srcObject = e.streams[0];
+        // setLocalStreamRef((a) => a.current.srcObject = e.streams[0])
+        document.getElementById("video").srcObject = e.streams[0];
         // dispatch(actions.setLocalStream(e.streams[0]))
         // localStreamRef1.current.srcObject = e.streams[0];
     };
@@ -99,8 +100,6 @@ const UserVideo = (props) => {
         let userName = ""
         userName = window.location.pathname.split("/")[1];
         debugger
-        const peer = createPeer1();
-        peer.addTransceiver("video", { direction: "recvonly" })
 
         console.log("username!! " + userName)
         dispatch(actions.setUserName(userName))
@@ -209,6 +208,18 @@ const UserVideo = (props) => {
             recordedBlobs.push(event.data);
         }
     }
+
+    const start1 = async () => {
+        const peer = createPeer1();
+        peer.addTransceiver("video", { direction: "recvonly" })
+
+    }
+    window.onload = () => {
+        document.getElementById('button').onclick = () => {
+            start1();
+        }
+    }
+
     // להורדה
     const clickDownload = () => {
 
@@ -229,7 +240,9 @@ const UserVideo = (props) => {
         <>
             <div className="container">
                 <div className="row">
-                    <video id="video" autoplay playsInline ref={localStreamRef}></video>
+                    <video id="video" autoplay ></video>
+                    <button id="button" ></button>
+
                 </div>
             </div>
 
