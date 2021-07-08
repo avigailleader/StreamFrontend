@@ -90,13 +90,13 @@ const UserChat = () => {
 
 
             <div className="chatBox">
-                <Card border="light" style={{ width: '19rem', minheight: '19rem', height: '46vh' }}>
+                <Card border="light" className="cardMessage" style={{ width: '19rem', minheight: '19rem', height: '46vh' }}>
 
                     <Card.Title className="cardTitle row" style={{ color: '#D10010' }}>
                         <div className="col-12"> chat with the admin</div>
                     </Card.Title>
                     <div className="linear" > </div>
-                    <div className="container-fluid">
+                    <div className="container-fluid inputMes">
                         <Card.Body>
 
                             {messagesList.map((member, index) => (
@@ -107,15 +107,15 @@ const UserChat = () => {
                                 </div>
                             ))}
                         </Card.Body>
-
-                        <div className="mb-2" className="sendMessageWrap">
-                            <input id='input' onChange={handleInput} className="form-control" type="text" placeholder="message" className="chatMessage " >
-                            </input>
-                            <button onClick={addMessage} style={{ float: "right" }}>
-                                <img src={sendMessage} style={{ float: "right" }}></img>
-                            </button>
-                        </div>
-
+                        {/* <div className="inptDad"> */}
+                            {/* <div className="mb-2" className="sendMessageWrap"> */}
+                                <input id='input' onChange={handleInput} className="form-control " type="text" placeholder="message" className="chatMessage " >
+                                </input>
+                                <button onClick={addMessage} className="plusMessage" style={{ float: "right" }}>
+                                    <img src={sendMessage} style={{ float: "right" }}></img>
+                                </button>
+                            {/* </div> */}
+                        {/* </div> */}
 
 
 

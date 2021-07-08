@@ -56,10 +56,15 @@
     margin-top:10%
 }
 
-.sendMessageWrap{
+/* .sendMessageWrap{
     background-color: #0A102E57;
-    /* opacity: 30%; */
+    opacity: 30%; 
     border-radius: 20px;
+    bottom: -126px;
+    position: relative;
+} */
+.inptDad{
+    /* position: absolute; */
 }
 input{
     border: none;
@@ -69,6 +74,28 @@ input{
     background-color:#0A102E57;
     color:black;
     width:85%;
+   
+}
+.cardMessage{
+    position: relative;
+}
+.inputMessage{
+    position: absolute;
+    bottom: 1px;
+    /* margin-bottom: 4px; */
+
+    background-color: #0A102E57;
+    /* opacity: 30%; */
+    border-radius: 20px;
+    bottom: -126px;
+}
+.plusMessage{
+    /* position: absolute;
+    bottom: 1px;  */
+}
+.inputMes{
+    position: absolute;
+    bottom: 1px; 
 }
 
  @keyframes example {
@@ -77,7 +104,7 @@ input{
   }
 .showShare{
    
-    position: relative;
+    /* position: relative; */
     animation: example;
     animation-duration: 20s;
     animation-delay: 2s;
