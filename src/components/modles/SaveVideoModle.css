@@ -1,0 +1,7 @@
+ 
+body > div.MuiDialog-root > div.MuiDialog-container.MuiDialog-scrollPaper > div > div {
+    padding: 10px;
+    padding-left: 28px;
+    padding-top: 20px;
+    padding-right: 28px;
+  }

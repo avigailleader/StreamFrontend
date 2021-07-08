@@ -1,4 +1,6 @@
 import axios from 'axios';
+import env from "../../config/env/dev"
+
 // import moment from 'moment'
 
 import { actions } from '../actions/action';
@@ -24,7 +26,7 @@ const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
             .getUserMedia(getState().socketReducer.streamConstraints)
             .then(function (stream) {
 
-                dispatch({ type: 'ADD_LOCAL_STREAM', payload: stream });
+                dispatch(actions.addLocalStream(stream));
                 dispatch(actions.setIsCaller(true));
                 // dispatch({ type: 'ADD_NEW_CONVERSATION' });
 
@@ -87,7 +89,7 @@ const joinedEventFromSocket = ({ dispatch, getState }) => next => action => {
         navigator.mediaDevices
             .getUserMedia(getState().socketReducer.streamConstraints)
             .then(function (stream) {
-                dispatch({ type: 'ADD_LOCAL_STREAM', payload: stream });
+                dispatch(actions.addLocalStream(stream));
                 dispatch(actions.setVisibleOptionsModal(true));
 
             })
@@ -110,67 +112,33 @@ const joinedEventFromSocket = ({ dispatch, getState }) => next => action => {
     }
     return next(action)
 }
-//הוספת שיחה חדשה DB
-const addNewConversation = store => next => action => {
-    if (action.type === 'ADD_NEW_CONVERSATION') {
-        const state = store.getState();
-        if (state.conversationReducer.isCaller) {
-            axios.post(
-                `${state.generalReducer.serverURL}/${state.conversationReducer.roomId}`,
-                {
 
-                    roomId: state.conversationReducer.roomId,
-                    createdUserId: state.generalReducer.currentUser._id,
-                    participants: [state.generalReducer.currentUser._id],
-                    numOfParticipants: 1,
-                    beginDate: new Date(Date.now()) + "",
-                    wasConversation: false,
-                    localStream: state.getState().socketReducer.localStream
-                })
-                .then(data => {
-                    // ;
-                    store.dispatch(actions.setParticipants(store.getState().conversationReducer.participants.concat(data.data.participants)))
-
-                    console.log("The conversation saved successfuly pppppppppppppppppppppppppp: " + data.data.participants.toString());
-                })
-                .catch(error => {
-                    // ;
-                    console.log("There is an error: " + error);
-                });
+const saveVideo = ({ dispatch, getState }) => next => action => {
+    debugger
+    if (action.type === 'SAVE_VIDEO') {
+        let jsonObject = {
+            videoLiveName: getState().convarsetionReducer.videoLiveName,
+            date: new Date(Date.now()),
+            length: getState().convarsetionReducer.length,
+            url: getState().convarsetionReducer.url,
+            userName: getState().userReducer.userName
         }
-        else {
-            console.log('bbbbbb', state.generalReducer.currentUser)
-            axios.post(
-                `${state.generalReducer.serverURL}/conversation/addOneConversation`,
-                {
+        axios.post(env.BASE_URL + `api/:${getState().userReducer.userName}/createVideo`, jsonObject)
+            .then((data) => {
+                console.log(data);
+            }).catch((err) => {
+                console.log(err);
+            })
 
-                    roomId: state.conversationReducer.roomId,
-                    createdUserId: state.generalReducer.currentUser._id,
-                    participants: [state.generalReducer.currentUser._id],
-                    numOfParticipants: 1,
-                    beginDate: new Date(Date.now()) + "",
-                    wasConversation: false,
-                })
-                .then(data => {
-                    // ;
-                    store.dispatch(actions.setParticipants(store.getState().conversationReducer.participants.concat(data.data.participants)))
-
-                    console.log("The conversation saved successfuly pppppppppppppppppppppppppp: " + data.data.participants.toString());
-                })
-                .catch(error => {
-                    // ;
-                    console.log("There is an error: " + error);
-                });
-        }
     }
-    return next(action);
-    // setParticipants(roomId);
+    return next(action)
+
 }
 export {
     createdEventFromSocket,
     addLocalStream,
     joinedEventFromSocket,
-    addNewConversation,
-    closeCamera
+    closeCamera,
+    saveVideo
 
 }

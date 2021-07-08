@@ -3,7 +3,7 @@ import produce from 'immer';
 import createReducer from './reducerUtils';
 
 const initialState = {
-   
+
     roomId: '',
     isCaller: false,
     localVideoStatus: true,
@@ -11,13 +11,26 @@ const initialState = {
     connectionUserModel: true,
     cameraStatus: false,
     microphoneStatus: false,
-    receiveMessageToAll:{}
-    
+    receiveMessageToAll: {},
+    videoLiveName: " ",
+    date: " ",
+    length: " ",
+    url: " ",
 
 }
 
 const convarsetionData = {
+    setVideoLiveName(state, action) {
+        state.videoLiveName = action.payload;
+    },
+    setUrl(state, action) {
+        state.url = action.payload;
 
+    },
+    setLength(state, action) {
+        debugger
+        state.length = action.payload
+    },
     setRoomId(state, action) {
 
         state.roomId = action.payload;
@@ -43,8 +56,8 @@ const convarsetionData = {
     setMicrophoneStatus(state, action) {
         state.microphoneStatus = action.payload;
     },
-    setReceiveMessageToAll(state,action){
-        state.receiveMessageToAll=action.payload;
+    setReceiveMessageToAll(state, action) {
+        state.receiveMessageToAll = action.payload;
     }
 
 }

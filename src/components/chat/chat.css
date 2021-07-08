@@ -1,3 +1,6 @@
+.cb{
+    height: 40vh;
+}
 .chatCard {
     color: #FFFFFF;
     direction: rtl;
@@ -6,11 +9,10 @@
     left: 1537px;
     width: 347.25px;
     height: 328.63px;
-    /* background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
-    background: #FFFFFF 0% 0% no-repeat padding-box; */
     border-radius: 12px;
     border-color: none;
-    /* opacity: 1; */
+    opacity: 1;
+    height: 40vh;
 
 }
 .chatHeader{
@@ -30,14 +32,12 @@
     height: 567.39;
     width: 347.25px;
     border-radius:20px black solid 3px;
-    /* margin: 3px;
-    margin-bottom: 10px; */
+  
     
 }
 
 .profil-img{
      float: left;
-     /* border-image: round; */
      border-radius: 50%;
 }
 .chat{
@@ -52,11 +52,8 @@
     margin-top:10%
 }
 
-.sendMessageWrap{
-    background-color: #0A102E57;
-    /* opacity: 30%; */
-    border-radius: 20px;
-}
+
+
 input{
     border: none;
     border-radius:20px;
@@ -65,19 +62,53 @@ input{
     background-color:#0A102E57;
     color:black;
     width:85%;
+   
+}
+.cardMessage{
+    position: relative;
+}
+.inputMessage{
+    position: absolute;
+    bottom: 1px;
+
+    background-color: #0A102E57;
+    border-radius: 20px;
+    bottom: -126px;
 }
 
+.inputMes{
+    position: absolute;
+    bottom: 1px; 
+}
  @keyframes example {
     from { right:0px;background-color:red }
     to { right: 300px;background-color:blue }
   }
 .showShare{
    
-    position: relative;
     animation: example;
     animation-duration: 20s;
     animation-delay: 2s;
     animation-timing-function: ease-in-out;
+  }
+  .scrollMes{
+    background-color: wheat;
+    width: 100%;
+    max-height: 30vh;
+    overflow-y: scroll;
+    position: relative;
+  }
+  .scrollMes::-webkit-scrollbar {
+    display: none;
+}
+.scrollMes {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  .underscroll{
+      position: relative;
+      bottom: 1px;
   }
   
  

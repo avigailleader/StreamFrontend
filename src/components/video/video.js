@@ -4,21 +4,17 @@ import { actions } from '../../redux/actions/action';
 import './video.css'
 import pouse from "../../assets/Group 21662.svg"
 import play from "../../assets/Component 719 – 5.svg"
-import playDark from "../../assets/Group 21705.svg"
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import img from '../../assets/chats&viewers/user.png';
 import { useStopwatch } from 'react-timer-hook';
 import $ from 'jquery';
 import { IoIosClose } from 'react-icons/io';
+import SaveVideoModle from '../modles/SaveVideoModle'
 const Video = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
     // const [isStart, setIsStart] = useState(false);
 
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
-    const streamConstraints = useSelector(state => state.socketReducer.streamConstraints)
-    const receiveToAll = useSelector(state => state.convarsetionReducer.receiveMessageToAll)
-    const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
     const userName = useSelector(state => state.userReducer.userName)
     const localStream = useSelector(state => state.socketReducer.localStream)
     const [ifShow, setIfShow] = useState(false)
@@ -43,7 +39,6 @@ const Video = (props) => {
     // setInterval(() => { }, 1000)
     var h1, m1, s1;
     if (seconds < 10) {
-
         s1 = '0' + seconds
     }
     else {
@@ -68,6 +63,7 @@ const Video = (props) => {
     }
     const stopStreamedVideo = () => {
         pause()
+        dispatch(actions.setLength(h1 + ":" + m1 + ":" + s1))
         debugger
         const stream = localStreamRef.current.srcObject;
         const tracks = stream.getTracks();
@@ -75,16 +71,9 @@ const Video = (props) => {
         tracks.forEach((track) => {
             track.stop();
         });
-
         // localStreamRef.current.srcObject = null;
     }
-    const openCamera = () => {
-        return new Promise((resolve, reject) => {
-            dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', })
-            start(true)
-            resolve("camera open")
-        })
-    }
+
 
     useEffect(() => {
         setDisplayVideo(true)
@@ -96,6 +85,7 @@ const Video = (props) => {
             userName = window.location.pathname.split("/")[1];
         console.log("username!! " + userName)
         dispatch(actions.setUserName(userName))
+        dispatch(actions.setVideoLiveName(userName))
         if (!window.location.href.includes("admin")) {
             dispatch(actions.setStreamConstraints({ "video": false, "audio": false }))
             dispatch(actions.setConnectionUserModal(true))
@@ -106,7 +96,7 @@ const Video = (props) => {
             socket.on('joined', () => { alert("joined successfully to " + room) });
         }
         else {
-            dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', });
+            dispatch(actions.createdEventFromSocket());
 
         }
         socket.on('receive-message-to-all', recMessage => {
@@ -216,18 +206,22 @@ const Video = (props) => {
     const [isStart, setIsStart] = useState(false);
     const [mediaR, setMediaR] = useState()
     const [recordedBlobs, setRecordedBlobs] = useState([])
+    const [showModal, setShowModal] = useState(false)
+    const [upload, setUpload] = useState(false)
     useEffect(() => {
         if (mediaR) {
             console.log("mediaR:", mediaR)
-            console.log('Created MediaRecorder', mediaR, 'with options', { mimeType: "video/webm;codecs=vp9,opus" });
+            console.log('Created MediaRecorder', mediaR, 'with options', { mimeType: "video/WEBM;codecs=VP8,OPUS" });
             downloadButton.current.disabled = true;
 
             mediaR.onstop = (event) => {
                 console.log('Recorder stopped: ', event);
                 console.log('Recorded Blobs: ', recordedBlobs);
+                // uploadVideo()
             };
 
             mediaR.ondataavailable = handleDataAvailable;
+
             try {
                 mediaR.start();
             } catch (err) { console.log(err); }
@@ -245,6 +239,7 @@ const Video = (props) => {
         if (isStart && status)
             clickRecord()
     }, [isStart])
+
     const clickRecord = async () => {
         debugger
         if (status) {
@@ -260,21 +255,32 @@ const Video = (props) => {
             downloadButton.current.disabled = false;
             setIsStart(false)
             stopStreamedVideo(localStreamRef)
+            setUpload(true)
         }
+        return 10;
     }
 
-    const stopRecording = () => {
-        mediaR.stop();
+    const stopRecording = async () => {
+        debugger
+        await mediaR.stop();
         anim.current.style.display = 'none';
-        // להפעיל פונקציה שעוצרת את השעון
-        // אני רוצה להפעיל את היוז אפקט רק אם הוא מתחיל סרטון 
-        // ואני לא יכולה לשנות את הסטייט לטרו בעצירת סרטון כי אז הוא מבצע לי את יוז אפקט
+
+        // clickDownload()
     }
+    // useEffect(() => {
+    //     if (upload) {
+    //         uploadVideo()
+    //         setUpload(false)
+    //     }
+    // }, [upload])
     const startRecording = () => {
         start()
+        debugger
         let mr
         try {
-            mr = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: "video/webm;codecs=vp9,opus" });//window.stream, options);
+            mr = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: "video/webm;codecs=vp8,vp9,opus" });
+
+            // mr = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: "video/webm;codecs=vp9,opus" });//window.stream, options);
             setMediaR(mr)
         } catch (e0) {
             console.log('Unable to create MediaRecorder with options Object: ', { mimeType: "video/webm;codecs=vp9,opus" }, e0);
@@ -296,12 +302,15 @@ const Video = (props) => {
     }
     // דוחף למערך סטרימים
     const handleDataAvailable = (event) => {
+        debugger
         console.log('handleDataAvailable', event);
         if (event.data && event.data.size > 0) {
             setRecordedBlobs(rb => [...rb, event.data]);
         }
     }
-    const uploadVideo = (fileToUpload) => {
+    const uploadVideo = async () => {
+        const blob = new Blob(recordedBlobs, { type: 'video/mebm' });
+        let fileToUpload = new File([blob], `test.webm`, { lastModified: new Date().getTime(), type: blob.type })
 
         var myFile = new FormData();
         myFile.append("file", fileToUpload);
@@ -315,8 +324,10 @@ const Video = (props) => {
             processData: false,
             contentType: false,
             success: (data) => {
-                alert("upload success");
+                alert("upload success:  " + data.data.url);
                 console.log(data)
+                dispatch(actions.setUrl(data.data.url))
+                setShowModal(true)
 
             },
             error: function (err) {
@@ -328,26 +339,7 @@ const Video = (props) => {
     }
 
 
-    // להורדה
 
-    const clickDownload = () => {
-        const blob = new Blob(recordedBlobs, { type: 'video/webm' });
-        const url = window.URL.createObjectURL(blob);
-        // העלאה לשרת
-        uploadVideo(url)
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = 'test.webm';
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(() => {
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }, 100);
-        setRecordedBlobs([])
-        setMediaR()
-    }
     return (
         <>
 
@@ -373,16 +365,18 @@ const Video = (props) => {
                                     <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={!isStart ? e => StartVideo() : e => clickRecord()}
                                     >
                                     </img>
-                                    <button id="download" onClick={clickDownload} ref={downloadButton}>Download</button>
+                                    {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
+                                    <button id="download" onClick={uploadVideo} ref={downloadButton} style={{ backgroundColor: "red" }}>Upload Video</button>
                                     <p class="live">Live</p>
                                 </div>
                             </div></div>
                         :
                         <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
                     }
-                </div >
-            </div >
 
+                    {showModal ? <SaveVideoModle setShowModal={setShowModal}></SaveVideoModle> : null}
+                </div>
+            </div>
             {/* <Button variant="danger" onClick={(e) => { stopStreamedVideo(localStreamRef) }}>close camera</Button> */}
             {/* <Button variant="danger" onClick={(e) => { openCamera() }}>open camera</Button> */}
 
