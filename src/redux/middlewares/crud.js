@@ -21,7 +21,9 @@ function createPeer() {
     const peer = new RTCPeerConnection({
         iceServers: [
             {
-                urls: "stun:stun.1.google.com:19302"
+                urls: "stun:stun.stunprotocol.org"
+
+                // urls: "stun:stun.1.google.com:19302"
             }
         ]
     });
