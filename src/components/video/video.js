@@ -4,8 +4,6 @@ import { actions } from '../../redux/actions/action';
 import './video.css'
 import pouse from "../../assets/Group 21662.svg"
 import play from "../../assets/Component 719 – 5.svg"
-import playDark from "../../assets/Group 21705.svg"
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import img from '../../assets/chats&viewers/user.png';
 import { useStopwatch } from 'react-timer-hook';
 import $ from 'jquery';
@@ -16,13 +14,9 @@ const Video = (props) => {
 
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
-    const streamConstraints = useSelector(state => state.socketReducer.streamConstraints)
-    const receiveToAll = useSelector(state => state.convarsetionReducer.receiveMessageToAll)
-    const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
     const userName = useSelector(state => state.userReducer.userName)
     const localStream = useSelector(state => state.socketReducer.localStream)
     const [ifShow, setIfShow] = useState(false)
-    // const [message, setMessage]=useState({})
     let canvas, message, ctx;
     const localStreamRef = useRef()
     const { history } = props;
@@ -42,7 +36,6 @@ const Video = (props) => {
     // setInterval(() => { }, 1000)
     var h1, m1, s1;
     if (seconds < 10) {
-
         s1 = '0' + seconds
     }
     else {
@@ -66,6 +59,7 @@ const Video = (props) => {
     }
     const stopStreamedVideo = () => {
         pause()
+        dispatch(actions.setLength(h1 + ":" + m1 + ":" + s1))
         debugger
         const stream = localStreamRef.current.srcObject;
         const tracks = stream.getTracks();
@@ -75,13 +69,7 @@ const Video = (props) => {
         });
         // localStreamRef.current.srcObject = null;
     }
-    const openCamera = () => {
-        return new Promise((resolve, reject) => {
-            dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', })
-            start(true)
-            resolve("camera open")
-        })
-    }
+
 
     useEffect(() => {
         setDisplayVideo(true)
@@ -104,7 +92,7 @@ const Video = (props) => {
             socket.on('joined', () => { alert("joined successfully to " + room) });
         }
         else {
-            dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', });
+            dispatch(actions.createdEventFromSocket());
 
         }
         socket.on('receive-message-to-all', recMessage => {
@@ -284,8 +272,7 @@ const Video = (props) => {
             setRecordedBlobs(rb => [...rb, event.data]);
         }
     }
-    const uploadVideo = () => {
-        debugger
+    const uploadVideo = async () => {
         const blob = new Blob(recordedBlobs, { type: 'video/mebm' });
         let fileToUpload = new File([blob], `test.webm`, { lastModified: new Date().getTime(), type: blob.type })
 
@@ -303,7 +290,9 @@ const Video = (props) => {
             success: (data) => {
                 alert("upload success:  " + data.data.url);
                 console.log(data)
+                dispatch(actions.setUrl(data.data.url))
                 setShowModal(true)
+
             },
             error: function (err) {
                 alert('please try again later', err);
@@ -314,28 +303,7 @@ const Video = (props) => {
     }
 
 
-    // להורדה
 
-    const clickDownload = () => {
-        // const blob = new Blob(recordedBlobs, { type: 'video/mebm' });
-        // let file = new File([blob], `test.webm`, { lastModified: new Date().getTime(), type: blob.type })
-
-        // const url = window.URL.createObjectURL(blob);
-        // העלאה לשרת
-        // uploadVideo()
-        // const a = document.createElement('a');
-        // a.style.display = 'none';
-        // a.href = url;
-        // a.download = 'test.webm';
-        // document.body.appendChild(a);
-        // a.click();
-        // setTimeout(() => {
-        //     document.body.removeChild(a);
-        //     window.URL.revokeObjectURL(url);
-        // }, 100);
-        // setRecordedBlobs([])
-        // setMediaR()
-    }
     return (
         <>
 
@@ -365,7 +333,7 @@ const Video = (props) => {
                                     >
                                     </img>
                                     {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
-                                    <button id="download" ref={downloadButton} onClick={uploadVideo} style={{ backgroundColor: "red" }}>Upload Video</button>
+                                    <button id="download" onClick={uploadVideo} ref={downloadButton} style={{ backgroundColor: "red" }}>Upload Video</button>
                                     <p class="live">Live</p>
                                 </div>
 

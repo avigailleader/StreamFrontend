@@ -28,6 +28,8 @@ const SaveVideoModle = (props) => {
         dispatch(actions.setVideoLiveName(changeNameVideo))
         // saveNameVideoRef.current.value = videoLiveName
         setShowModal(false)
+        dispatch(actions.saveVideo())
+
     }
 
     return (

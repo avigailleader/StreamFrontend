@@ -80,7 +80,6 @@ input{
     position: absolute;
     bottom: 1px; 
 }
-
  @keyframes example {
     from { right:0px;background-color:red }
     to { right: 300px;background-color:blue }
