@@ -6,6 +6,7 @@ import pouse from "../../../assets/Group 21662.svg"
 import play from "../../../assets/Component 719 – 5.svg"
 import axios from 'axios'
 import env from "../../../config/env/dev"
+import video from '../../../assets/1.mp4';
 
 import { useStopwatch } from 'react-timer-hook';
 const UserVideo = (props) => {
@@ -14,6 +15,7 @@ const UserVideo = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
     const [isStart, setIsStart] = useState(false);
     const [isStart1, setIsStart1] = useState(false);
+    const [remoteVideo, setRemoteVideo] = useState();
 
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
@@ -24,46 +26,14 @@ const UserVideo = (props) => {
     const localStream = useSelector(state => state.socketReducer.localStream)
     // const localStreamRef = useRef()
     const localStreamRef1 = useRef()
-    const [localStreamRef, setLocalStreamRef] = useState(localStreamRef1)
-
-    const {
-        seconds,
-        minutes,
-        hours,
-        start,
-        pause,
-    } = useStopwatch({ autoStart: true });
-
+    // const [localStreamRef, setLocalStreamRef] = useState(localStreamRef1)
     let room
-    let anim = useRef()
-    let time = useRef()
-    setInterval(() => { }, 1000)
-    var h1, m1, s1;
-    if (seconds < 10) {
-
-        s1 = '0' + seconds
-    }
-    else {
-        s1 = seconds
-    }
-    if (minutes < 10) {
-        m1 = '0' + minutes
-    }
-    else {
-        m1 = minutes
-    }
-    if (hours < 10) {
-        h1 = '0' + hours
-    }
-    else {
-        h1 = hours
-    }
     const createPeer1 = () => {
         debugger
         const peer = new RTCPeerConnection({
             iceServers: [
                 {
-                    urls: "stun:stun.stunprotocol.org"
+                    'urls': 'stun:stun.l.google.com:19302'
                 }
             ]
         });
@@ -86,12 +56,13 @@ const UserVideo = (props) => {
         peer.setRemoteDescription(desc).catch(e => console.log(e));
     }
     const handleTrackEvent1 = (e) => {
-        // dispatch(actions.setLocalStream(e.streams[0]))
         debugger
         // setLocalStreamRef((a) => a.current.srcObject = e.streams[0])
-        document.getElementById("video").srcObject = e.streams[0];
+        // document.getElementById("video").srcObject = e.streams[0];
         // dispatch(actions.setLocalStream(e.streams[0]))
-        // localStreamRef1.current.srcObject = e.streams[0];
+        // setRemoteVideo(e.streams[0]);
+        localStreamRef1.current.srcObject = e.streams[0];
+        // localStreamRef1.current.src = video;
     };
 
 
@@ -100,29 +71,22 @@ const UserVideo = (props) => {
         let userName = ""
         userName = window.location.pathname.split("/")[1];
         debugger
-
+        const peer = createPeer1();
+        peer.addTransceiver("video", { direction: "recvonly" })
         console.log("username!! " + userName)
         dispatch(actions.setUserName(userName))
         // dispatch(actions.setStreamConstraints({ "video": false, "audio": false }))
         // dispatch(actions.setConnectionUserModal(true))
         room = userName
         socket.emit('join', { room });
-        // socket.on('joined', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
         socket.on('not exist room', () => { history.push('/notExist') });
         socket.on('joined', () => { alert("joined successfully to " + room) });
-
         socket.on('receive-message-to-all', message => {
             console.log("receive-message-to-all " + message);
             dispatch(actions.setReceiveMessageToAll(message))
-            // alert(message);
         });
     }, [])
 
-    const StartVideo = async () => {
-        socket.on('created', room)
-        setIsStart(true)
-        setIsStart1(true)
-    }
     const isMuted = () => {
 
         if (window.location.href.includes("admin"))
@@ -130,119 +94,21 @@ const UserVideo = (props) => {
         return false
 
     }
-
-
-    // הקלטה
-    let mediaRecorder;
-    let recordedBlobs;
-    let btnVideo = useRef()
-    let downloadButton = useRef()
-    let status = true
-
     useEffect(() => {
         if (isStart && isStart1)
             clickRecord()
     }, [isStart])
-    const clickRecord = async () => {
 
-        if (status) {
-            startRecording();
-            status = !status
-            btnVideo.current.src = pouse
-        } else {
-            stopRecording();
-            pause()
-            btnVideo.current.src = play
-            downloadButton.current.disabled = false;
-            status = !status
-        }
-    }
+    // useEffect(() => {
 
-    const stopRecording = () => {
-        mediaRecorder.stop();
-        anim.current.style.display = 'none';
-        // להפעיל פונקציה שעוצרת את השעון
+    // }, [localStreamRef])
 
-        setIsStart(false);
-
-    }
-    const startRecording = () => {
-        start()
-        recordedBlobs = [];
-        try {
-            mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: "video/webm;codecs=vp9,opus" });//window.stream, options);
-        } catch (e0) {
-            console.log('Unable to create MediaRecorder with options Object: ', { mimeType: "video/webm;codecs=vp9,opus" }, e0);
-            try {
-                mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, { mimeType: 'video/webm;codecs=vp8' });
-            } catch (e1) {
-                console.log('Unable to create MediaRecorder with options Object: ', { mimeType: 'video/webm;codecs=vp8' }, e1);
-                try {
-                    mediaRecorder = new MediaRecorder(window.store.getState().socketReducer.localStream, 'video/mp4');
-                } catch (e2) {
-                    alert('MediaRecorder is not supported by this browser.');
-                    console.error('Exception while creating MediaRecorder:', e2);
-                    return;
-                }
-            }
-
-        }
-        console.log('Created MediaRecorder', mediaRecorder, 'with options', { mimeType: "video/webm;codecs=vp9,opus" });
-        downloadButton.current.disabled = true;
-        mediaRecorder.onstop = (event) => {
-            console.log('Recorder stopped: ', event);
-            console.log('Recorded Blobs: ', recordedBlobs);
-        };
-        mediaRecorder.ondataavailable = handleDataAvailable;
-        mediaRecorder.start();
-        console.log('MediaRecorder started', mediaRecorder);
-
-        anim.current.style.display = 'inline-block';
-        time.current.style.display = 'inline-block';
-
-    }
-    // דוחף למערך סטרימים
-    const handleDataAvailable = (event) => {
-        console.log('handleDataAvailable', event);
-        if (event.data && event.data.size > 0) {
-            recordedBlobs.push(event.data);
-        }
-    }
-
-    const start1 = async () => {
-        const peer = createPeer1();
-        peer.addTransceiver("video", { direction: "recvonly" })
-
-    }
-    window.onload = () => {
-        document.getElementById('button').onclick = () => {
-            start1();
-        }
-    }
-
-    // להורדה
-    const clickDownload = () => {
-
-        const blob = new Blob(recordedBlobs, { type: 'video/webm' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = 'test.webm';
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(() => {
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }, 100);
-    }
     return (
         <>
             <div className="container">
                 <div className="row">
-                    <video id="video" autoplay ></video>
-                    <button id="button" ></button>
-
+                    <video id="video" autoPlay playsInline muted ref={localStreamRef1} style={{ width: "500", border: "2px solid yellow" }} />
+                    {/* <video id="video" autoPlay srcObject={remoteVideo} style={{ width: "500", border: "2px solid black" }} /> */}
                 </div>
             </div>
 
