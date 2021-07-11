@@ -386,28 +386,26 @@ const Video = (props) => {
                         </>
                         : null}
 
-                    {window.location.href.includes("admin") ?
-                        <div className="col-12">
-                            <div className="diVideo">
 
-                                <video id="localVideo" height="100%" width="100%" muted={true} autoPlay ref={localStreamRef} >
+                    <div className="col-12">
+                        <div className="diVideo">
 
-                                </video>
+                            <video id="localVideo" height="100%" width="100%" muted={true} autoPlay ref={localStreamRef} >
 
-                                <p class="blink_me oStyle styleA" ref={anim} >o</p>
-                                <p className="styleB" ref={time}> <span >{h1}</span>:<span>{m1}</span>:<span>{s1}</span></p>
-                                <div className="underDiv">
-                                    <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={!isStart ? e => StartVideo() : e => clickRecord()}
-                                    >
-                                    </img>
-                                    {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
-                                    <button id="download" onClick={uploadVideo} ref={downloadButton} style={{ backgroundColor: "red" }}>Upload Video</button>
-                                    <p class="live">Live</p>
-                                </div>
-                            </div></div>
-                        :
-                        <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
-                    }
+                            </video>
+
+                            <p class="blink_me oStyle styleA" ref={anim} >o</p>
+                            <p className="styleB" ref={time}> <span >{h1}</span>:<span>{m1}</span>:<span>{s1}</span></p>
+                            <div className="underDiv">
+                                <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={!isStart ? e => StartVideo() : e => clickRecord()}
+                                >
+                                </img>
+                                {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
+                                <button id="download" onClick={uploadVideo} ref={downloadButton} style={{ backgroundColor: "red" }}>Upload Video</button>
+                                <p class="live">Live</p>
+                            </div>
+                        </div></div>
+
 
                     {showModal ? <SaveVideoModle setShowModal={setShowModal}></SaveVideoModle> : null}
                 </div>
