@@ -4,7 +4,15 @@ import { actions } from '../../redux/actions/action';
 import './video.css'
 import pouse from "../../assets/Group 21662.svg"
 import play from "../../assets/Component 719 – 5.svg"
+<<<<<<< HEAD
 import img from '../../assets/chats&viewers/user.png';
+=======
+import playDark from "../../assets/Group 21705.svg"
+import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import axios from 'axios'
+import env from "../../config/env/dev"
+
+>>>>>>> RH_1
 import { useStopwatch } from 'react-timer-hook';
 import $ from 'jquery';
 import SaveVideoModle from '../modles/SaveVideoModle'
@@ -19,6 +27,7 @@ const Video = (props) => {
     const [ifShow, setIfShow] = useState(false)
     let canvas, message, ctx;
     const localStreamRef = useRef()
+
     const { history } = props;
     const {
         seconds,
@@ -53,10 +62,15 @@ const Video = (props) => {
     else {
         h1 = hours
     }
-
     const setIfShowStatus = (status) => {
         setIfShow(status)
     }
+    const openCamera = () => {
+        dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', });
+        start(true)
+
+    }
+
     const stopStreamedVideo = () => {
         pause()
         dispatch(actions.setLength(h1 + ":" + m1 + ":" + s1))
@@ -67,19 +81,52 @@ const Video = (props) => {
         tracks.forEach((track) => {
             track.stop();
         });
+    }
+    function createPeer() {
+        debugger
+        const peer = new RTCPeerConnection({
+            iceServers: [
+                {
+                    urls: "stun:stun.stunprotocol.org"
 
-        // localStreamRef.current.srcObject = null;
+                    // urls: "stun:stun.1.google.com:19302"
+                }
+            ]
+        });
+        peer.onnegotiationneeded = () => handleNegotiationNeededEvent(peer);
+
+        return peer;
     }
 
+    async function handleNegotiationNeededEvent(peer) {
+        debugger
+        const offer = await peer.createOffer();
+        await peer.setLocalDescription(offer);
+        const payload = {
+            sdp: peer.localDescription
+        };
 
+        const { data } = await axios.post(env.BASE_URL + 'broadcast', payload);
+        const desc = new RTCSessionDescription(data.sdp);
+        peer.setRemoteDescription(desc).catch(e => console.log(e));
+    }
+    const startStream = async () => {
+        debugger
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        dispatch(actions.setLocalStream(stream))
+        localStreamRef.current.srcObject = stream;
+        console.log(stream);
+        const peer = createPeer();
+        stream.getTracks().forEach(track => peer.addTrack(track, stream));
+    }
     useEffect(() => {
         setDisplayVideo(true)
         let userName = ""
         if (window.location.href.includes("admin")) {
             userName = window.location.pathname.split("/")[2];
+            startStream()
+
         }
-        else
-            userName = window.location.pathname.split("/")[1];
         console.log("username!! " + userName)
         dispatch(actions.setUserName(userName))
         if (!window.location.href.includes("admin")) {
@@ -143,22 +190,12 @@ const Video = (props) => {
 
         if (window.location.href.includes("admin")) {
             room = userName
-            dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
+            // dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
             socket.emit('create', { room });
         }
         socket.on('created', room)
         setStatus(true)
         setIsStart(true)
-    }
-    useEffect(() => {
-        localStreamRef.current.srcObject = localStream.srcObject
-    }, [localStream])
-    const isMuted = () => {
-
-        if (window.location.href.includes("admin"))
-            return true;
-        return false
-
     }
 
     // הקלטה
@@ -218,7 +255,6 @@ const Video = (props) => {
     }
 
     const stopRecording = () => {
-
         mediaR.stop();
         anim.current.style.display = 'none';
 
@@ -255,6 +291,18 @@ const Video = (props) => {
             }
 
         }
+        console.log('Created MediaRecorder', mediaRecorder, 'with options', { mimeType: "video/webm;codecs=vp9,opus" });
+        downloadButton.current.disabled = true;
+        mediaRecorder.onstop = (event) => {
+            console.log('Recorder stopped: ', event);
+            console.log('Recorded Blobs: ', recordedBlobs);
+        };
+        mediaRecorder.ondataavailable = handleDataAvailable;
+        mediaRecorder.start();
+        console.log('MediaRecorder started', mediaRecorder);
+
+        anim.current.style.display = 'inline-block';
+        time.current.style.display = 'inline-block';
 
     }
     // דוחף למערך סטרימים
@@ -344,7 +392,6 @@ const Video = (props) => {
         </>
     )
 }
-
 export default Video
 
 
