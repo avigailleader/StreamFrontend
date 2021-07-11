@@ -4,15 +4,15 @@ import { actions } from '../../redux/actions/action';
 import './video.css'
 import pouse from "../../assets/Group 21662.svg"
 import play from "../../assets/Component 719 – 5.svg"
-<<<<<<< HEAD
-import img from '../../assets/chats&viewers/user.png';
-=======
+import playDark from "../../assets/Group 21705.svg"
+import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import axios from 'axios'
 import playDark from "../../assets/Group 21705.svg"
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import axios from 'axios'
 import env from "../../config/env/dev"
+import img from '../../assets/chats&viewers/user.png';
 
->>>>>>> RH_1
 import { useStopwatch } from 'react-timer-hook';
 import $ from 'jquery';
 import SaveVideoModle from '../modles/SaveVideoModle'
