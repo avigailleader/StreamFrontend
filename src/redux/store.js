@@ -6,9 +6,7 @@ import userReducer from './reducers/user.reducer'
 
 
 import {
-    joinedEventFromSocket,
-    createdEventFromSocket,
-    addLocalStream,
+
     saveVideo,
     closeCamera
 
@@ -25,9 +23,7 @@ const reducer = combineReducers({
 const store = createStore(
     reducer,
     applyMiddleware(
-        createdEventFromSocket,
-        addLocalStream,
-        joinedEventFromSocket,
+
         saveVideo
         // closeCamera
 
