@@ -88,11 +88,6 @@ const UserVideo = (props) => {
     }, [])
 
 
-    useEffect(() => {
-        if (isStart && isStart1)
-            clickRecord()
-    }, [isStart])
-
 
     return (
         <>
