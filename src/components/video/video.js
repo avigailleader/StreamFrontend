@@ -4,7 +4,12 @@ import { actions } from '../../redux/actions/action';
 import './video.css'
 import pouse from "../../assets/Group 21662.svg"
 import play from "../../assets/Component 719 – 5.svg"
+import axios from 'axios'
+import playDark from "../../assets/Group 21705.svg"
+import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import env from "../../config/env/dev"
 import img from '../../assets/chats&viewers/user.png';
+
 import { useStopwatch } from 'react-timer-hook';
 import $ from 'jquery';
 import { IoIosClose } from 'react-icons/io';
@@ -22,6 +27,7 @@ const Video = (props) => {
     // const [message, setMessage]=useState({})
     let canvas, message, ctx, closeVisibleCanvas;
     const localStreamRef = useRef()
+
     const { history } = props;
     const {
         seconds,
@@ -56,11 +62,16 @@ const Video = (props) => {
     else {
         h1 = hours
     }
-
     const setIfShowStatus = (status) => {
         setVisibleCanvas(true)
         setIfShow(status)
     }
+    const openCamera = () => {
+        dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', });
+        start(true)
+
+    }
+
     const stopStreamedVideo = () => {
         pause()
         dispatch(actions.setLength(h1 + ":" + m1 + ":" + s1))
@@ -71,18 +82,52 @@ const Video = (props) => {
         tracks.forEach((track) => {
             track.stop();
         });
-        // localStreamRef.current.srcObject = null;
+    }
+    function createPeer() {
+        debugger
+        const peer = new RTCPeerConnection({
+            iceServers: [
+                {
+                    urls: "stun:stun.stunprotocol.org"
+
+                    // urls: "stun:stun.1.google.com:19302"
+                }
+            ]
+        });
+        peer.onnegotiationneeded = () => handleNegotiationNeededEvent(peer);
+
+        return peer;
     }
 
+    async function handleNegotiationNeededEvent(peer) {
+        debugger
+        const offer = await peer.createOffer();
+        await peer.setLocalDescription(offer);
+        const payload = {
+            sdp: peer.localDescription
+        };
 
+        const { data } = await axios.post(env.BASE_URL + 'broadcast', payload);
+        const desc = new RTCSessionDescription(data.sdp);
+        peer.setRemoteDescription(desc).catch(e => console.log(e));
+    }
+    const startStream = async () => {
+        debugger
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        dispatch(actions.setLocalStream(stream))
+        localStreamRef.current.srcObject = stream;
+        console.log(stream);
+        const peer = createPeer();
+        stream.getTracks().forEach(track => peer.addTrack(track, stream));
+    }
     useEffect(() => {
         setDisplayVideo(true)
         let userName = ""
         if (window.location.href.includes("admin")) {
             userName = window.location.pathname.split("/")[2];
+            startStream()
+
         }
-        else
-            userName = window.location.pathname.split("/")[1];
         console.log("username!! " + userName)
         dispatch(actions.setUserName(userName))
         dispatch(actions.setVideoLiveName(userName))
@@ -113,17 +158,17 @@ const Video = (props) => {
         setVisibleCanvas(false);
     }
     const drawXClose = () => {
-       
+
         closeVisibleCanvas = document.getElementById("myClose")
 
         let data = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">' +
             '<foreignObject width="100%" height="100%">' +
             '<div xmlns="http://www.w3.org/1999/xhtml" style="font-size:40px">' +
-           
+
             // `${<IoIosClose id="myClose" onClick={handleClose} size="24" className="x xClosecanvas col-2 offset-10 mt-2" />}` +
-           ` <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className='XClose'  viewBox="0 0 16 16">`
-                +'<path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z" />'
-            +'</svg>' +
+            ` <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className='XClose'  viewBox="0 0 16 16">`
+            + '<path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z" />'
+            + '</svg>' +
             '</div>' +
             '</foreignObject>' +
             '</svg>';
@@ -181,22 +226,12 @@ const Video = (props) => {
 
         if (window.location.href.includes("admin")) {
             room = userName
-            dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
+            // dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
             socket.emit('create', { room });
         }
         socket.on('created', room)
         setStatus(true)
         setIsStart(true)
-    }
-    useEffect(() => {
-        localStreamRef.current.srcObject = localStream.srcObject
-    }, [localStream])
-    const isMuted = () => {
-
-        if (window.location.href.includes("admin"))
-            return true;
-        return false
-
     }
 
     // הקלטה
@@ -350,7 +385,7 @@ const Video = (props) => {
                             <canvas id="myCanvas" className='canvas'></canvas>
                         </>
                         : null}
-                   
+
                     {window.location.href.includes("admin") ?
                         <div className="col-12">
                             <div className="diVideo">

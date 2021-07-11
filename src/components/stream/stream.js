@@ -1,6 +1,8 @@
 import React from 'react'
 
 import Video from '../video/video'
+import UserVideo from '../video/userVideo/userVideo'
+
 import ChatAdmin from '../chat/chatAdmin'
 import ChatUser from '../chat/chatUser'
 
@@ -10,7 +12,12 @@ export default function Stream(props) {
         <div className="container-fluid">
             <div className="row">
                 <div className="col-9">
-                    <Video {...props} />
+                    {
+                        window.location.href.includes("admin") ?
+                            <Video {...props} /> :
+                            <UserVideo></UserVideo>
+                    }
+
                 </div>
                 <div className="col-3">
                     <div className="d-flex align-items-end flex-column" style={{ height: "200px" }}>
