@@ -87,21 +87,12 @@ const UserVideo = (props) => {
         });
     }, [])
 
-    const isMuted = () => {
 
-        if (window.location.href.includes("admin"))
-            return true;
-        return false
-
-    }
     useEffect(() => {
         if (isStart && isStart1)
             clickRecord()
     }, [isStart])
 
-    // useEffect(() => {
-
-    // }, [localStreamRef])
 
     return (
         <>

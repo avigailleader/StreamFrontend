@@ -1,7 +1,6 @@
 import axios from 'axios';
-import env from "../../config/env/dev"
-
 // import moment from 'moment'
+import env from "../../config/env/dev"
 
 import { actions } from '../actions/action';
 const addLocalStream = ({ dispatch, getState }) => next => action => {
@@ -13,11 +12,39 @@ const addLocalStream = ({ dispatch, getState }) => next => action => {
 
         localStream.srcObject = action.payload;
 
-        dispatch(actions.setLocalVideo(localStream));
-
+        // dispatch(actions.setLocalVideo(localStream));
     }
     return next(action);
 }
+function createPeer() {
+    debugger
+    const peer = new RTCPeerConnection({
+        iceServers: [
+            {
+                urls: "stun:stun.stunprotocol.org"
+
+                // urls: "stun:stun.1.google.com:19302"
+            }
+        ]
+    });
+    peer.onnegotiationneeded = () => handleNegotiationNeededEvent(peer);
+
+    return peer;
+}
+
+async function handleNegotiationNeededEvent(peer) {
+    debugger
+    const offer = await peer.createOffer();
+    await peer.setLocalDescription(offer);
+    const payload = {
+        sdp: peer.localDescription
+    };
+
+    const { data } = await axios.post(env.BASE_URL + 'broadcast', payload);
+    const desc = new RTCSessionDescription(data.sdp);
+    peer.setRemoteDescription(desc).catch(e => console.log(e));
+}
+
 const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
 
     if (action.type === 'CREATED_EVENT_FROM_SOCKET') {
@@ -26,7 +53,9 @@ const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
             .getUserMedia(getState().socketReducer.streamConstraints)
             .then(function (stream) {
 
-                dispatch(actions.addLocalStream(stream));
+                dispatch({ type: 'ADD_LOCAL_STREAM', payload: stream });
+                const peer = createPeer();
+                stream.getTracks().forEach(track => peer.addTrack(track, stream));
                 dispatch(actions.setIsCaller(true));
                 // dispatch({ type: 'ADD_NEW_CONVERSATION' });
 
@@ -89,7 +118,7 @@ const joinedEventFromSocket = ({ dispatch, getState }) => next => action => {
         navigator.mediaDevices
             .getUserMedia(getState().socketReducer.streamConstraints)
             .then(function (stream) {
-                dispatch(actions.addLocalStream(stream));
+                dispatch({ type: 'ADD_LOCAL_STREAM', payload: stream });
                 dispatch(actions.setVisibleOptionsModal(true));
 
             })
@@ -114,31 +143,32 @@ const joinedEventFromSocket = ({ dispatch, getState }) => next => action => {
 }
 
 const saveVideo = ({ dispatch, getState }) => next => action => {
-    debugger
+
     if (action.type === 'SAVE_VIDEO') {
-        let jsonObject = {
-            videoLiveName: getState().convarsetionReducer.videoLiveName,
-            date: new Date(Date.now()),
-            length: getState().convarsetionReducer.length,
-            url: getState().convarsetionReducer.url,
+        const video = {
+            videoLiveName: getState().conversationReducer.videoLiveName,
+            date: new Date(),
+            length: getState().conversationReducer.length,
+            url: getState().conversationReducer.url,
             userName: getState().userReducer.userName
         }
-        axios.post(env.BASE_URL + `api/:${getState().userReducer.userName}/createVideo`, jsonObject)
-            .then((data) => {
-                console.log(data);
-            }).catch((err) => {
-                console.log(err);
-            })
+        axios.post(env.BASE_URL + 'api/createVideo', video).then((data) => {
+            console.log(data);
+        }).catch((err) => {
+            console.log(err);
+        })
 
     }
     return next(action)
 
 }
+
+
 export {
     createdEventFromSocket,
     addLocalStream,
     joinedEventFromSocket,
-    closeCamera,
-    saveVideo
+    saveVideo,
+    closeCamera
 
 }

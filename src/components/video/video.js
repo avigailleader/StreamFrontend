@@ -106,7 +106,8 @@ const Video = (props) => {
     const startStream = async () => {
         debugger
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        document.getElementById("localVideo").srcObject = stream;
+        dispatch(actions.setLocalStream(stream))
+        localStreamRef.current.srcObject = stream;
         console.log(stream);
         const peer = createPeer();
         stream.getTracks().forEach(track => peer.addTrack(track, stream));
@@ -116,28 +117,11 @@ const Video = (props) => {
         let userName = ""
         if (window.location.href.includes("admin")) {
             userName = window.location.pathname.split("/")[2];
-        }
-        else {
-            userName = window.location.pathname.split("/")[1];
+            startStream()
 
         }
         console.log("username!! " + userName)
         dispatch(actions.setUserName(userName))
-        if (!window.location.href.includes("admin")) {
-            // dispatch(actions.setStreamConstraints({ "video": false, "audio": false }))
-            // dispatch(actions.setConnectionUserModal(true))
-            room = userName
-            socket.emit('join', { room });
-            // socket.on('joined', event => dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', payload: event }));
-            socket.on('not exist room', () => { history.push('/notExist') });
-            socket.on('joined', () => { alert("joined successfully to " + room) });
-        }
-        else {
-
-            startStream()
-            // dispatch({ type: 'CREATED_EVENT_FROM_SOCKET', });
-
-        }
         socket.on('receive-message-to-all', message => {
             console.log("receive-message-to-all " + message);
             dispatch(actions.setReceiveMessageToAll(message))
@@ -155,19 +139,6 @@ const Video = (props) => {
         socket.on('created', room)
         setIsStart(true)
         setIsStart1(true)
-    }
-    // useEffect(() => {
-    //     if (window.location.href.includes("admin")) {
-    //         debugger
-    //         localStreamRef.current.srcObject = localStream.srcObject
-    //     }
-    // }, [localStream])
-    const isMuted = () => {
-
-        if (window.location.href.includes("admin"))
-            return true;
-        return false
-
     }
 
 
