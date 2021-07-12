@@ -1,5 +1,7 @@
 import axios from 'axios';
-import env from "../../config/env/dev"
+import keys from "../../config/env/keys"
+
+
 import { actions } from '../actions/action';
 
 const closeCamera = ({ dispatch, getState }) => next => action => {
@@ -75,7 +77,7 @@ const saveVideo = ({ dispatch, getState }) => next => action => {
             url: getState().convarsetionReducer.url,
             userName: getState().userReducer.userName
         }
-        axios.post(env.BASE_URL + `api/:${getState().userReducer.userName}/createVideo`, jsonObject)
+        axios.post(keys.BASE_URL + `api/:${getState().userReducer.userName}/createVideo`, jsonObject)
             .then((data) => {
                 console.log(data);
             }).catch((err) => {

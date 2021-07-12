@@ -7,7 +7,7 @@ import play from "../../assets/Component 719 – 5.svg"
 import axios from 'axios'
 import playDark from "../../assets/Group 21705.svg"
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import env from "../../config/env/dev"
+import keys from "../../config/env/keys"
 import img from '../../assets/chats&viewers/user.png';
 
 import { useStopwatch } from 'react-timer-hook';
@@ -103,7 +103,7 @@ const Video = (props) => {
             sdp: peer.localDescription
         };
 
-        const { data } = await axios.post(env.BASE_URL + 'broadcast', payload);
+        const { data } = await axios.post(keys.BASE_URL + 'broadcast', payload);
         const desc = new RTCSessionDescription(data.sdp);
         peer.setRemoteDescription(desc).catch(e => console.log(e));
     }
