@@ -1,3 +1,3 @@
 module.exports = {
-    BASE_URL: "http://localhost:3033"
+    BASE_URL: "http://stream.vlogger.codes/"
 }
