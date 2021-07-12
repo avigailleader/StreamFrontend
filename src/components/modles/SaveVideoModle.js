@@ -6,11 +6,11 @@ import play from "../../assets/Component 719 – 5.svg"
 import playDark from "../../assets/Group 21705.svg"
 import { Button, FormGroup, FormControl, ControlLabel, Modal } from "react-bootstrap";
 import $ from 'jquery'
-import { useStopwatch } from 'react-timer-hook';
+import { useStopwatch } from 'react-timer-hook'; 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import redBorder from '../../assets/modal/red border.svg'
+import redBorder from '../../assets/modal/red border.svg' 
 import Save from '../../assets/modal/Save.svg'
 import dialogNameImg from '../../assets/modal/Dialog Img.svg'
 import './SaveVideoModle.css'

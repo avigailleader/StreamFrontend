@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.4",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.58",
     "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -12,6 +14,7 @@
     "emoji-picker-react": "^3.4.8",
     "jquery": "^3.6.0",
     "moment": "^2.29.1",
+    "mui-modal-provider": "^1.4.3",
     "react": "^17.0.2",
     "react-animations": "^1.0.0",
     "react-bootstrap": "^1.6.1",

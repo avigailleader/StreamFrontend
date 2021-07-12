@@ -4,52 +4,7 @@ import env from "../../config/env/dev"
 // import moment from 'moment'
 
 import { actions } from '../actions/action';
-const addLocalStream = ({ dispatch, getState }) => next => action => {
 
-    if (action.type === 'ADD_LOCAL_STREAM') {
-
-        dispatch(actions.setLocalStream(action.payload));
-        let localStream = getState().socketReducer.localStream;
-
-        localStream.srcObject = action.payload;
-
-        dispatch(actions.setLocalVideo(localStream));
-
-    }
-    return next(action);
-}
-const createdEventFromSocket = ({ dispatch, getState }) => next => action => {
-
-    if (action.type === 'CREATED_EVENT_FROM_SOCKET') {
-        debugger
-        navigator.mediaDevices
-            .getUserMedia(getState().socketReducer.streamConstraints)
-            .then(function (stream) {
-
-                dispatch(actions.addLocalStream(stream));
-                dispatch(actions.setIsCaller(true));
-                // dispatch({ type: 'ADD_NEW_CONVERSATION' });
-
-            })
-            .catch(function (err) {
-                console.log(err);
-                if (err.name === "NotFoundError" || err.name === "DevicesNotFoundError") {
-                    console.log("required track is missing");
-                } else if (err.name === "NotReadableError" || err.name === "TrackStartError") {
-                    console.log("webcam or mic are already in use");
-                } else if (err.name === "OverconstrainedError" || err.name === "ConstraintNotSatisfiedError") {
-                    console.log("constraints can not be satisfied by avb. devices");
-                } else if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
-                    console.log("permission denied in browser");
-                } else if (err.name === "TypeError" || err.name === "TypeError") {
-                    console.log("empty constraints object");
-                } else {
-                    console.log("other errors");
-                }
-            });
-    }
-    return next(action);
-}
 const closeCamera = ({ dispatch, getState }) => next => action => {
     debugger
     if (action.type === 'CLOSE_CAMERA') {
@@ -134,9 +89,10 @@ const saveVideo = ({ dispatch, getState }) => next => action => {
     return next(action)
 
 }
+
+
 export {
-    createdEventFromSocket,
-    addLocalStream,
+
     joinedEventFromSocket,
     closeCamera,
     saveVideo
