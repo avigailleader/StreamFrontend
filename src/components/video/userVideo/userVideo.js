@@ -6,6 +6,7 @@ import pouse from "../../../assets/Group 21662.svg"
 import play from "../../../assets/Component 719 – 5.svg"
 import axios from 'axios'
 import keys from "../../../config/env/keys"
+// import env from '../../../config/env/dev'
 
 import video from '../../../assets/1.mp4';
 

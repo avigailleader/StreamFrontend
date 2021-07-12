@@ -1,11 +1,11 @@
 import produce from 'immer';
 import io from "socket.io-client";
-import env from "../../config/env/dev"
-
+import keys from "../../config/env/keys"
+// import env from '../../config/env/dev'
 import createReducer from './reducerUtils';
 
 const initialState = {
-    socket: io.connect(env.BASE_URL, {
+    socket: io.connect(keys.BASE_URL, {
         transports: ['websocket']
     }),
     localStream: "",
