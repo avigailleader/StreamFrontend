@@ -5,6 +5,7 @@ import store from './redux/store'
 import { Button } from 'react-bootstrap'
 import Routes from './components/routes/route'
 
+
 const App = () => {
   return (
 
@@ -13,7 +14,6 @@ const App = () => {
         <header className="App-header">
         </header>
         <Routes></Routes>
-
       </div>
     </Provider>
 
