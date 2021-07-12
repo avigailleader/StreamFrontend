@@ -1,5 +1,6 @@
 import axios from 'axios';
-import env from "../../config/env/dev"
+import keys from "../../config/env/keys"
+// import env from '../../config/env/dev'
 
 // import moment from 'moment'
 
@@ -78,7 +79,7 @@ const saveVideo = ({ dispatch, getState }) => next => action => {
             url: getState().convarsetionReducer.url,
             userName: getState().userReducer.userName
         }
-        axios.post(env.BASE_URL + `api/:${getState().userReducer.userName}/createVideo`, jsonObject)
+        axios.post(keys.BASE_URL + `api/:${getState().userReducer.userName}/createVideo`, jsonObject)
             .then((data) => {
                 console.log(data);
             }).catch((err) => {
@@ -92,7 +93,6 @@ const saveVideo = ({ dispatch, getState }) => next => action => {
 
 
 export {
-
     joinedEventFromSocket,
     closeCamera,
     saveVideo

@@ -5,7 +5,9 @@ import '../video.css'
 import pouse from "../../../assets/Group 21662.svg"
 import play from "../../../assets/Component 719 – 5.svg"
 import axios from 'axios'
-import env from "../../../config/env/dev"
+import keys from "../../../config/env/keys"
+// import env from '../../../config/env/dev'
+
 import video from '../../../assets/1.mp4';
 
 import { useStopwatch } from 'react-timer-hook';
@@ -52,7 +54,7 @@ const UserVideo = (props) => {
             sdp: peer.localDescription
         };
 
-        const { data } = await axios.post(env.BASE_URL + 'consumer', payload);
+        const { data } = await axios.post(keys.BASE_URL + 'consumer', payload);
         const desc = new RTCSessionDescription(data.sdp);
         peer.setRemoteDescription(desc).catch(e => console.log(e));
     }
