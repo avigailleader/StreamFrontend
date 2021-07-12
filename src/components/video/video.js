@@ -288,18 +288,7 @@ const Video = (props) => {
             }
 
         }
-        console.log('Created MediaRecorder', mediaRecorder, 'with options', { mimeType: "video/webm;codecs=vp9,opus" });
-        downloadButton.current.disabled = true;
-        mediaRecorder.onstop = (event) => {
-            console.log('Recorder stopped: ', event);
-            console.log('Recorded Blobs: ', recordedBlobs);
-        };
-        mediaRecorder.ondataavailable = handleDataAvailable;
-        mediaRecorder.start();
-        console.log('MediaRecorder started', mediaRecorder);
 
-        anim.current.style.display = 'inline-block';
-        time.current.style.display = 'inline-block';
 
     }
     // דוחף למערך סטרימים
@@ -352,33 +341,30 @@ const Video = (props) => {
                         </>
 
                         : null}
-                    {window.location.href.includes("admin") ?
-                        <div className="col-12">
-                            <div className="diVideo">
 
-                                <video id="localVideo" height="100%" width="100%" muted={true} autoPlay ref={localStreamRef} >
+                    <div className="col-12">
+                        <div className="diVideo">
 
-                                </video>
+                            <video id="localVideo" height="100%" width="100%" muted={true} autoPlay ref={localStreamRef} >
+
+                            </video>
 
 
-                                <p class="blink_me oStyle styleA" ref={anim} >o</p>
-                                <p className="styleB" ref={time}> <span >{h1}</span>:<span>{m1}</span>:<span>{s1}</span></p>
-                                <div className="underDiv">
-                                    <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={!isStart ? e => StartVideo() : e => clickRecord()}
-                                    //  onMouseOver={e => { (e.currentTarget.src = playDark) }}
-                                    // onMouseOut={e => (e.currentTarget.src = play)}
-                                    >
-                                    </img>
-                                    {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
-                                    <button id="download" onClick={uploadVideo} ref={downloadButton} style={{ backgroundColor: "red" }}>Upload Video</button>
-                                    <p class="live">Live</p>
-                                </div>
+                            <p class="blink_me oStyle styleA" ref={anim} >o</p>
+                            <p className="styleB" ref={time}> <span >{h1}</span>:<span>{m1}</span>:<span>{s1}</span></p>
+                            <div className="underDiv">
+                                <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={!isStart ? e => StartVideo() : e => clickRecord()}
+                                //  onMouseOver={e => { (e.currentTarget.src = playDark) }}
+                                // onMouseOut={e => (e.currentTarget.src = play)}
+                                >
+                                </img>
+                                {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
+                                <button id="download" onClick={uploadVideo} ref={downloadButton} style={{ backgroundColor: "red" }}>Upload Video</button>
+                                <p class="live">Live</p>
+                            </div>
 
-                            </div></div>
+                        </div></div>
 
-                        :
-                        <video id="localVideo" muted={isMuted()} height="100px" width="100px" autoPlay ref={localStreamRef} ></video>
-                    }
 
                     {showModal ? <SaveVideoModle setShowModal={setShowModal}></SaveVideoModle> : null}
                 </div>
