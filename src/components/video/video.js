@@ -360,11 +360,11 @@ const Video = (props) => {
             processData: false,
             contentType: false,
             success: (data) => {
-                alert("upload success:  " + data.data.url);
+                // alert("upload success:  " + data.data.url);
                 console.log(data)
                 dispatch(actions.setUrl(data.data.url))
                 setShowModal(true)
-               
+                history.push('/AfterVideo')
 
             },
             error: function (err) {
@@ -374,11 +374,6 @@ const Video = (props) => {
         });
        
     }
-
-function af(){
-    debugger
-    history.push('/AfterVideo')
-  }
 
     return (
         <>
@@ -407,7 +402,7 @@ function af(){
                                 </img>
                                 {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
                                 <button id="download" onClick={uploadVideo} ref={downloadButton} style={{ backgroundColor: "red" }}>Upload Video</button>
-                                <button onClick={af}>fhgcjv</button>
+                                {/* <button onClick={af}>fhgcjv</button> */}
                                 <p class="live">Live</p>
                             </div>
                         </div></div>
