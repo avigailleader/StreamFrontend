@@ -4,12 +4,9 @@ import { actions } from '../../redux/actions/action';
 import './video.css'
 import pouse from "../../assets/Group 21662.svg"
 import play from "../../assets/Component 719 – 5.svg"
-import playDark from "../../assets/Group 21705.svg"
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import axios from 'axios'
 import playDark from "../../assets/Group 21705.svg"
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import axios from 'axios'
 import env from "../../config/env/dev"
 import img from '../../assets/chats&viewers/user.png';
 

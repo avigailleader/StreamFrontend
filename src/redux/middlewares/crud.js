@@ -1,9 +1,5 @@
 import axios from 'axios';
 import env from "../../config/env/dev"
-
-// import moment from 'moment'
-import env from "../../config/env/dev"
-
 import { actions } from '../actions/action';
 
 const closeCamera = ({ dispatch, getState }) => next => action => {
@@ -93,8 +89,6 @@ const saveVideo = ({ dispatch, getState }) => next => action => {
 
 
 export {
-    createdEventFromSocket,
-    addLocalStream,
     joinedEventFromSocket,
     closeCamera,
     saveVideo

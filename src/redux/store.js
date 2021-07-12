@@ -6,9 +6,7 @@ import userReducer from './reducers/user.reducer'
 
 
 import {
-    joinedEventFromSocket,
-    createdEventFromSocket,
-    addLocalStream,
+
     saveVideo,
     closeCamera
 
