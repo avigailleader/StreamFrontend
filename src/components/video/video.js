@@ -14,6 +14,7 @@ import { useStopwatch } from 'react-timer-hook';
 import $ from 'jquery';
 import { IoIosClose } from 'react-icons/io';
 import SaveVideoModle from '../modles/SaveVideoModle'
+import {Link, Redirect } from 'react-router-dom';
 const Video = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
     // const [isStart, setIsStart] = useState(false);
@@ -359,10 +360,11 @@ const Video = (props) => {
             processData: false,
             contentType: false,
             success: (data) => {
-                alert("upload success:  " + data.data.url);
+                // alert("upload success:  " + data.data.url);
                 console.log(data)
                 dispatch(actions.setUrl(data.data.url))
                 setShowModal(true)
+                history.push('/AfterVideo')
 
             },
             error: function (err) {
@@ -370,10 +372,8 @@ const Video = (props) => {
 
             },
         });
-
+       
     }
-
-
 
     return (
         <>
@@ -402,6 +402,7 @@ const Video = (props) => {
                                 </img>
                                 {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
                                 <button id="download" onClick={uploadVideo} ref={downloadButton} style={{ backgroundColor: "red" }}>Upload Video</button>
+                                {/* <button onClick={af}>fhgcjv</button> */}
                                 <p class="live">Live</p>
                             </div>
                         </div></div>
