@@ -5,11 +5,16 @@ import UserVideo from '../video/userVideo/userVideo'
 
 import ChatAdmin from '../chat/chatAdmin'
 import ChatUser from '../chat/chatUser'
-
+import Header from '../header/header'
 import Viewers from '../chat/admin/Viewers'
 export default function Stream(props) {
     return (
         <div className="container-fluid">
+            <div className="row" style={{ marginBottom: '50px' }}>
+                <div className="col-12">
+                    <Header />
+                </div>
+            </div>
             <div className="row">
                 <div className="col-9">
                     {
