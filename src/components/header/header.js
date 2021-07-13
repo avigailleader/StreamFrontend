@@ -14,7 +14,7 @@ import videoCameraHover from '../../assets/videoCameraHover.svg';
 import { connect } from 'react-redux';
 import linkCopy from '../../assets/linkCopy.svg'
 import './header.css'
-import configData from '../../config.json'
+import configData from '../../config/env/dev'
 import { BrowserRouter as Router, Link, } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import $ from 'jquery';
