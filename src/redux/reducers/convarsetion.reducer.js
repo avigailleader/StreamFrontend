@@ -16,6 +16,7 @@ const initialState = {
     date: " ",
     length: " ",
     url: " ",
+    description: "my video"
 
 }
 
@@ -26,6 +27,9 @@ const convarsetionData = {
     setUrl(state, action) {
         state.url = action.payload;
 
+    },
+    setDescription(state, action) {
+        state.description = action.payload;
     },
     setLength(state, action) {
         debugger
