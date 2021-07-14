@@ -402,6 +402,7 @@ const Video = (props) => {
                                 </img>
                                 {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
                                 <button id="download" onClick={uploadVideo} ref={downloadButton} style={{ backgroundColor: "red" }}>Upload Video</button>
+
                                 {/* <button onClick={af}>fhgcjv</button> */}
                                 <p class="live">Live</p>
                             </div>

@@ -9,15 +9,18 @@ const AfterVideo = (props) => {
     const videoLiveName = useSelector(state => state.convarsetionReducer.videoLiveName)
     const [videoName, setVideoName] = useState(videoLiveName)
     const [description, setDescription] = useState(useSelector(state => state.convarsetionReducer.description))
-    const updatename = (val) => {
-        setVideoName(val)
+   
+    
+    const saveNameVideo = (e) => {
+        debugger
         dispatch(actions.setVideoLiveName(videoName))
-    }
-    const updatedescription = (val) => {
-        setDescription(val)
-        dispatch(actions.setDescription(description))
-    }
+        dispatch(actions.setVideoLiveDescription(description))
+       
+        dispatch(actions.saveVideo())
+            alert("save is sucsess")
+       
 
+    }
     return (<>
         <div className="container">
             <div className="row">
@@ -28,13 +31,13 @@ const AfterVideo = (props) => {
 
                         </video>
                         <p className="myLabel">update name video</p>
-                        <input type="text" placeholder="upDate name video" onChange={(e) => updatename(e.target.value)} value={videoName}></input>
+                        <input type="text" placeholder="upDate name video" onChange={(e) => setVideoName(e.target.value)} value={videoName}></input>
                         <p className="myLabel">description your video</p>
                         <div class="form-group">
                             <label for="comment">UpDate description video:</label>
-                            <textarea class="form-control textBox" rows="5" id="comment" onChange={(e) => updatedescription(e.target.value)} value={description}></textarea>
+                            <textarea class="form-control textBox" rows="5" id="comment" onChange={(e) => setDescription(e.target.value)} value={description}></textarea>
+                            <button class="btn btn-primary" onClick={saveNameVideo}></button>
                         </div>
-                        <editor name="" type="text" placeholder="upDate description video" onChange={(e) => updatedescription(e.target.value)} value={description}></editor>
                     </div>
                 </div>
                 <div className="col-2"></div>
