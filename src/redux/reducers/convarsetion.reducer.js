@@ -16,10 +16,20 @@ const initialState = {
     date: " ",
     length: " ",
     url: " ",
+    viewer: "",
+    chatId: ""
+
+
 
 }
 
 const convarsetionData = {
+    setViewer(state, action) {
+        state.viewer = action.payload;
+    },
+    setChatId(state, action) {
+        state.chatId = action.payload;
+    },
     setVideoLiveName(state, action) {
         state.videoLiveName = action.payload;
     },

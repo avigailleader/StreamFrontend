@@ -21,11 +21,14 @@ const UserVideo = (props) => {
 
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
+    const viewers = useSelector(state => state.convarsetionReducer.viewer)
+
     const streamConstraints = useSelector(state => state.socketReducer.streamConstraints)
     const receiveToAll = useSelector(state => state.convarsetionReducer.receiveMessageToAll)
     const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
     const userName = useSelector(state => state.userReducer.userName)
     const localStream = useSelector(state => state.socketReducer.localStream)
+    const [viewersP, setViewersP] = useState(viewers)
     // const localStreamRef = useRef()
     const localStreamRef1 = useRef()
     // const [localStreamRef, setLocalStreamRef] = useState(localStreamRef1)
@@ -88,7 +91,14 @@ const UserVideo = (props) => {
             console.log("receive-message-to-all " + message);
             dispatch(actions.setReceiveMessageToAll(message))
         });
+        socket.on("viewer", viewer => {
+            console.log(viewer.viewers);
+            dispatch(actions.setViewer(viewer.viewers))
+        })
     }, [])
+    useEffect(() => {
+        setViewersP(viewers)
+    }, [viewers])
 
 
 
@@ -98,6 +108,7 @@ const UserVideo = (props) => {
                 <div className="row">
                     <video id="video" autoPlay playsInline muted ref={localStreamRef1} style={{ width: "500", border: "2px solid yellow" }} />
                     {/* <video id="video" autoPlay srcObject={remoteVideo} style={{ width: "500", border: "2px solid black" }} /> */}
+                    <div>{viewersP}</div>
                 </div>
             </div>
 

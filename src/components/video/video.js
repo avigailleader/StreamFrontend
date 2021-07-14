@@ -126,7 +126,6 @@ const Video = (props) => {
         if (window.location.href.includes("admin")) {
             userName = window.location.pathname.split("/")[2];
             startStream()
-
         }
         console.log("username!! " + userName)
         dispatch(actions.setUserName(userName))
@@ -144,6 +143,7 @@ const Video = (props) => {
             dispatch(actions.createdEventFromSocket());
 
         }
+
         socket.on('receive-message-to-all', recMessage => {
             debugger
             console.log(recMessage);
@@ -229,7 +229,10 @@ const Video = (props) => {
             // dispatch(actions.setStreamConstraints({ "video": true, "audio": true }))
             socket.emit('create', { room });
         }
-        socket.on('created', room)
+        socket.on('created', (chatId) => {
+            console.log(chatId);
+            dispatch(actions.setChatId(chatId))
+        })
         setStatus(true)
         setIsStart(true)
     }
@@ -299,15 +302,7 @@ const Video = (props) => {
         debugger
         await mediaR.stop();
         anim.current.style.display = 'none';
-
-        // clickDownload()
     }
-    // useEffect(() => {
-    //     if (upload) {
-    //         uploadVideo()
-    //         setUpload(false)
-    //     }
-    // }, [upload])
     const startRecording = () => {
         start()
         debugger
