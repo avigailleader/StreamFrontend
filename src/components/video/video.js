@@ -9,7 +9,7 @@ import playDark from "../../assets/Group 21705.svg"
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import keys from "../../config/env/keys"
 import img from '../../assets/chats&viewers/user.png';
-
+import imgVolum from '../../assets/volum.png'
 import { useStopwatch } from 'react-timer-hook';
 import $ from 'jquery';
 import { IoIosClose } from 'react-icons/io';
@@ -25,6 +25,9 @@ const Video = (props) => {
     const [ifShow, setIfShow] = useState(false)
     const [visibleCanvas, setVisibleCanvas] = useState(false)
     // const [message, setMessage]=useState({})
+    const viewers = useSelector(state => state.convarsetionReducer.viewer)
+    const [viewersP, setViewersP] = useState(viewers)
+
     let canvas, message, ctx, closeVisibleCanvas;
     const localStreamRef = useRef()
 
@@ -71,6 +74,9 @@ const Video = (props) => {
         start(true)
 
     }
+    useEffect(() => {
+        setViewersP(viewers)
+    }, [viewers])
 
     const stopStreamedVideo = () => {
         pause()
@@ -143,6 +149,10 @@ const Video = (props) => {
             dispatch(actions.createdEventFromSocket());
 
         }
+        socket.on("viewer", viewer => {
+            console.log(viewer.viewers);
+            dispatch(actions.setViewer(viewer.viewers))
+        })
 
         socket.on('receive-message-to-all', recMessage => {
             debugger
@@ -389,15 +399,18 @@ const Video = (props) => {
 
                             </video>
 
-                            <p class="blink_me oStyle styleA" ref={anim} >o</p>
-                            <p className="styleB" ref={time}> <span >{h1}</span>:<span>{m1}</span>:<span>{s1}</span></p>
-                            <div className="underDiv">
-                                <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={!isStart ? e => StartVideo() : e => clickRecord()}
+
+                            <div className="underDiv row">
+                                <img className="col-2" src={play} ref={btnVideo} className="imgPlayPouse" onClick={!isStart ? e => StartVideo() : e => clickRecord()}
                                 >
                                 </img>
                                 {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
-                                <button id="download" onClick={uploadVideo} ref={downloadButton} style={{ backgroundColor: "red" }}>Upload Video</button>
-                                <p class="live">Live</p>
+                                <button className="col-2" id="download" onClick={uploadVideo} ref={downloadButton} style={{ backgroundColor: "red" }}>Upload Video</button>
+                                <p class="blink_me oStyle styleA" ref={anim} >o</p>
+                                <p className="styleB" ref={time}> <span >{h1}</span>:<span>{m1}</span>:<span>{s1}</span></p>
+                                <div className="col-2" class="viewersP">{viewersP} Viewers</div>
+                                <img id="imgVolum" src={imgVolum} />
+                                <p className="col-2" class="live">Live</p>
                             </div>
                         </div></div>
 

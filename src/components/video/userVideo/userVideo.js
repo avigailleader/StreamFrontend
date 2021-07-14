@@ -22,12 +22,6 @@ const UserVideo = (props) => {
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
     const viewers = useSelector(state => state.convarsetionReducer.viewer)
-
-    const streamConstraints = useSelector(state => state.socketReducer.streamConstraints)
-    const receiveToAll = useSelector(state => state.convarsetionReducer.receiveMessageToAll)
-    const connectionUserModel = useSelector(state => state.convarsetionReducer.connectionUserModel)
-    const userName = useSelector(state => state.userReducer.userName)
-    const localStream = useSelector(state => state.socketReducer.localStream)
     const [viewersP, setViewersP] = useState(viewers)
     // const localStreamRef = useRef()
     const localStreamRef1 = useRef()
@@ -97,6 +91,7 @@ const UserVideo = (props) => {
         })
     }, [])
     useEffect(() => {
+        debugger
         setViewersP(viewers)
     }, [viewers])
 
