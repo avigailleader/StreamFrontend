@@ -253,6 +253,8 @@ const Video = (props) => {
             mediaR.onstop = (event) => {
                 console.log('Recorder stopped: ', event);
                 console.log('Recorded Blobs: ', recordedBlobs);
+                
+                return 1
                 // uploadVideo()
             };
 
@@ -299,6 +301,8 @@ const Video = (props) => {
     const stopRecording = async () => {
         debugger
         await mediaR.stop();
+        
+        
         anim.current.style.display = 'none';
 
         // clickDownload()
