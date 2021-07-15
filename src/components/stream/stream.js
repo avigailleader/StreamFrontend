@@ -29,7 +29,7 @@ export default function Stream(props) {
                                 window.location.href.includes("admin") ?
                                     <ChatAdmin></ChatAdmin> :
                                     // <ChatUser></ChatUser>
-                                    <iframe src={`https://chat.leader.codes/${window.store.getState().userReducer.userName}/hangout/${window.store.getState().convarsetionReducer.chatId}?jwt="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJHZ2JIV1p6NWxBWnJpdmlpZURXdk40dFE2WmEyIiwiZW1haWwiOiJydXRoaHViYXJhQGdtYWlsLmNvbSIsImlhdCI6MTYyNjE2MTU5N30.R6m78Ygu-k7caTtDS3jNvqh1nenla9uclK3ckhOaWhU"`}
+                                    <iframe src={`https://chat.leader.codes/ruth_hubara/hangout/${window.store.getState().convarsetionReducer.chatId}?jwt="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJHZ2JIV1p6NWxBWnJpdmlpZURXdk40dFE2WmEyIiwiZW1haWwiOiJydXRoaHViYXJhQGdtYWlsLmNvbSIsImlhdCI6MTYyNjE2MTU5N30.R6m78Ygu-k7caTtDS3jNvqh1nenla9uclK3ckhOaWhU"`}
                                     ></iframe>
                             }
                         </div>

@@ -17,7 +17,7 @@ const initialState = {
     length: " ",
     url: " ",
     viewer: "1",
-    chatId: ""
+    chatId: "123456"
 
 
 

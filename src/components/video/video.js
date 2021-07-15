@@ -359,7 +359,7 @@ const Video = (props) => {
         $.ajax({
 
             type: "POST",
-            url: "https://files.codes/api/" + userName + "/upload",
+            url: keys.FILE_URL + userName + "/upload",
             headers: { Authorization: " liveChat/userWithOutJwt" },
             data: myFile,
             processData: false,
