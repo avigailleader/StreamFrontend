@@ -25,6 +25,7 @@ const UserChat = () => {
     const [messagesList, setMessagesList] = useState([])
     const [chosenEmoji, setChosenEmoji] = useState(null);
     const [showEmogi, setShowEmogi] = useState(false)
+    const [emujistr,setEmujistr]=useState("&#128512;")
     const onEmojiClick = (event, emojiObject) => {
         setChosenEmoji(emojiObject);
         setInput_value((a) => a += emojiObject.emoji)
@@ -118,12 +119,7 @@ const UserChat = () => {
                                 </div>
                             ))}
                         </Card.Body>
-
-                        <div className="mb-2 inputMassage" className="sendMessageWrap">
-                            <input id='input' onChange={handleInput} value={input_value} className="form-control" type="text" placeholder="message" className="chatMessage " >
-                            </input>
-                            <button onClick={(e) => addEimogi()}>+</button>
-                            <div>
+                        <div>
                                 {
                                     showEmogi === true ?
                                         <Picker disableSearchBar={true} onEmojiClick={onEmojiClick} />
@@ -131,9 +127,19 @@ const UserChat = () => {
                                 }
 
                             </div>
-                            <button onClick={addMessage} style={{ float: "right" }}>
-                                <img src={sendMessage} style={{ float: "right" }}></img>
-                            </button>
+                        <p onClick={(e) => addEimogi()}
+                            
+                            >&#128512;</p>
+                              <button onClick={addMessage} style={{ float: "right" }}>
+                                  <img src={sendMessage} style={{ float: "right" }}></img>
+                              </button>
+
+                        <div className="mb-2 inputMassage" className="sendMessageWrap">
+                            <input id='input' onChange={handleInput} value={input_value} className="form-control" type="text" placeholder="message" className="chatMessage " >
+                            </input>
+                            
+                            
+                          
                         </div>
 
 
