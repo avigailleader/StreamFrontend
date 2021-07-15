@@ -7,22 +7,16 @@
 
     position: relative;
 
-    /* background-attachment: fixed; */
     height: 83vh;
     width: 70vw;
     margin-top: 0vh;
     padding-top: 0vh;
-    /* top: 0;
-    right: 0px;
-    left: 0px;
-    bottom: 0px; */
+   
     z-index: 0;
     position: relative;
-    /* position: fixed; */
-    /* הצגה בצורת מראה */
+    
     transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg);
-  /* Safari and Chrome */
   -moz-transform: rotateY(180deg);
 
 }
@@ -71,6 +65,7 @@
       font-weight: 700;
        font-size: 15px;
        z-index: 40;
+       
 
 text-align: center;
        position: absolute !important;

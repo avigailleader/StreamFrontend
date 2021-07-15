@@ -135,7 +135,7 @@ const UserChat = () => {
                               </button>
 
                         <div className="mb-2 inputMassage" className="sendMessageWrap">
-                            <input id='input' onChange={handleInput} value={input_value} className="form-control" type="text" placeholder="message" className="chatMessage " >
+                            <input id='input' onChange={handleInput} value={input_value} className="form-control input" type="text" placeholder="message" className="chatMessage " >
                             </input>
                             
                             

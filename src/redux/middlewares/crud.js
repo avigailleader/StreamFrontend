@@ -74,6 +74,7 @@ const saveVideo = ({ dispatch, getState }) => next => action => {
     if (action.type === 'SAVE_VIDEO') {
         let jsonObject = {
             videoLiveName: getState().convarsetionReducer.videoLiveName,
+            videoliveDescription:getState().convarsetionReducer.videoliveDescription,
             date: new Date(Date.now()),
             length: getState().convarsetionReducer.length,
             url: getState().convarsetionReducer.url,

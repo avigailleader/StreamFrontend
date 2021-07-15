@@ -250,7 +250,6 @@ const Video = (props) => {
 
     // הקלטה
     let btnVideo = useRef()
-    let downloadButton = useRef()
     const [status, setStatus] = useState(true)
     const [isStart, setIsStart] = useState(false);
     const [mediaR, setMediaR] = useState()
@@ -261,11 +260,12 @@ const Video = (props) => {
         if (mediaR) {
             console.log("mediaR:", mediaR)
             console.log('Created MediaRecorder', mediaR, 'with options', { mimeType: "video/WEBM;codecs=VP8,OPUS" });
-            downloadButton.current.disabled = true;
 
             mediaR.onstop = (event) => {
                 console.log('Recorder stopped: ', event);
                 console.log('Recorded Blobs: ', recordedBlobs);
+
+
                 // uploadVideo()
             };
 
@@ -301,7 +301,6 @@ const Video = (props) => {
             stopRecording();
             pause()
             btnVideo.current.src = play
-            downloadButton.current.disabled = false;
             setIsStart(false)
             stopStreamedVideo(localStreamRef)
             setUpload(true)
@@ -312,6 +311,8 @@ const Video = (props) => {
     const stopRecording = async () => {
         debugger
         await mediaR.stop();
+
+
         anim.current.style.display = 'none';
     }
     const startRecording = () => {
@@ -349,7 +350,14 @@ const Video = (props) => {
             setRecordedBlobs(rb => [...rb, event.data]);
         }
     }
+    useEffect(() => {
+        debugger
+        if (recordedBlobs !== []) {
+            uploadVideo()
+        }
+    }, [recordedBlobs])
     const uploadVideo = async () => {
+        console.log("recordedBlobs:", recordedBlobs);
         const blob = new Blob(recordedBlobs, { type: 'video/mebm' });
         let fileToUpload = new File([blob], `test.webm`, { lastModified: new Date().getTime(), type: blob.type })
 
@@ -365,10 +373,11 @@ const Video = (props) => {
             processData: false,
             contentType: false,
             success: (data) => {
-                alert("upload success:  " + data.data.url);
+                // alert("upload success:  " + data.data.url);
                 console.log(data)
                 dispatch(actions.setUrl(data.data.url))
                 setShowModal(true)
+                history.push('/AfterVideo')
 
             },
             error: function (err) {
@@ -378,8 +387,6 @@ const Video = (props) => {
         });
 
     }
-
-
 
     return (
         <>
