@@ -237,7 +237,6 @@ const Video = (props) => {
 
     // הקלטה
     let btnVideo = useRef()
-    let downloadButton = useRef()
     const [status, setStatus] = useState(true)
     const [isStart, setIsStart] = useState(false);
     const [mediaR, setMediaR] = useState()
@@ -248,13 +247,12 @@ const Video = (props) => {
         if (mediaR) {
             console.log("mediaR:", mediaR)
             console.log('Created MediaRecorder', mediaR, 'with options', { mimeType: "video/WEBM;codecs=VP8,OPUS" });
-            downloadButton.current.disabled = true;
 
             mediaR.onstop = (event) => {
                 console.log('Recorder stopped: ', event);
                 console.log('Recorded Blobs: ', recordedBlobs);
                 
-                return 1
+                
                 // uploadVideo()
             };
 
@@ -290,7 +288,6 @@ const Video = (props) => {
             stopRecording();
             pause()
             btnVideo.current.src = play
-            downloadButton.current.disabled = false;
             setIsStart(false)
             stopStreamedVideo(localStreamRef)
             setUpload(true)
@@ -348,7 +345,14 @@ const Video = (props) => {
             setRecordedBlobs(rb => [...rb, event.data]);
         }
     }
+    useEffect(() => {
+        debugger
+        if(recordedBlobs!==[]){
+            uploadVideo()
+        }
+    }, [recordedBlobs])
     const uploadVideo = async () => {
+        console.log("recordedBlobs:",recordedBlobs);
         const blob = new Blob(recordedBlobs, { type: 'video/mebm' });
         let fileToUpload = new File([blob], `test.webm`, { lastModified: new Date().getTime(), type: blob.type })
 
@@ -404,8 +408,6 @@ const Video = (props) => {
                                 <img src={play} ref={btnVideo} className="imgPlayPouse" onClick={!isStart ? e => StartVideo() : e => clickRecord()}
                                 >
                                 </img>
-                                {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
-                                <button id="download" onClick={uploadVideo} ref={downloadButton} style={{ backgroundColor: "red" }}>Upload Video</button>
 
                                 {/* <button onClick={af}>fhgcjv</button> */}
                                 <p class="live">Live</p>

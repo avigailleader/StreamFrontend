@@ -25,13 +25,12 @@ const AfterVideo = (props) => {
         <div className="container">
             <div className="row">
                 <div className="col-2"></div>
-                <div className="col-8">
+                <div className="col-8 ">
                     <div className="diVideo1">
                         <video controls className="localVideo1" height="100%" width="100%" autoPlay src={url}  >
-
                         </video>
                         <p className="myLabel">update name video</p>
-                        <input type="text" placeholder="upDate name video" onChange={(e) => setVideoName(e.target.value)} value={videoName}></input>
+                        <input type="text" placeholder="upDate name video"  onChange={(e) => setVideoName(e.target.value)} value={videoName}></input>
                         <p className="myLabel">description your video</p>
                         <div class="form-group">
                             <label for="comment">UpDate description video:</label>
