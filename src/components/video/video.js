@@ -413,11 +413,11 @@ const Video = (props) => {
                                 >
                                 </img>
                                 {/* <button onClick={e => StartVideo()} ref={startBtnRef}>start stream</button> */}
-                                <button className="col-2" id="download" onClick={uploadVideo} ref={downloadButton} style={{ backgroundColor: "red" }}>Upload Video</button>
-                                <p class="blink_me oStyle styleA" ref={anim} >o</p>
+                                {/* <button className="col-2" id="download" onClick={uploadVideo} ref={downloadButton} style={{ backgroundColor: "red" }}>Upload Video</button> */}
+                                <p class="blink_me oStyle styleA" ref={anim} >.</p>
                                 <p className="styleB" ref={time}> <span >{h1}</span>:<span>{m1}</span>:<span>{s1}</span></p>
                                 <div className="col-2" class="viewersP">{viewersP} Viewers</div>
-                                <img id="imgVolum" src={imgVolum} />
+                                {/* <img id="imgVolum" src={imgVolum} /> */}
                                 <p className="col-2" class="live">Live</p>
                             </div>
                         </div></div>

@@ -109,7 +109,6 @@ const UserVideo = (props) => {
                             <div className="underDiv row">
 
                                 <div className="col-2" class="viewersP">{viewersP} Viewers</div>
-                                <img id="imgVolum" src={imgVolum} />
                                 <p className="col-2" class="live">Live</p>
                             </div>
                         </div></div>
