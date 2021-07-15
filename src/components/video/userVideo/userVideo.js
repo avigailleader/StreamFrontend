@@ -7,18 +7,17 @@ import play from "../../../assets/Component 719 – 5.svg"
 import axios from 'axios'
 import keys from "../../../config/env/keys"
 // import env from '../../../config/env/dev'
+import imgVolum from '../../../assets/volum.png'
 
 import video from '../../../assets/1.mp4';
 
 import { useStopwatch } from 'react-timer-hook';
 const UserVideo = (props) => {
     const { history } = props;
-
     const [displayVideo, setDisplayVideo] = useState(false);
     const [isStart, setIsStart] = useState(false);
     const [isStart1, setIsStart1] = useState(false);
     const [remoteVideo, setRemoteVideo] = useState();
-
     const dispatch = useDispatch()
     const socket = useSelector(state => state.socketReducer.socket)
     const viewers = useSelector(state => state.convarsetionReducer.viewer)
@@ -101,12 +100,23 @@ const UserVideo = (props) => {
         <>
             <div className="container">
                 <div className="row">
-                    <video id="video" autoPlay playsInline muted ref={localStreamRef1} style={{ width: "500", border: "2px solid yellow" }} />
-                    {/* <video id="video" autoPlay srcObject={remoteVideo} style={{ width: "500", border: "2px solid black" }} /> */}
-                    <div>{viewersP}</div>
+                    <div className="col-12">
+                        <div className="diVideo">
+
+                            <video id="localVideo" autoPlay playsInline muted ref={localStreamRef1} style={{ width: "500", border: "2px solid yellow" }} />
+
+
+                            <div className="underDiv row">
+
+                                <div className="col-2" class="viewersP">{viewersP} Viewers</div>
+                                <img id="imgVolum" src={imgVolum} />
+                                <p className="col-2" class="live">Live</p>
+                            </div>
+                        </div></div>
+
+
                 </div>
             </div>
-
         </>
     )
 }

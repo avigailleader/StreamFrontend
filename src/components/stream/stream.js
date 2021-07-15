@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import Video from '../video/video'
 import UserVideo from '../video/userVideo/userVideo'
@@ -8,6 +8,9 @@ import ChatUser from '../chat/chatUser'
 
 import Viewers from '../chat/admin/Viewers'
 export default function Stream(props) {
+    useEffect(() => {
+        console.log(window.store.getState().convarsetionReducer.chatId)
+    }, [])
     return (
         <div className="container-fluid">
             <div className="row">
@@ -25,7 +28,9 @@ export default function Stream(props) {
                             {
                                 window.location.href.includes("admin") ?
                                     <ChatAdmin></ChatAdmin> :
-                                    <ChatUser></ChatUser>
+                                    // <ChatUser></ChatUser>
+                                    <iframe src={`https://chat.leader.codes/${window.store.getState().userReducer.userName}/hangout/${window.store.getState().convarsetionReducer.chatId}?jwt="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJHZ2JIV1p6NWxBWnJpdmlpZURXdk40dFE2WmEyIiwiZW1haWwiOiJydXRoaHViYXJhQGdtYWlsLmNvbSIsImlhdCI6MTYyNjE2MTU5N30.R6m78Ygu-k7caTtDS3jNvqh1nenla9uclK3ckhOaWhU"`}
+                                    ></iframe>
                             }
                         </div>
                         <div className="mt-auto mb-0 mr-0 p-2">
@@ -37,7 +42,7 @@ export default function Stream(props) {
 
             </div>
 
-        </div>
+        </div >
 
 
 

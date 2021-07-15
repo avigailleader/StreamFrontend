@@ -14,6 +14,7 @@ import { useStopwatch } from 'react-timer-hook';
 import $ from 'jquery';
 import { IoIosClose } from 'react-icons/io';
 import SaveVideoModle from '../modles/SaveVideoModle'
+// import "../video/video.css"
 const Video = (props) => {
     const [displayVideo, setDisplayVideo] = useState(false);
     // const [isStart, setIsStart] = useState(false);
