@@ -14,7 +14,7 @@ import videoCameraHover from '../../assets/videoCameraHover.svg';
 import { connect } from 'react-redux';
 import linkCopy from '../../assets/linkCopy.svg'
 import './header.css'
-import configData from '../../config/env/dev'
+import keys from "../../config/env/keys"
 import { BrowserRouter as Router, Link, } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import $ from 'jquery';
@@ -216,7 +216,7 @@ function Header(props) {
                                         <input
                                             InputProps={{ className: classes.multilineColor }}
                                             type="text"
-                                            value={`${configData.BASE_URL}${(url.pathname.split('/')[2])}`}
+                                            value={`${keys.BASE_URL}${(url.pathname.split('/')[2])}`}
                                             id="valueToCopy"
                                         />
 
@@ -270,7 +270,7 @@ function Header(props) {
                                             InputProps={{ className: classes.multilineColor }}
                                             type="text"
                                             on
-                                            value={`${configData.BASE_URL}${(url.pathname.split('/')[1])}`}
+                                            value={`${keys.BASE_URL}${(url.pathname.split('/')[1])}`}
                                             id="valueToCopy"
                                         />
                                     </div>
