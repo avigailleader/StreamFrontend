@@ -1,17 +1,11 @@
+ .whiteBackground{
+     background-color:white;
+margin: 5% 8% 5% 8%; 
+}
  .localVideo1{
-
-    /* position: absolute; */
-
-    height: 30vh;
-    width: 20vw;
     margin-top: 0vh;
     padding-top: 0vh;
-   
     z-index: 0;
-    
-    /* transform: rotateY(180deg);
-  -webkit-transform: rotateY(180deg);
-  -moz-transform: rotateY(180deg); */
 
 } 
 .diVideo1{
@@ -22,14 +16,42 @@
     margin-top: 1.5vh;
     border: 1px solid rgba(0,0,0,.125);
     border-radius: 0.25rem;
-    z-index: -1;
 
 } 
+.textBox{
+    background-color:lightgrey;
+
+}
 .textBox:link {
 
     box-shadow: none !important;
 }
-/* .myLabel{
-    font-size:  40px;
+
+.redButton{
+    background-color:red;
+    color:white;
+    border: 1px solid red;
+    margin: 10px;
+}
+.title{
+    text-align: center;
+    padding:1vw;
+    font-weight: bold;
+}
+.videoNameInput{
+    width:100%;
+    background-color:lightgrey;
+    border: none;
+    margin:1vh
+}
+
+.whiteButton{
+    background-color:white;
     color:red;
-} */
+    border: 1px solid red;
+    margin-top: 7%;
+
+}
+.videoForm{
+    text-align: center;
+}
