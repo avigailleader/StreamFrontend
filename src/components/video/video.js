@@ -352,7 +352,7 @@ const Video = (props) => {
     }
     useEffect(() => {
         debugger
-        if (recordedBlobs !== []) {
+        if (recordedBlobs.length != 0) {
             uploadVideo()
         }
     }, [recordedBlobs])

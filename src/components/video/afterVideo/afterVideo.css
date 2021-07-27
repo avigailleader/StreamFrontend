@@ -28,11 +28,19 @@ margin: 5% 8% 5% 8%;
 }
 
 .redButton{
-    background-color:red;
+    background-color:#B5000E;
     color:white;
-    border: 1px solid red;
+    border: 1px solid #B5000E;
     margin: 10px;
+    width: 8vw;
+    
 }
+.redButton::after {
+    content: "Save";
+    }
+    .redButton:hover::after {
+     content: "Apply";
+    }
 .title{
     text-align: center;
     padding:1vw;
@@ -47,11 +55,19 @@ margin: 5% 8% 5% 8%;
 
 .whiteButton{
     background-color:white;
-    color:red;
-    border: 1px solid red;
+    color:#B5000E;
+    border: 1px solid #B5000E;
     margin-top: 7%;
+    width: 8vw;
 
 }
+.whiteButton::after {
+    content: "Cancel";
+    }
+    .whiteButton:hover::after {
+     content: "Upload New";
+
+    }
 .videoForm{
     text-align: center;
 }

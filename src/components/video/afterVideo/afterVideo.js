@@ -34,8 +34,8 @@ const AfterVideo = (props) => {
                         <input className="videoNameInput" type="text" placeholder="Video Name" onChange={(e) => setVideoName(e.target.value)}></input>
                         <div className="videoForm form-group">
                             <textarea placeholder="Lesson Description" className=" videoNameInput " rows="5" id="comment" onChange={(e) => setDescription(e.target.value)}></textarea>
-                            <button className="whiteButton">cancel</button>
-                            <button className="redButton" onClick={saveNameVideo}>save</button>
+                            <button className="whiteButton"></button>
+                            <button className="redButton" onClick={saveNameVideo}></button>
 
                         </div>
                     </div>

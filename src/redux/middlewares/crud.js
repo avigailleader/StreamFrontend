@@ -70,11 +70,11 @@ const joinedEventFromSocket = ({ dispatch, getState }) => next => action => {
 }
 
 const saveVideo = ({ dispatch, getState }) => next => action => {
-    debugger
     if (action.type === 'SAVE_VIDEO') {
+        debugger
         let jsonObject = {
             videoLiveName: getState().convarsetionReducer.videoLiveName,
-            videoliveDescription:getState().convarsetionReducer.videoliveDescription,
+            videoliveDescription: getState().convarsetionReducer.videoliveDescription,
             date: new Date(Date.now()),
             length: getState().convarsetionReducer.length,
             url: getState().convarsetionReducer.url,
