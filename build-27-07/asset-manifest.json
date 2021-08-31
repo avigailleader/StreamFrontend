@@ -1,0 +1,41 @@
+{
+  "files": {
+    "main.css": "/static/css/main.a3b5e7f4.chunk.css",
+    "main.js": "/static/js/main.3413eab2.chunk.js",
+    "main.js.map": "/static/js/main.3413eab2.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.7ce8befb.js",
+    "runtime-main.js.map": "/static/js/runtime-main.7ce8befb.js.map",
+    "static/css/2.4c97ca4f.chunk.css": "/static/css/2.4c97ca4f.chunk.css",
+    "static/js/2.4f525ac5.chunk.js": "/static/js/2.4f525ac5.chunk.js",
+    "static/js/2.4f525ac5.chunk.js.map": "/static/js/2.4f525ac5.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.4c97ca4f.chunk.css.map": "/static/css/2.4c97ca4f.chunk.css.map",
+    "static/css/main.a3b5e7f4.chunk.css.map": "/static/css/main.a3b5e7f4.chunk.css.map",
+    "static/js/2.4f525ac5.chunk.js.LICENSE.txt": "/static/js/2.4f525ac5.chunk.js.LICENSE.txt",
+    "static/media/1.ab7d467b.mp4": "/static/media/1.ab7d467b.mp4",
+    "static/media/Component 719 – 5.95600975.svg": "/static/media/Component 719 – 5.95600975.svg",
+    "static/media/Dialog Img.abc5e319.svg": "/static/media/Dialog Img.abc5e319.svg",
+    "static/media/Group 21662.ddf6fe54.svg": "/static/media/Group 21662.ddf6fe54.svg",
+    "static/media/Group 21705.3150589a.svg": "/static/media/Group 21705.3150589a.svg",
+    "static/media/Save.b3c55bd4.svg": "/static/media/Save.b3c55bd4.svg",
+    "static/media/buttonNewChannel.24639093.svg": "/static/media/buttonNewChannel.24639093.svg",
+    "static/media/chevron-left.c80cdd8e.svg": "/static/media/chevron-left.c80cdd8e.svg",
+    "static/media/chevron-right.61c607bb.svg": "/static/media/chevron-right.61c607bb.svg",
+    "static/media/linkCopy.3f182737.svg": "/static/media/linkCopy.3f182737.svg",
+    "static/media/logoVlogger.4dcf2489.svg": "/static/media/logoVlogger.4dcf2489.svg",
+    "static/media/red border.42c4ca7e.svg": "/static/media/red border.42c4ca7e.svg",
+    "static/media/redVideoCamera.2dde8433.svg": "/static/media/redVideoCamera.2dde8433.svg",
+    "static/media/sendMessage.683dad8f.svg": "/static/media/sendMessage.683dad8f.svg",
+    "static/media/myChats.css": "/static/media/share.3150589a.svg",
+    "static/media/uploadVideo.3bc56d6f.svg": "/static/media/uploadVideo.3bc56d6f.svg",
+    "static/media/uploadVideoHover.d782848c.svg": "/static/media/uploadVideoHover.d782848c.svg",
+    "static/media/videoCameraHover.31812798.svg": "/static/media/videoCameraHover.31812798.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7ce8befb.js",
+    "static/css/2.4c97ca4f.chunk.css",
+    "static/js/2.4f525ac5.chunk.js",
+    "static/css/main.a3b5e7f4.chunk.css",
+    "static/js/main.3413eab2.chunk.js"
+  ]
+}
