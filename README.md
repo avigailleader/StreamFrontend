@@ -15,4 +15,4 @@ to join live video open [http://localhost:3000/username](http://localhost:3000/u
 
 # Demo
 
-[https://stream.vlogger.codes/admin/avigail](https://stream.vlogger.codes/admin/avigail)
+[https://stream.vlogger.codes/admin/username](https://stream.vlogger.codes/admin/username)
